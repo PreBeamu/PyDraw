@@ -1,3 +1,27 @@
 {% extends "base.html" %} {% block content %}
-Let's go PSCP Project!
+<!-- Background -->
+<div id="animated-bg"></div>
+
+<div class="page-wrapper mitr-font">
+  <!-- Game Icon -->
+  <img class="pydraw-icon" src="/static/Images/PyDraw.svg" />
+
+  <!-- Containers -->
+  <div class="avatar-container">
+    <img class="player" src="/static/Images/Player.svg" />
+    <img class="face" src="/static/Images/Faces/1.svg" />
+    <img class="accessory sel-1" src="/static/Images/Accessories/1.svg" />
+    <button id="random-avatar">
+      <img class="icon" src="/static/Images/Icons/Random.svg" />
+    </button>
+  </div>
+  <div class="input-container">
+    <input type="text" id="userName" maxlength="15" placeholder="ชื่อผู้เล่น" />
+    <button class="button" id="create-party">สร้างห้อง</button>
+    <div class="join-container">
+      <input type="text" id="inviteCode" maxlength="5" placeholder="รหัสเชิญ" />
+      <button class="button" id="create-party">เข้าร่วม</button>
+    </div>
+  </div>
+</div>
 {% endblock %}
