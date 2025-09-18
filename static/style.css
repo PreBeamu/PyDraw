@@ -104,20 +104,78 @@ body,
 .avatar-container .player {
   height: 90%;
 }
-.avatar-container .face {
+.face {
   position: absolute;
-  width: 30px;
-  top: 35%;
+  width: 45px;
+  transform: translateY(-2.5rem);
+  transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
 }
-.avatar-container .accessory {
+
+/* Accessories */
+.accessory {
+  position: absolute;
+  transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.accessory[src="/static/Images/Accessories/1.svg"] {
   display: none;
 }
-.avatar-container .accessory.sel-1 {
+.accessory[src="/static/Images/Accessories/2.svg"] {
+  width: 35px;
+  transform: translate(0.5rem,-4.35rem);
+}
+.accessory[src="/static/Images/Accessories/3.svg"] {
+  width: 45px;
+  transform: translate(0.5rem,-4rem);
+}
+.accessory[src="/static/Images/Accessories/4.svg"] {
+  width: 35px;
+  transform: translate(0rem,-4.75rem);
+}
+.accessory[src="/static/Images/Accessories/5.svg"] {
+  width: 30px;
+  transform: translate(0.2rem,-4.65rem);
+}
+.accessory[src="/static/Images/Accessories/6.svg"] {
+  width: 50px;
+  transform: translate(0rem,-4.25rem);
+}
+
+/* Hairs */
+.hair {
   position: absolute;
-  width: 40px;
-  top: -12.5%;
-  left: 37.5%;
-  display: block;
+  transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.hair[src="/static/Images/Hairs/1.svg"] {
+  width: 75px;
+  transform: translate(0rem,-1.5rem);
+}
+.hair[src="/static/Images/Hairs/2.svg"] {
+  width: 70px;
+  transform: translate(0rem,-2.25rem);
+}
+.hair[src="/static/Images/Hairs/3.svg"] {
+  width: 55px;
+  transform: translate(0rem,-0.25rem);
+}
+.hair[src="/static/Images/Hairs/4.svg"] {
+  width: 55px;
+  transform: translate(0rem,-2.35rem);
+}
+.hair[src="/static/Images/Hairs/5.svg"] {
+  width: 85px;
+  transform: translate(0rem,0.1rem);
+}
+.hair[src="/static/Images/Hairs/6.svg"] {
+  width: 60px;
+  transform: translate(0rem,-3.25rem);
+}
+.hair[src="/static/Images/Hairs/7.svg"] {
+  width: 60px;
+  transform: translate(0rem,-3rem);
+}
+.hair[src="/static/Images/Hairs/8.svg"] {
+  width: 60px;
+  transform: translate(0rem,-1.75rem);
 }
 
 #random-avatar {
@@ -145,6 +203,10 @@ body,
 #random-avatar:active {
   transform: scale(0.9) rotate(360deg);
   transition: none;
+}
+#random-avatar:active ~ .face {
+  transform: translateY(-0.25rem);
+  opacity: 0%;
 }
 
 /* Inputs & Buttons */
