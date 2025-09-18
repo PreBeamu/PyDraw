@@ -15,14 +15,14 @@ function randomInt(min, max) {
 
 function randomizeAvatar() {
     // Random faces
-    face = randomInt(1, 8)
-    $("#player-face").attr("src", "/static/Images/Faces/" + face + ".svg");
+    face = randomInt(1, 10)
+    $("#player-face").attr("src", "/static/Images/Avatar/Faces/" + face + ".svg");
     // Random hairs
     hair = randomInt(1, 8)
-    $("#player-hair").attr("src", "/static/Images/Hairs/" + hair + ".svg");
+    $("#player-hair").attr("src", "/static/Images/Avatar/Hairs/" + hair + ".svg");
     // Random accessories
-    accessory = randomInt(1, 6)
-    $("#player-accessory").attr("src", "/static/Images/Accessories/" + accessory + ".svg");
+    accessory = randomInt(1, 8)
+    $("#player-accessory").attr("src", "/static/Images/Avatar/Accessories/" + accessory + ".svg");
 }
 randomizeAvatar()
 
