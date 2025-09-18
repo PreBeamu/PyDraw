@@ -9,50 +9,66 @@ const accessories_amount = 8;
 const faces_amount = 10;
 
 // ============================
+// IMAGE PRELOAD & CACHE
+// ============================
+
+// URLs helper
+function urlFace(i) {
+    return `/static/Images/Avatar/Faces/${i}.svg`;
+}
+function urlHair(i) {
+    return `/static/Images/Avatar/Hairs/${i}.svg`;
+}
+function urlAccessory(i) {
+    return `/static/Images/Avatar/Accessories/${i}.svg`;
+}
+const urlPlayer = `/static/Images/Avatar/Player.svg`;
+const urlShirt  = `/static/Images/Avatar/Shirt.svg`;
+const cache = {};
+
+function preloadImage(url) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.src = url;
+        cache[url] = img;
+    });
+}
+
+// Build all URLs
+const imageUrls = [];
+for (let i = 1; i <= faces_amount; i++) imageUrls.push(urlFace(i));
+for (let i = 1; i <= hairs_amount; i++) imageUrls.push(urlHair(i));
+for (let i = 1; i <= accessories_amount; i++) imageUrls.push(urlAccessory(i));
+imageUrls.push(urlPlayer, urlShirt);
+
+// Preload all images, then randomize
+Promise.all(imageUrls.map(preloadImage)).then(() => {
+    randomizeAvatar();
+});
+
+// ============================
 // HELPER FUNCTIONS
 // ============================
 
-function preloadImage(url) {
-    const img = new Image();
-    img.src = url;
-}
-const imageUrls = [];
-for (let i = 1; i <= faces_amount; i++) {
-    imageUrls.push(`/static/Images/Avatar/Faces/${i}.svg`);
-}
-for (let i = 1; i <= hairs_amount; i++) {
-    imageUrls.push(`/static/Images/Avatar/Hairs/${i}.svg`);
-}
-for (let i = 1; i <= accessories_amount; i++) {
-    imageUrls.push(`/static/Images/Avatar/Accessories/${i}.svg`);
-}
-imageUrls.push(`/static/Images/Avatar/Player.svg`);
-imageUrls.push(`/static/Images/Avatar/Shirt.svg`);
-imageUrls.forEach((url) => preloadImage(url));
-
 function randomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function randomizeAvatar() {
-    // Random face
     const face = randomInt(1, faces_amount);
-    $("#player-face").attr("src", `/static/Images/Avatar/Faces/${face}.svg`);
-    // Random hair
     const hair = randomInt(1, hairs_amount);
-    $("#player-hair").attr("src", `/static/Images/Avatar/Hairs/${hair}.svg`);
-    // Random accessory
     const accessory = randomInt(1, accessories_amount);
-    $("#player-accessory").attr("src", `/static/Images/Avatar/Accessories/${accessory}.svg`);
+
+    $("#player-face").attr("src", urlFace(face));
+    $("#player-hair").attr("src", urlHair(hair));
+    $("#player-accessory").attr("src", urlAccessory(accessory));
 }
-randomizeAvatar();
 
 // ============================
 // BUTTONS
 // ============================
 
-$("#random-avatar").on("click", async () => {
+$("#random-avatar").on("click", () => {
     randomizeAvatar();
 });
