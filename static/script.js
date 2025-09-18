@@ -24,14 +24,12 @@ function urlAccessory(i) {
 }
 const urlPlayer = `/static/Images/Avatar/Player.svg`;
 const urlShirt  = `/static/Images/Avatar/Shirt.svg`;
-const cache = {};
 
 function preloadImage(url) {
     return new Promise((resolve) => {
         const img = new Image();
         img.onload = () => resolve(img);
         img.src = url;
-        cache[url] = img;
     });
 }
 
