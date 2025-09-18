@@ -9,10 +9,8 @@ const accessories_amount = 8;
 const faces_amount = 10;
 
 // ============================
-// IMAGE PRELOAD & CACHE
+// IMAGE URL HELPERS
 // ============================
-
-// URLs helper
 function urlFace(i) {
     return `/static/Images/Avatar/Faces/${i}.svg`;
 }
@@ -25,6 +23,9 @@ function urlAccessory(i) {
 const urlPlayer = `/static/Images/Avatar/Player.svg`;
 const urlShirt  = `/static/Images/Avatar/Shirt.svg`;
 
+// ============================
+// IMAGE PRELOAD
+// ============================
 function preloadImage(url) {
     return new Promise((resolve) => {
         const img = new Image();
@@ -40,7 +41,7 @@ for (let i = 1; i <= hairs_amount; i++) imageUrls.push(urlHair(i));
 for (let i = 1; i <= accessories_amount; i++) imageUrls.push(urlAccessory(i));
 imageUrls.push(urlPlayer, urlShirt);
 
-// Preload all images, then randomize
+// Preload all images then randomize
 Promise.all(imageUrls.map(preloadImage)).then(() => {
     randomizeAvatar();
 });
@@ -48,25 +49,32 @@ Promise.all(imageUrls.map(preloadImage)).then(() => {
 // ============================
 // HELPER FUNCTIONS
 // ============================
-
 function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function setImageWhenLoaded(selector, url) {
+    const img = new Image();
+    img.onload = () => {
+        $(selector).attr("src", url);
+    };
+    img.src = url;
+}
+
+// Randomize avatar
 function randomizeAvatar() {
     const face = randomInt(1, faces_amount);
     const hair = randomInt(1, hairs_amount);
     const accessory = randomInt(1, accessories_amount);
 
-    $("#player-face").attr("src", urlFace(face));
-    $("#player-hair").attr("src", urlHair(hair));
-    $("#player-accessory").attr("src", urlAccessory(accessory));
+    setImageWhenLoaded("#player-face", urlFace(face));
+    setImageWhenLoaded("#player-hair", urlHair(hair));
+    setImageWhenLoaded("#player-accessory", urlAccessory(accessory));
 }
 
 // ============================
 // BUTTONS
 // ============================
-
 $("#random-avatar").on("click", () => {
     randomizeAvatar();
 });
