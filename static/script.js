@@ -4,13 +4,17 @@
 const socket = io();
 
 // Avatar Items count
-const hairs_amount = 8;
+const colors_amount = 6;
+const hairs_amount = 11;
 const accessories_amount = 8;
 const faces_amount = 10;
 
 // ============================
 // IMAGE URL HELPERS
 // ============================
+function urlColor(i) {
+    return `/static/Images/Avatar/Colors/${i}.svg`;
+}
 function urlFace(i) {
     return `/static/Images/Avatar/Faces/${i}.svg`;
 }
@@ -23,28 +27,14 @@ function urlAccessory(i) {
 const urlPlayer = `/static/Images/Avatar/Player.svg`;
 const urlShirt  = `/static/Images/Avatar/Shirt.svg`;
 
-// ============================
-// IMAGE PRELOAD
-// ============================
-function preloadImage(url) {
-    return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => resolve(img);
-        img.src = url;
-    });
-}
-
 // Build all URLs
 const imageUrls = [];
+for (let i = 1; i <= colors_amount; i++) imageUrls.push(urlColor(i));
 for (let i = 1; i <= faces_amount; i++) imageUrls.push(urlFace(i));
 for (let i = 1; i <= hairs_amount; i++) imageUrls.push(urlHair(i));
 for (let i = 1; i <= accessories_amount; i++) imageUrls.push(urlAccessory(i));
 imageUrls.push(urlPlayer, urlShirt);
-
-// Preload all images then randomize
-Promise.all(imageUrls.map(preloadImage)).then(() => {
-    randomizeAvatar();
-});
+randomizeAvatar();
 
 // ============================
 // HELPER FUNCTIONS
@@ -63,10 +53,12 @@ function setImageWhenLoaded(selector, url) {
 
 // Randomize avatar
 function randomizeAvatar() {
+    const color = randomInt(1, colors_amount);
     const face = randomInt(1, faces_amount);
     const hair = randomInt(1, hairs_amount);
     const accessory = randomInt(1, accessories_amount);
 
+    setImageWhenLoaded("#player-color", urlColor(color));
     setImageWhenLoaded("#player-face", urlFace(face));
     setImageWhenLoaded("#player-hair", urlHair(hair));
     setImageWhenLoaded("#player-accessory", urlAccessory(accessory));

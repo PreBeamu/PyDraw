@@ -111,6 +111,7 @@ body,
   width: 45px;
   transform: translateY(-2.5rem);
   transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+  opacity: 75%;
 }
 .shirt {
   position: absolute;
@@ -199,6 +200,21 @@ body,
 {
   width: 60px;
   transform: translate(0rem, -1.75rem);
+}
+.hair[src="/static/Images/Avatar/Hairs/9.svg"]
+{
+  width: 57.5px;
+  transform: translate(0rem, -3.15rem);
+}
+.hair[src="/static/Images/Avatar/Hairs/10.svg"]
+{
+  width: 55px;
+  transform: translate(0rem, -3.5rem);
+}
+.hair[src="/static/Images/Avatar/Hairs/11.svg"]
+{
+  width: 70px;
+  transform: translate(0rem, -0.5rem);
 }
 
 #random-avatar {
