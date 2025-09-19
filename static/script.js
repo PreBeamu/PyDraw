@@ -4,7 +4,7 @@
 const socket = io();
 
 // Avatar Items count
-const colors_amount = 6;
+const colors_amount = 7;
 const hairs_amount = 11;
 const accessories_amount = 8;
 const faces_amount = 10;
