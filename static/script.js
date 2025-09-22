@@ -124,6 +124,9 @@ socket.on("message", (data) => {
     const $textContainer = $('<p class="text-container"></p>').text(data.message);
     $msgBox.append($avatarContainer, $textContainer);
     $(".chat-display .box").append($msgBox);
+    requestAnimationFrame(() => {
+        $msgBox.addClass("show");
+    });
     // Scroll to bottom
     $(".chat-display .box").scrollTop($(".chat-display .box").prop("scrollHeight"));
 });
