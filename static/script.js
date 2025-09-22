@@ -2,7 +2,6 @@
 // GLOBAL SETUP
 // ============================
 const socket = io();
-
 // Avatar Items count
 const colors_amount = 7;
 const hairs_amount = 11;
@@ -78,3 +77,27 @@ $("#create-button").on("click", () => {
         $(".loader").removeClass("active");
     }, 250);
 });
+
+// boy zone
+const text = document.getElementById("chatMsg")
+const messages = document.getElementById('textblock')
+document.getElementById("chatMsg").addEventListener("keydown", (e) => {
+    if (e.key === 'Enter'){
+        var message = text.value
+        socket.emit("message", {
+            msg : message
+        })
+        text.value = ''
+    }
+})
+
+socket.on("message", (data) => {
+    const div = document.createElement("div");
+    div.textContent = data.message;
+    messages.appendChild(div);
+    setTimeout(() => {
+        messages.scrollTop = messages.scrollHeight;
+    }, 0);
+})
+
+// boy zone

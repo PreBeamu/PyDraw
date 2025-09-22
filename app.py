@@ -1,8 +1,8 @@
 from gevent import monkey
 monkey.patch_all()
 
-from flask import Flask, render_template
-from flask_socketio import SocketIO
+from flask import Flask, render_template, request, session, jsonify, url_for,redirect
+from flask_socketio import join_room, leave_room, emit, SocketIO
 
 # -------------------------------
 # App Setup
@@ -17,6 +17,11 @@ socketio = SocketIO(app, async_mode="gevent", cors_allowed_origins="*")
 @app.route("/")
 def home():
     return render_template("index.html")
+
+@socketio.on("message")
+def handle_message(data):
+    text = {"name": "สมมุติ", "message": data.get("msg")}
+    emit("message", text)
 
 # -------------------------------
 # Main
