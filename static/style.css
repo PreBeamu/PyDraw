@@ -361,13 +361,14 @@ body,
 
 .party-header {
   position: absolute;
+  width: 460px;
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
   gap: 8px;
   z-index: 5;
-  transform: translate(-3rem, -14rem);
+  transform: translate(6rem, -14rem);
 }
 
 #party-code {
@@ -392,6 +393,96 @@ body,
 #party-code:active {
   background: #b6b6b6;
   transform: scale(0.95);
+  transition: none;
+}
+
+.party-buttons {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 3px;
+}
+.party-buttons .icon {
+  width: 20px;
+}
+
+#leave-button {
+  all: unset;
+  display: flex;
+  box-sizing: border-box;
+  cursor: pointer;
+  height: 30px;
+  padding: 0.1rem 0.75rem 0.1rem 0.5rem;
+  gap: 3px;
+  border: 3px solid #000000;
+  border-radius: 6px;
+  background: #87463d;
+  font-size: 0.9rem;
+  text-align: center;
+  white-space: nowrap;
+  color: #ffffff;
+  transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+#leave-button:hover {
+  background: #9a5046;
+  transform: scale(0.95);
+}
+#leave-button:active {
+  background: #9a5046;
+  transform: scale(1.05);
+  transition: none;
+}
+
+#start-button {
+  all: unset;
+  display: flex;
+  box-sizing: border-box;
+  cursor: pointer;
+  height: 30px;
+  padding: 0.1rem 0.75rem 0.1rem 0.5rem;
+  gap: 3px;
+  border: 3px solid #000000;
+  border-radius: 6px;
+  background: #313253;
+  font-size: 0.9rem;
+  text-align: center;
+  white-space: nowrap;
+  color: #ffffff;
+  transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+#start-button:hover {
+  background: #3b3c64;
+  transform: scale(0.95);
+}
+#start-button:active {
+  background: #3b3c64;
+  transform: scale(1.05);
+  transition: none;
+}
+
+#settings-button {
+  all: unset;
+  display: flex;
+  box-sizing: border-box;
+  cursor: pointer;
+  height: 30px;
+  padding: 0.1rem 0.75rem 0.1rem 0.5rem;
+  gap: 3px;
+  border: 3px solid #000000;
+  border-radius: 6px;
+  background: #474747;
+  font-size: 0.9rem;
+  text-align: center;
+  white-space: nowrap;
+  color: #ffffff;
+  transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+#settings-button:hover {
+  background: #555555;
+  transform: scale(0.95);
+}
+#settings-button:active {
+  background: #555555;
+  transform: scale(1.05);
   transition: none;
 }
 
@@ -437,7 +528,6 @@ body,
   border-radius: 0.5rem;
   scrollbar-width: thin;
   box-sizing: border-box;
-  transition: all 0.2s;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -470,7 +560,6 @@ body,
   justify-content: center;
   align-items: end;
   background: #ebebeb;
-  transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 .plr-info .username {
   font-size: 1.15rem;
@@ -503,7 +592,6 @@ body,
   border-radius: 0.5rem;
   box-sizing: border-box;
   border: 2.5px solid rgb(131, 131, 131);
-  transition: all 0.2s;
   overflow: hidden;
 }
 .chat-display .box {
@@ -520,7 +608,6 @@ body,
   scrollbar-width: thin;
   scrollbar-color: grey #ebebeb;
   box-sizing: border-box;
-  transition: all 0.2s;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -534,7 +621,6 @@ body,
   border-radius: 8px;
   box-sizing: border-box;
   margin-top: 0.25rem;
-  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 /* Messages Holder */
@@ -564,7 +650,6 @@ body,
   justify-content: center;
   align-items: end;
   background: #ebebeb;
-  transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .text-container {
