@@ -65,6 +65,8 @@ function randomizeAvatar() {
 // ============================
 // BUTTONS
 // ============================
+
+// Main Buttons
 $("#random-avatar").on("click", () => {
     randomizeAvatar();
 });
@@ -78,7 +80,17 @@ $("#create-button").on("click", () => {
     }, 250);
 });
 
-// boy zone
+// Party Buttons
+$("#leave-button").on("click", () => {
+    $(".party-page").addClass("disabled");
+    $(".loader").addClass("active");
+    setTimeout(() => {
+        $(".main-page").removeClass("disabled");
+        $(".loader").removeClass("active");
+    }, 250);
+});
+
+// Chat Textbox function
 const text = document.getElementById("chatMsg")
 const messages = document.getElementById('textblock')
 document.getElementById("chatMsg").addEventListener("keydown", (e) => {
@@ -91,22 +103,26 @@ document.getElementById("chatMsg").addEventListener("keydown", (e) => {
     }
 })
 
+// ============================
+// WEBSOCKETS
+// ============================
+
 socket.on("message", (data) => {
-    const div = document.createElement("div");
-    div.textContent = data.message;
-    messages.appendChild(div);
-    setTimeout(() => {
-        messages.scrollTop = messages.scrollHeight;
-    }, 0);
-})
-
-// boy zone
-
-$("#leave-button").on("click", () => {
-    $(".party-page").addClass("disabled");
-    $(".loader").addClass("active");
-    setTimeout(() => {
-        $(".main-page").removeClass("disabled");
-        $(".loader").removeClass("active");
-    }, 250);
+    // Create msg-box
+    const $msgBox = $('<div class="msg-box"></div>');
+    // Avatar container
+    const $avatarContainer = $('<div class="avatar-container"></div>');
+    // Avatar images (replace with dynamic data later)
+    const $player = $('<img class="player" src="/static/Images/Avatar/Colors/1.svg">');
+    const $shirt = $('<img class="shirt" src="/static/Images/Avatar/Shirt.svg">');
+    const $face = $('<img class="face" src="/static/Images/Avatar/Faces/1.svg">');
+    const $hair = $('<img class="hair" src="/static/Images/Avatar/Hairs/1.svg">');
+    const $accessory = $('<img class="accessory" id="player-accessory" src="/static/Images/Avatar/Accessories/1.svg">');
+    $avatarContainer.append($player, $shirt, $face, $hair, $accessory);
+    // Text container
+    const $textContainer = $('<p class="text-container"></p>').text(data.message);
+    $msgBox.append($avatarContainer, $textContainer);
+    $(".chat-display .box").append($msgBox);
+    // Scroll to bottom
+    $(".chat-display .box").scrollTop($(".chat-display .box").prop("scrollHeight"));
 });
