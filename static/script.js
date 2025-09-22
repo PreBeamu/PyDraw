@@ -91,17 +91,18 @@ $("#leave-button").on("click", () => {
 });
 
 // Chat Textbox function
-const text = document.getElementById("chatMsg")
-const messages = document.getElementById('textblock')
-document.getElementById("chatMsg").addEventListener("keydown", (e) => {
-    if (e.key === 'Enter'){
-        var message = text.value
+$("#chatMsg").on("keydown", function(e) {
+    if (e.key === 'Enter') {
+        var message = $("#chatMsg").val();
+        if (message.trim() == 0) {
+            return
+        }
         socket.emit("message", {
-            msg : message
-        })
-        text.value = ''
+            msg: message
+        });
+        $("#chatMsg").val('');
     }
-})
+});
 
 // ============================
 // WEBSOCKETS
