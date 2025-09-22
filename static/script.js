@@ -179,6 +179,7 @@ $("#create-button").on("click", async () => {
     } catch (err) {
         console.error("Error creating party:", err);
         alert("There was an error creating the party. Please try again.");
+        $(".main-page").removeClass("disabled");
     } finally {
         $(".loader").removeClass("active");
     }
@@ -221,6 +222,7 @@ $("#join-button").on("click", async () => {
     } catch (err) {
         console.error("Error creating party:", err);
         alert("There was an error joining the party. Please try again.");
+        $(".main-page").removeClass("disabled");
     } finally {
         $(".loader").removeClass("active");
     }
