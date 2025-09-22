@@ -185,7 +185,7 @@ $("#create-button").on("click", async () => {
 });
 
 $("#join-button").on("click", async () => {
-    const partyCode = $("#inviteCode").val()
+    const partyCode = $("#inviteCode").val().toUpperCase()
     const codeRegex = /^[A-Z0-9]{5}$/;
     if (!codeRegex.test(partyCode)) {
         alert("Please enter a valid 5-character party code (A–Z, 0–9).");
@@ -196,7 +196,7 @@ $("#join-button").on("click", async () => {
     $(".loader").addClass("active");
     try {
         const res = await axios.post("/join_party", {
-            code: $("#inviteCode").val(),
+            code: partyCode,
             name: client_data.playerName,
             avatar: client_data.avatar
         });
@@ -243,7 +243,7 @@ $("#party-code").on("click", async () => {
 
 $("#leave-button").on("click", async () => {
     const confirmLeave = confirm("Are you sure you want to leave the party?");
-    const partyCode = $("#party-code").text().replace("รหัสเชิญ : ", "").trim();
+    const partyCode = $("#party-code").text().replace("รหัสเชิญ : ", "").trim().toUpperCase();
     if (!confirmLeave) {
         return;
     }
