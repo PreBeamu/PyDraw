@@ -23,7 +23,7 @@ def home():
 @socketio.on("message")
 def handle_message(data):
     text = {"name": "สมมุติ", "message": data.get("msg")}
-    emit("message", text)
+    emit("message", text, broadcast=True)
 
 # -------------------------------
 # Main
