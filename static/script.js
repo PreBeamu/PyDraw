@@ -7,6 +7,37 @@ const colors_amount = 7;
 const hairs_amount = 11;
 const accessories_amount = 8;
 const faces_amount = 10;
+// Random Words
+const firstNames = [
+    "กะเพรา", "ข้าวผัด", "ผัดไทย", "ต้มยำ", "แกงเขียวหวาน",
+    "มัสมั่น", "ลาบ", "ส้มตำ", "หมูกระทะ", "ไก่ทอด",
+    "ปลาทอด", "แกงส้ม", "ไข่เจียว", "ข้าวมัน", "ข้าวต้ม",
+    "ชาเย็น", "โอเลี้ยง", "น้ำเขียว", "เฉาก๊วย", "โรตี",
+    "ข้าวเหนียว", "หมูปิ้ง", "ขนมครก", "บิงซู", "ซูชิ",
+    "ราเมง", "พิซซ่า", "เบอร์เกอร์", "สปาเกตตี", "ทาโกะยากิ",
+    "ชาบู", "ซาชิมิ", "สเต๊ก", "แพนเค้ก", "วาฟเฟิล",
+    "ซาลาเปา", "ข้าวแกง", "บะหมี่", "ก๋วยจั๊บ", "กุ้งอบวุ้นเส้น",
+    "เนื้อย่าง", "หม้อไฟ", "สลัด", "โจ๊ก", "บัวลอย",
+    "ลอดช่อง", "น้ำแข็งใส", "โกโก้", "มะม่วง", "ทุเรียน"
+];
+const lastNames = [
+    "หมูกรอบ", "ไก่ย่าง", "มะนาว", "โค้ก", "น้ำปลา",
+    "ไข่ดาว", "ปลาร้า", "หมึกย่าง", "นมสด", "ชานม",
+    "ไข่มุก", "สายไหม", "ปูอัด", "ลูกชิ้น", "ข้าวโพด",
+    "มันเผา", "กล้วยทอด", "วาฟเฟิล", "น้ำผึ้ง", "พริกเผา",
+    "ชีส", "นุ่มฟู", "กรอบๆ", "หอมเจียว", "เค็มๆ",
+    "หวานๆ", "เปรี้ยวจี๊ด", "เผ็ดร้อน", "เย็นชา", "ร้อนแรง",
+    "สายฟ้า", "สายลม", "สายหมอก", "สายรุ้ง", "อัญมณี",
+    "คริสตัล", "มรกต", "ไพลิน", "เพชร", "ทองคำ",
+    "ฟองดู", "หิมะ", "มารุโกะ", "มังกร", "น่ารัก",
+    "เทพเจ้า", "ซุปเปอร์", "โคตร", "ขั้นสุด", "สะท้านฟ้า"
+];
+// Client Data
+let client_data = {
+    "playerId": "xxxx",
+    "playerName": "Player",
+    "avatar": [1, 1, 1, 1],
+};
 
 // ============================
 // IMAGE URL HELPERS
@@ -42,6 +73,16 @@ function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function setPlayerName() {
+    var userName = $("#userName").val();
+    if (userName.trim() == 0) {
+        const first = firstNames[Math.floor(Math.random() * firstNames.length)];
+        const last = lastNames[Math.floor(Math.random() * lastNames.length)];
+        userName = first + last
+    }
+    client_data.playerName = userName
+}
+
 function setImageWhenLoaded(selector, url) {
     const img = new Image();
     img.onload = () => {
@@ -57,13 +98,47 @@ function randomizeAvatar() {
     const hair = randomInt(1, hairs_amount);
     const accessory = randomInt(1, accessories_amount);
     setImageWhenLoaded("#player-color", urlColor(color));
+    client_data.avatar[0] = color
     setImageWhenLoaded("#player-face", urlFace(face));
+    client_data.avatar[1] = face
     setImageWhenLoaded("#player-hair", urlHair(hair));
+    client_data.avatar[2] = hair
     setImageWhenLoaded("#player-accessory", urlAccessory(accessory));
+    client_data.avatar[3] = accessory
 }
 
 // ============================
-// BUTTONS
+// WEBSOCKETS
+// ============================
+socket.on("message", (data) => {
+    // Create msg-box
+    const $msgBox = $('<div class="msg-box"></div>');
+    // Avatar container
+    const $avatarContainer = $('<div class="avatar-container"></div>');
+    // Avatar images (replace with dynamic data later)
+    const $player = $(`<img class="player" src="/static/Images/Avatar/Colors/${data.avatar[0]}.svg">`);
+    const $shirt = $(`<img class="shirt" src="/static/Images/Avatar/Shirt.svg">`);
+    const $face = $(`<img class="face" src="/static/Images/Avatar/Faces/${data.avatar[1]}.svg">`);
+    const $hair = $(`<img class="hair" src="/static/Images/Avatar/Hairs/${data.avatar[2]}.svg">`);
+    const $accessory = $(`<img class="accessory" id="player-accessory" src="/static/Images/Avatar/Accessories/${data.avatar[3]}.svg">`);
+    $avatarContainer.append($player, $shirt, $face, $hair, $accessory);
+    // Text container
+    const $container = $('<div></div>');
+    const $senderName = $('<p class="sender-name"></p>').text(data.name);
+    const $textContainer = $('<p class="text-container"></p>').text(data.message);
+    $msgBox.append($avatarContainer, $container);
+    $container.append($senderName, $textContainer);
+    $(".chat-display .box").append($msgBox);
+    requestAnimationFrame(() => {
+        $msgBox.addClass("show");
+    });
+    console.log(data);
+    // Scroll to bottom
+    $(".chat-display .box").scrollTop($(".chat-display .box").prop("scrollHeight"));
+});
+
+// ============================
+// MAIN
 // ============================
 
 // Main Buttons
@@ -71,62 +146,93 @@ $("#random-avatar").on("click", () => {
     randomizeAvatar();
 });
 
-$("#create-button").on("click", () => {
+$("#create-button").on("click", async () => {
+    setPlayerName();
     $(".main-page").addClass("disabled");
     $(".loader").addClass("active");
-    setTimeout(() => {
+    try {
+        const res = await axios.post("/create_party", {
+            name: client_data.playerName,
+            avatar: client_data.avatar
+        });
+        const { party_code, player_id, party_host } = res.data;
+        client_data.playerId = player_id;
         $(".party-page").removeClass("disabled");
+        $("#party-code").text("รหัสเชิญ : " + party_code)
+    } catch (err) {
+        console.error("Error creating party:", err);
+        alert("There was an error creating the party. Please try again.");
+    } finally {
         $(".loader").removeClass("active");
-    }, 250);
+    }
 });
 
 // Party Buttons
-$("#leave-button").on("click", () => {
-    $(".party-page").addClass("disabled");
-    $(".loader").addClass("active");
+$("#party-code").on("click", async () => {
+    const original = $("#party-code").text();
+    const code = original.split(":")[1]?.trim();
+
+    if (!code || code === "-----" || $(".code-copied").hasClass("show")) {
+        return;
+    }
+    await navigator.clipboard.writeText(code).catch(() => { });
+    $(".code-copied").addClass("show");
     setTimeout(() => {
-        $(".main-page").removeClass("disabled");
+        $(".code-copied").removeClass("show");
+    }, 1000);
+});
+
+$("#leave-button").on("click", async () => {
+    const confirmLeave = confirm("Are you sure you want to leave the party?");
+    const partyCode = $("#party-code").text().replace("รหัสเชิญ : ", "").trim();
+    if (!confirmLeave) {
+        return;
+    }
+    $(".loader").addClass("active");
+    $(".main-page").removeClass("disabled");
+    $(".party-page").addClass("disabled");
+    $("#party-code").text("รหัสเชิญ : ----");
+    try {
+        const res = await axios.post("/leave_party", {
+            code: partyCode,
+            player_id: client_data.playerId
+        });
+
+        if (!res.data.success) throw new Error("Failed to leave");
+    } catch (err) {
+        console.error("Error leaving party:", err);
+        alert("There was an error leaving the party. Please try again.");
+
+        // Restore UI since leave failed
+        $(".main-page").addClass("disabled");
+        $(".party-page").removeClass("disabled");
+        $("#party-code").text("รหัสเชิญ : " + partyCode);
+    } finally {
         $(".loader").removeClass("active");
-    }, 250);
+    }
 });
 
 // Chat Textbox function
-$("#chatMsg").on("keydown", function(e) {
+$("#chatMsg").on("keydown", function (e) {
     if (e.key === 'Enter') {
         var message = $("#chatMsg").val();
         if (message.trim() == 0) {
             return
         }
         socket.emit("message", {
-            msg: message
+            name: client_data.playerName,
+            avatar: client_data.avatar,
+            msg: message,
         });
         $("#chatMsg").val('');
     }
 });
 
-// ============================
-// WEBSOCKETS
-// ============================
-
-socket.on("message", (data) => {
-    // Create msg-box
-    const $msgBox = $('<div class="msg-box"></div>');
-    // Avatar container
-    const $avatarContainer = $('<div class="avatar-container"></div>');
-    // Avatar images (replace with dynamic data later)
-    const $player = $('<img class="player" src="/static/Images/Avatar/Colors/1.svg">');
-    const $shirt = $('<img class="shirt" src="/static/Images/Avatar/Shirt.svg">');
-    const $face = $('<img class="face" src="/static/Images/Avatar/Faces/1.svg">');
-    const $hair = $('<img class="hair" src="/static/Images/Avatar/Hairs/1.svg">');
-    const $accessory = $('<img class="accessory" id="player-accessory" src="/static/Images/Avatar/Accessories/1.svg">');
-    $avatarContainer.append($player, $shirt, $face, $hair, $accessory);
-    // Text container
-    const $textContainer = $('<p class="text-container"></p>').text(data.message);
-    $msgBox.append($avatarContainer, $textContainer);
-    $(".chat-display .box").append($msgBox);
-    requestAnimationFrame(() => {
-        $msgBox.addClass("show");
-    });
-    // Scroll to bottom
-    $(".chat-display .box").scrollTop($(".chat-display .box").prop("scrollHeight"));
+// Refresh Confirm
+window.addEventListener("beforeunload", e => {
+    if (!$("#party-page").hasClass("disabled")) {
+        const msg = "Changes you made may not be saved.";
+        e.preventDefault();
+        return msg;
+    }
 });

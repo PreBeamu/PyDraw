@@ -21,7 +21,7 @@
       <img class="accessory" id="player-accessory" src="" />
     </div>
     <div class="input-container">
-      <input type="text" id="userName" maxlength="15" placeholder="ชื่อผู้เล่น" />
+      <input type="text" id="userName" maxlength="20" placeholder="ชื่อผู้เล่น" />
       <button class="button" id="create-button">สร้างห้อง</button>
       <div class="join-container">
         <input type="text" id="inviteCode" maxlength="5" placeholder="รหัสเชิญ" />
@@ -33,6 +33,7 @@
   <!-- Party Page -->
   <div class="page party-page disabled">
     <div class="party-header">
+      <button class="code-copied">คัดลอกแล้ว!</button>
       <button id="party-code">รหัสเชิญ : -----</button>
       <div class="party-buttons">
         <button id="leave-button">
@@ -82,8 +83,7 @@
       </div>
       <div class="chat-container">
         <div class="chat-display">
-          <div class="box">
-          </div>
+          <div class="box"></div>
         </div>
         <input type="text" id="chatMsg" placeholder="ข้อความ.." />
       </div>

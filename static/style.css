@@ -371,6 +371,27 @@ body,
   transform: translate(6rem, -14rem);
 }
 
+.code-copied {
+  all: unset;
+  position: absolute;
+  display: inline-block;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 0.1rem 0.75rem;
+  border-radius: 10px;
+  background: #3e692c;
+  font-size: 0.8rem;
+  text-align: center;
+  white-space: nowrap;
+  color: #ffffff;
+  transition: all 0.15s cubic-bezier(0.47,1.64,0.41,0.8);
+  z-index: -1;
+  transform: translate(2.25rem, 0rem);
+}
+.code-copied.show {
+  transform: translate(2.25rem, -2rem);
+}
+
 #party-code {
   all: unset;
   width: 170px;
@@ -645,10 +666,10 @@ body,
 .msg-box .avatar-container {
   all: unset;
   position: relative;
-  width: 25px;
-  height: 25px;
-  min-width: 25px;
-  min-width: 25px;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  min-width: 30px;
   border-radius: 0.25rem;
   border: 2px solid black;
   display: flex;
@@ -658,10 +679,15 @@ body,
   background: #ebebeb;
 }
 
+.sender-name {
+  margin-top: -1.5px;
+  font-size: 0.8rem;
+  opacity: 65%;
+}
 .text-container {
   width: 100%;
   height: fit-content;
-  min-height: 5%;
+  margin-top: -3px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

@@ -1,43 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>PyDraw</title>
-    <!-- Default favicon -->
-    <link rel="icon" href="/static/Favicons/favicon-light.svg" type="image/x-icon" />
-    <!-- Light mode favicon -->
-    <link
-      rel="icon"
-      href="/static/Favicons/favicon-light.svg"
-      type="image/x-icon"
-      media="(prefers-color-scheme: light)"
-    />
-    <!-- Dark mode favicon -->
-    <link
-      rel="icon"
-      href="/static/Favicons/favicon-dark.svg"
-      type="image/x-icon"
-      media="(prefers-color-scheme: dark)"
-    />
-    <!-- Css Stylesheet -->
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Axios CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- Flask SocketIO -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
-      integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body>
-    {% block content %}{% endblock %}
-    <!-- JS Script -->
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, height=device-height,  initial-scale=1.0, user-scalable=no,user-scalable=0" />
+  <title>PyDraw</title>
+  <!-- Default favicon -->
+  <link rel="icon" href="/static/Favicons/favicon-light.svg" type="image/x-icon" />
+  <!-- Light mode favicon -->
+  <link rel="icon" href="/static/Favicons/favicon-light.svg" type="image/x-icon"
+    media="(prefers-color-scheme: light)" />
+  <!-- Dark mode favicon -->
+  <link rel="icon" href="/static/Favicons/favicon-dark.svg" type="image/x-icon" media="(prefers-color-scheme: dark)" />
+  <!-- Css Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <!-- jQuery CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Axios CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- Flask SocketIO -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+    integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  {% block content %}{% endblock %}
+  <!-- JS Script -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
 </html>
