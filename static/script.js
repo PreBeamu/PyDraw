@@ -101,3 +101,12 @@ socket.on("message", (data) => {
 })
 
 // boy zone
+
+$("#leave-button").on("click", () => {
+    $(".party-page").addClass("disabled");
+    $(".loader").addClass("active");
+    setTimeout(() => {
+        $(".main-page").removeClass("disabled");
+        $(".loader").removeClass("active");
+    }, 250);
+});

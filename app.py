@@ -5,9 +5,6 @@ monkey.patch_all()
 from flask import Flask, render_template, request, session, jsonify, url_for,redirect
 from flask_socketio import join_room, leave_room, emit, SocketIO
 
-from flask import Flask, render_template
-from flask_socketio import SocketIO
-monkey.patch_all()
 # -------------------------------
 # App Setup
 # -------------------------------
@@ -26,7 +23,7 @@ def home():
 @socketio.on("message")
 def handle_message(data):
     text = {"name": "สมมุติ", "message": data.get("msg")}
-    emit("message", text)
+    emit("message", text)()
 
 # -------------------------------
 # Main
