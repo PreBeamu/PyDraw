@@ -647,7 +647,7 @@ body,
 
 /* Messages Holder */
 .msg-box {
-  width: 0%;
+  width: 200%;
   height: fit-content;
   padding: 0.35rem;
   display: flex;
@@ -718,6 +718,8 @@ body,
   align-items: flex-start;
   font-size: 0.85rem;
   letter-spacing: 0.025rem;
+  word-break: break-word;
+  overflow-wrap: anywhere; 
 }
 
 /* ==============================

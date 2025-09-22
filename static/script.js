@@ -153,6 +153,7 @@ $("#random-avatar").on("click", () => {
 $("#create-button").on("click", async () => {
     $(".main-page").addClass("disabled");
     $(".loader").addClass("active");
+    $(".chat-display .box").empty();
     try {
         const res = await axios.post("/create_party", {
             name: client_data.playerName,
@@ -192,7 +193,7 @@ $("#join-button").on("click", async () => {
         alert("Please enter a valid 5-character party code (A–Z, 0–9).");
         return;
     }
-
+    $(".chat-display .box").empty();
     $(".main-page").addClass("disabled");
     $(".loader").addClass("active");
     try {
