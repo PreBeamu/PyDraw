@@ -3,27 +3,125 @@
 <div id="animated-bg"></div>
 
 <div class="page-wrapper mitr-font">
-  <!-- Game Icon -->
-  <img class="pydraw-icon" src="/static/Images/PyDraw.svg" />
-
-  <!-- Containers -->
-  <button id="random-avatar">
-    <img class="icon" src="/static/Images/Icons/Random.svg" />
-  </button>
-  <div class="avatar-container">
-    <img class="player" id="player-color" src="" />
-    <img class="shirt" id="player-shirt" src="/static/Images/Avatar/Shirt.svg" />
-    <img class="face" id="player-face" src="" />
-    <img class="hair" id="player-hair" src="" />
-    <img class="accessory" id="player-accessory" src="" />
+  <!-- Loading Circle -->
+  <div class="loader">
+    <img class="icon" src="/static/Images/Icons/Loading.svg" />
   </div>
-  <div class="input-container">
-    <input type="text" id="userName" maxlength="15" placeholder="ชื่อผู้เล่น" />
-    <button class="button" id="create-party">สร้างห้อง</button>
-    <div class="join-container">
-      <input type="text" id="inviteCode" maxlength="5" placeholder="รหัสเชิญ" />
-      <button class="button" id="create-party">เข้าร่วม</button>
+
+  <!-- Main Page -->
+  <div class="page main-page">
+    <button id="random-avatar">
+      <img class="icon" src="/static/Images/Icons/Random.svg" />
+    </button>
+    <div class="avatar-container">
+      <img class="player" id="player-color" src="" />
+      <img class="shirt" id="player-shirt" src="/static/Images/Avatar/Shirt.svg" />
+      <img class="face" id="player-face" src="" />
+      <img class="hair" id="player-hair" src="" />
+      <img class="accessory" id="player-accessory" src="" />
+    </div>
+    <div class="input-container">
+      <input type="text" id="userName" maxlength="15" placeholder="ชื่อผู้เล่น" />
+      <button class="button" id="create-button">สร้างห้อง</button>
+      <div class="join-container">
+        <input type="text" id="inviteCode" maxlength="5" placeholder="รหัสเชิญ" />
+        <button class="button" id="join-button">เข้าร่วม</button>
+      </div>
     </div>
   </div>
+
+  <!-- Party Page -->
+  <div class="page party-page disabled">
+    <div class="party-header">
+      <button id="party-code">รหัสเชิญ : -----</button>
+    </div>
+    <div class="party-container">
+      <div class="players-container">
+        <div class="box">
+          <div class="plr-box">
+            <div class="avatar-container">
+              <img class="player" src="/static/Images/Avatar/Colors/1.svg" />
+              <img class="shirt" src="/static/Images/Avatar/Shirt.svg" />
+              <img class="face" src="/static/Images/Avatar/Faces/1.svg" />
+              <img class="hair" src="/static/Images/Avatar/Hairs/1.svg" />
+              <img class="accessory" id="player-accessory" src="/static/Images/Avatar/Accessories/1.svg" />
+            </div>
+            
+            <div class="plr-info">
+              <p class="username">กะเพราไข่ดาว</p>
+              <p class="uuid">UUID : 84489456215687524</p>
+            </div>
+          </div>
+          <div class="plr-box">
+            <div class="avatar-container">
+              <img class="player" src="/static/Images/Avatar/Colors/3.svg" />
+              <img class="shirt" src="/static/Images/Avatar/Shirt.svg" />
+              <img class="face" src="/static/Images/Avatar/Faces/5.svg" />
+              <img class="hair" src="/static/Images/Avatar/Hairs/6.svg" />
+              <img class="accessory" id="player-accessory" src="/static/Images/Avatar/Accessories/2.svg" />
+            </div>
+            <div class="plr-info">
+              <p class="username">CoolGuy007</p>
+              <p class="uuid">UUID : 84489456215678642</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-container">
+        <div class="chat-display">
+          <div class="box">
+            <div class="msg-box">
+              <div class="avatar-container">
+                <img class="player" src="/static/Images/Avatar/Colors/1.svg" />
+                <img class="shirt" src="/static/Images/Avatar/Shirt.svg" />
+                <img class="face" src="/static/Images/Avatar/Faces/1.svg" />
+                <img class="hair" src="/static/Images/Avatar/Hairs/1.svg" />
+                <img class="accessory" id="player-accessory" src="/static/Images/Avatar/Accessories/1.svg" />
+              </div>
+              <p class="text-container">นี่ๆ อย่าลืมมาทำระบบแชทให้เสร็จด้วยล่ะ!
+                แต่แบบไม่รู้จะใส่อะไรให้ข้อความมันยาวๆก็เลยพิมพ์ต่ออีกสักหน่อยนึง 5555+</p>
+            </div>
+            <div class="msg-box">
+              <div class="avatar-container">
+                <img class="player" src="/static/Images/Avatar/Colors/3.svg" />
+                <img class="shirt" src="/static/Images/Avatar/Shirt.svg" />
+                <img class="face" src="/static/Images/Avatar/Faces/5.svg" />
+                <img class="hair" src="/static/Images/Avatar/Hairs/6.svg" />
+                <img class="accessory" id="player-accessory" src="/static/Images/Avatar/Accessories/2.svg" />
+              </div>
+              <p class="text-container">ช่วยด้วย.. Frontend ไม่ไหวแล้วพี่จ๋า~</p>
+            </div>
+            <div class="msg-box">
+              <div class="avatar-container">
+                <img class="player" src="/static/Images/Avatar/Colors/6.svg" />
+                <img class="shirt" src="/static/Images/Avatar/Shirt.svg" />
+                <img class="face" src="/static/Images/Avatar/Faces/4.svg" />
+                <img class="hair" src="/static/Images/Avatar/Hairs/11.svg" />
+                <img class="accessory" id="player-accessory" src="/static/Images/Avatar/Accessories/5.svg" />
+              </div>
+              <p class="text-container">ถอนวิชาไรดี.. ถอนหมดเลย!</p>
+            </div>
+            <div class="msg-box">
+              <div class="avatar-container">
+                <img class="player" src="/static/Images/Avatar/Colors/3.svg" />
+                <img class="shirt" src="/static/Images/Avatar/Shirt.svg" />
+                <img class="face" src="/static/Images/Avatar/Faces/9.svg" />
+                <img class="hair" src="/static/Images/Avatar/Hairs/4.svg" />
+                <img class="accessory" id="player-accessory" src="/static/Images/Avatar/Accessories/5.svg" />
+              </div>
+              <p class="text-container">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis blanditiis
+                facere reprehenderit aut nisi id nam quam ab voluptatem. Alias vero necessitatibus nam vel. Placeat id
+                commodi fuga, doloribus dolore ex cupiditate deserunt, nemo sequi numquam quisquam minus voluptatem
+                perspiciatis enim, quas veniam repellendus voluptas voluptatum. Iure amet maiores expedita?</p>
+            </div>
+          </div>
+        </div>
+        <input type="text" id="chatMsg" placeholder="ข้อความ.." />
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Icon -->
+  <img class="pydraw-icon" src="/static/Images/PyDraw.svg" />
 </div>
 {% endblock %}

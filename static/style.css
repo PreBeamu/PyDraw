@@ -49,6 +49,27 @@ body,
   transition: all 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+.page {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  transform: scale(100%);
+  transition: all 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.page.disabled {
+  pointer-events: none;
+  transform: scale(0%);
+}
+.page.disabled *,
+.main-page.disabled #random-avatar {
+  pointer-events: none;
+  transform: scale(0%);
+}
+
 @media only screen and (max-height: 600px) {
   .page-wrapper {
     transform: scale(0.65);
@@ -77,6 +98,39 @@ body,
 }
 
 /* ==============================
+   LOADER
+============================== */
+.loader {
+  position: absolute;
+  width: 0px;
+  height: 0px;
+  transition: all 0.2s;
+}
+.loader .icon {
+  width: 0px;
+  height: 0px;
+  animation: inf-spin 3s linear infinite;
+}
+
+.loader.active {
+  width: 70px;
+  height: 70px;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 5px solid rgb(0, 0, 0);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+  background: white;
+}
+.loader.active .icon {
+  display: block;
+  width: 80%;
+  height: 80%;
+}
+
+/* ==============================
    MAIN MENU
 ============================== */
 
@@ -87,6 +141,7 @@ body,
   filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25));
   transform: translateY(-10rem);
   transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  z-index: 100;
 }
 
 .avatar-container {
@@ -108,15 +163,15 @@ body,
 }
 .face {
   position: absolute;
-  width: 45px;
-  transform: translateY(-2.5rem);
+  width: 45%;
+  transform: translateY(-85%);
   transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
   opacity: 75%;
 }
 .shirt {
   position: absolute;
-  width: 90px;
-  transform: translateY(3.5rem);
+  width: 90%;
+  transform: translateY(57.5%);
   transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
@@ -129,32 +184,32 @@ body,
   display: none;
 }
 .accessory[src="/static/Images/Avatar/Accessories/2.svg"] {
-  width: 35px;
-  transform: translate(0.5rem, -4.35rem);
+  width: 35%;
+  transform: translate(25%, -180%);
 }
 .accessory[src="/static/Images/Avatar/Accessories/3.svg"] {
-  width: 45px;
-  transform: translate(0.5rem, -4rem);
+  width: 45%;
+  transform: translate(20%, -170%);
 }
 .accessory[src="/static/Images/Avatar/Accessories/4.svg"] {
-  width: 35px;
-  transform: translate(0rem, -4.75rem);
+  width: 35%;
+  transform: translate(0%, -195%);
 }
 .accessory[src="/static/Images/Avatar/Accessories/5.svg"] {
-  width: 30px;
-  transform: translate(0.2rem, -4.65rem);
+  width: 30%;
+  transform: translate(15%, -270%);
 }
 .accessory[src="/static/Images/Avatar/Accessories/6.svg"] {
-  width: 50px;
-  transform: translate(0rem, -4rem);
+  width: 50%;
+  transform: translate(0%, -200%);
 }
 .accessory[src="/static/Images/Avatar/Accessories/7.svg"] {
-  width: 50px;
-  transform: translate(0rem, -3.15rem);
+  width: 50%;
+  transform: translate(0%, -255%);
 }
 .accessory[src="/static/Images/Avatar/Accessories/8.svg"] {
-  width: 40px;
-  transform: translate(0rem, -4.5rem);
+  width: 40%;
+  transform: translate(0%, -350%);
 }
 
 /* Hairs */
@@ -162,59 +217,49 @@ body,
   position: absolute;
   transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
 }
-.hair[src="/static/Images/Avatar/Hairs/1.svg"]
-{
-  width: 75px;
-  transform: translate(0rem, -1.5rem);
+.hair[src="/static/Images/Avatar/Hairs/1.svg"] {
+  width: 75%;
+  transform: translate(0%, -30%);
 }
-.hair[src="/static/Images/Avatar/Hairs/2.svg"]
-{
-  width: 70px;
-  transform: translate(0rem, -2.25rem);
+.hair[src="/static/Images/Avatar/Hairs/2.svg"] {
+  width: 70%;
+  transform: translate(0%, -70%);
 }
-.hair[src="/static/Images/Avatar/Hairs/3.svg"]
-{
-  width: 55px;
-  transform: translate(0rem, -0.25rem);
+.hair[src="/static/Images/Avatar/Hairs/3.svg"] {
+  width: 55%;
+  transform: translate(0%, -5%);
 }
-.hair[src="/static/Images/Avatar/Hairs/4.svg"]
-{
-  width: 55px;
-  transform: translate(0rem, -2.35rem);
+.hair[src="/static/Images/Avatar/Hairs/4.svg"] {
+  width: 55%;
+  transform: translate(0%, -70%);
 }
 .hair[src="/static/Images/Avatar/Hairs/5.svg"] {
-  width: 85px;
-  transform: translate(0rem, 0.1rem);
+  width: 85%;
+  transform: translate(0%, 1%);
 }
-.hair[src="/static/Images/Avatar/Hairs/6.svg"]
-{
-  width: 60px;
-  transform: translate(0rem, -3.25rem);
+.hair[src="/static/Images/Avatar/Hairs/6.svg"] {
+  width: 60%;
+  transform: translate(0%, -125%);
 }
-.hair[src="/static/Images/Avatar/Hairs/7.svg"]
-{
-  width: 60px;
-  transform: translate(0rem, -3rem);
+.hair[src="/static/Images/Avatar/Hairs/7.svg"] {
+  width: 60%;
+  transform: translate(0%, -110%);
 }
-.hair[src="/static/Images/Avatar/Hairs/8.svg"]
-{
-  width: 60px;
-  transform: translate(0rem, -1.75rem);
+.hair[src="/static/Images/Avatar/Hairs/8.svg"] {
+  width: 60%;
+  transform: translate(0%, -45%);
 }
-.hair[src="/static/Images/Avatar/Hairs/9.svg"]
-{
-  width: 57.5px;
-  transform: translate(0rem, -3.15rem);
+.hair[src="/static/Images/Avatar/Hairs/9.svg"] {
+  width: 57.5%;
+  transform: translate(0%, -120%);
 }
-.hair[src="/static/Images/Avatar/Hairs/10.svg"]
-{
-  width: 55px;
-  transform: translate(0rem, -3.5rem);
+.hair[src="/static/Images/Avatar/Hairs/10.svg"] {
+  width: 55%;
+  transform: translate(0%, -145%);
 }
-.hair[src="/static/Images/Avatar/Hairs/11.svg"]
-{
-  width: 70px;
-  transform: translate(0rem, -0.5rem);
+.hair[src="/static/Images/Avatar/Hairs/11.svg"] {
+  width: 70%;
+  transform: translate(0%, -10%);
 }
 
 #random-avatar {
@@ -225,7 +270,6 @@ body,
   border-radius: 50%;
   border: 3.5px solid black;
   display: flex;
-  overflow: visible;
   justify-content: center;
   align-items: center;
   background: white;
@@ -266,6 +310,7 @@ body,
   border-radius: 15px;
   box-sizing: border-box;
   margin-bottom: 1.2rem;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
 }
 .input-container .button {
   width: 100%;
@@ -307,6 +352,234 @@ body,
 }
 
 /* ==============================
+   PARTY MENU
+============================== */
+
+.party-page:not(.disabled) ~ .pydraw-icon {
+  transform: translate(-15rem, -14.75rem) scale(0.45);
+}
+
+.party-header {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 8px;
+  z-index: 5;
+  transform: translate(-3rem, -14rem);
+}
+
+#party-code {
+  all: unset;
+  width: 170px;
+  display: inline-block;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 0.15rem 0.75rem;
+  border: 3px solid #000000;
+  border-radius: 6px;
+  background: #ffffff;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  color: #3c3c3c;
+  transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+#party-code:hover {
+  background: #d6d6d6;
+}
+#party-code:active {
+  background: #b6b6b6;
+  transform: scale(0.95);
+  transition: none;
+}
+
+.party-container {
+  position: absolute;
+  width: 675px;
+  height: 425px;
+  padding: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  border: 3.5px solid rgb(0, 0, 0);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+  background: white;
+  transition: all 0.2s;
+}
+
+/* Players List */
+.players-container {
+  position: absolute;
+  width: 360px;
+  height: 385px;
+  padding: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  border: 2.5px solid #5e5e5e;
+  transform: translate(-9rem,0.4rem);
+}
+.players-container .box {
+  width: 100%;
+  height: 100%;
+  padding: 0.1rem;
+  padding-right: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: start;
+  gap: 5px;
+  border-radius: 0.5rem;
+  scrollbar-width: thin;
+  box-sizing: border-box;
+  transition: all 0.2s;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.plr-box {
+  width: 100%;
+  height: fit-content;
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  border: 2px solid #d5d5d5;
+  background-color: #eeeeee;
+}
+.plr-box .avatar-container {
+  all: unset;
+  position: relative;
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+  min-width: 45px;
+  border-radius: 0.25rem;
+  border: 2px solid black;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: end;
+  background: #ebebeb;
+  transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.plr-info .username {
+  font-size: 1.15rem;
+  opacity: 75%;
+}
+.plr-info .uuid {
+  font-size: 0.75rem;
+  opacity: 35%;
+}
+
+/* Chatbox */
+.chat-container {
+  position: absolute;
+  width: 280px;
+  height: 400px;
+  padding: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: translate(11.75rem);
+}
+.chat-display {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ebebeb;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  border: 2.5px solid rgb(131, 131, 131);
+  transition: all 0.2s;
+  overflow: hidden;
+}
+.chat-display .box {
+  width: 98%;
+  height: 98%;
+  padding: 0.75rem;
+  padding-block: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  border-radius: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: grey #ebebeb;
+  box-sizing: border-box;
+  transition: all 0.2s;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.chat-container input[type="text"] {
+  width: 100%;
+  padding-block: 2.5px;
+  padding-inline: 3%;
+  font-size: 0.85rem;
+  text-align: left;
+  border: 2.5px solid #b1b1b1;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-top: 0.25rem;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Messages Holder */
+.msg-box {
+  width: 100%;
+  height: fit-content;
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+  border-radius: 5px;
+  background-color: #d5d5d5;
+}
+.msg-box .avatar-container {
+  all: unset;
+  position: relative;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-width: 25px;
+  border-radius: 0.25rem;
+  border: 2px solid black;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: end;
+  background: #ebebeb;
+  transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.text-container {
+  width: 100%;
+  height: fit-content;
+  min-height: 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-size: 0.85rem;
+  letter-spacing: 0.025rem;
+}
+
+/* ==============================
    ANIMATIONS
 ============================== */
 @keyframes inf-bg {
@@ -316,5 +589,15 @@ body,
 
   to {
     background-position: -10000px 5000px;
+  }
+}
+
+@keyframes inf-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }

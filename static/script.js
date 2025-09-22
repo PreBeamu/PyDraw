@@ -25,7 +25,7 @@ function urlAccessory(i) {
     return `/static/Images/Avatar/Accessories/${i}.svg`;
 }
 const urlPlayer = `/static/Images/Avatar/Player.svg`;
-const urlShirt  = `/static/Images/Avatar/Shirt.svg`;
+const urlShirt = `/static/Images/Avatar/Shirt.svg`;
 
 // Build all URLs
 const imageUrls = [];
@@ -57,7 +57,6 @@ function randomizeAvatar() {
     const face = randomInt(1, faces_amount);
     const hair = randomInt(1, hairs_amount);
     const accessory = randomInt(1, accessories_amount);
-
     setImageWhenLoaded("#player-color", urlColor(color));
     setImageWhenLoaded("#player-face", urlFace(face));
     setImageWhenLoaded("#player-hair", urlHair(hair));
@@ -69,4 +68,13 @@ function randomizeAvatar() {
 // ============================
 $("#random-avatar").on("click", () => {
     randomizeAvatar();
+});
+
+$("#create-button").on("click", () => {
+    $(".main-page").addClass("disabled");
+    $(".loader").addClass("active");
+    setTimeout(() => {
+        $(".party-page").removeClass("disabled");
+        $(".loader").removeClass("active");
+    }, 250);
 });
