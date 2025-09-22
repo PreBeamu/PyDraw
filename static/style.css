@@ -669,7 +669,7 @@ body,
   width: 30px;
   height: 30px;
   min-width: 30px;
-  min-width: 30px;
+  min-height: 30px;
   border-radius: 0.25rem;
   border: 2px solid black;
   display: flex;
@@ -677,6 +677,30 @@ body,
   justify-content: center;
   align-items: end;
   background: #ebebeb;
+}
+
+.msg-box.system {
+  padding: 0.25rem;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.msg-box.system .text-container {
+  font-size: 0.75rem;
+  margin-top: 0.1rem;
+}
+.msg-box.system .avatar-container,
+.msg-box.system .sender-name {
+  display: none;
+}
+.msg-box.create {
+  background: #000435;
+}
+.msg-box.join {
+  background: #0e3500;
+}
+.msg-box.left {
+  background: #350000;
 }
 
 .sender-name {
