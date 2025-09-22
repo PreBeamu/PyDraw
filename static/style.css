@@ -389,10 +389,11 @@ body,
 }
 #party-code:hover {
   background: #d6d6d6;
+  transform: scale(0.95);
 }
 #party-code:active {
   background: #b6b6b6;
-  transform: scale(0.95);
+  transform: scale(1);
   transition: none;
 }
 
