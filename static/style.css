@@ -109,7 +109,7 @@ body,
 .loader .icon {
   width: 0px;
   height: 0px;
-  animation: inf-spin 3s linear infinite;
+  animation: inf-spin 4s linear infinite;
 }
 
 .loader.active {

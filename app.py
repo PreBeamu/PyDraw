@@ -59,7 +59,6 @@ def create_party():
         "Host": player_id,
         "Players": {player_id: player_data}
     }
-    sleep(1)
 
     return jsonify({
         "party_code": party_code,
@@ -81,7 +80,6 @@ def join_party():
 
     # Add to party
     PARTIES[code]["Players"][player_id] = player_data
-    sleep(1)
 
     return jsonify({
         "player_id": player_id,
@@ -98,7 +96,6 @@ def leave_party():
     """Remove a player from a party and handle host/cleanup."""
     code = request.json.get("code")
     player_id = request.json.get("player_id")
-    sleep(1)
 
     if code not in PARTIES:
         return jsonify({"error": "Party not found"}), 404

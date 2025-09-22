@@ -150,43 +150,45 @@ $("#random-avatar").on("click", () => {
     randomizeAvatar();
 });
 
-$("#create-button").on("click", async () => {
+$("#create-button").on("click", () => {
     $(".main-page").addClass("disabled");
     $(".loader").addClass("active");
     $(".chat-display .box").empty();
-    try {
-        const res = await axios.post("/create_party", {
-            name: client_data.playerName,
-            avatar: client_data.avatar
-        });
-        const { party_code, player_id } = res.data;
-        setPlayerName();
-        client_data.playerId = player_id;
-        client_data.currentParty = party_code;
-        $(".party-page").removeClass("disabled");
-        $("#party-code").text("รหัสเชิญ : " + party_code)
-        // Socket Create
-        socket.emit("join_party_room", {
-            party_code: party_code,
-            player_id: player_id,
-        });
-        socket.emit("message", {
-            custom_class: "create",
-            party_code: client_data.currentParty,
-            name: client_data.playerName,
-            avatar: client_data.avatar,
-            msg: `${client_data.playerName} สร้างปาร์ตี้!`,
-        });
-    } catch (err) {
-        console.error("Error creating party:", err);
-        alert("There was an error creating the party. Please try again.");
-        $(".main-page").removeClass("disabled");
-    } finally {
-        $(".loader").removeClass("active");
-    }
+    setTimeout(async () => {
+        try {
+            const res = await axios.post("/create_party", {
+                name: client_data.playerName,
+                avatar: client_data.avatar
+            });
+            const { party_code, player_id } = res.data;
+            setPlayerName();
+            client_data.playerId = player_id;
+            client_data.currentParty = party_code;
+            $(".party-page").removeClass("disabled");
+            $("#party-code").text("รหัสเชิญ : " + party_code)
+            // Socket Create
+            socket.emit("join_party_room", {
+                party_code: party_code,
+                player_id: player_id,
+            });
+            socket.emit("message", {
+                custom_class: "create",
+                party_code: client_data.currentParty,
+                name: client_data.playerName,
+                avatar: client_data.avatar,
+                msg: `${client_data.playerName} สร้างปาร์ตี้!`,
+            });
+        } catch (err) {
+            console.error("Error creating party:", err);
+            alert("There was an error creating the party. Please try again.");
+            $(".main-page").removeClass("disabled");
+        } finally {
+            $(".loader").removeClass("active");
+        }
+    }, 250);
 });
 
-$("#join-button").on("click", async () => {
+$("#join-button").on("click", () => {
     const partyCode = $("#inviteCode").val().toUpperCase()
     const codeRegex = /^[A-Z0-9]{5}$/;
     if (!codeRegex.test(partyCode)) {
@@ -196,37 +198,39 @@ $("#join-button").on("click", async () => {
     $(".chat-display .box").empty();
     $(".main-page").addClass("disabled");
     $(".loader").addClass("active");
-    try {
-        const res = await axios.post("/join_party", {
-            code: partyCode,
-            name: client_data.playerName,
-            avatar: client_data.avatar
-        });
-        const { player_id, party_host, players } = res.data;
-        setPlayerName();
-        client_data.playerId = player_id;
-        client_data.currentParty = partyCode;
-        $(".party-page").removeClass("disabled");
-        $("#party-code").text("รหัสเชิญ : " + partyCode)
-        // Socket JoinRoom
-        socket.emit("join_party_room", {
-            party_code: partyCode,
-            player_id: client_data.playerId,
-        });
-        socket.emit("message", {
-            custom_class: "join",
-            party_code: client_data.currentParty,
-            name: client_data.playerName,
-            avatar: client_data.avatar,
-            msg: `${client_data.playerName} เข้าร่วมปาร์ตี้!`,
-        });
-    } catch (err) {
-        console.error("Error creating party:", err);
-        alert("There was an error joining the party. Please try again.");
-        $(".main-page").removeClass("disabled");
-    } finally {
-        $(".loader").removeClass("active");
-    }
+    setTimeout(async () => {
+        try {
+            const res = await axios.post("/join_party", {
+                code: partyCode,
+                name: client_data.playerName,
+                avatar: client_data.avatar
+            });
+            const { player_id, party_host, players } = res.data;
+            setPlayerName();
+            client_data.playerId = player_id;
+            client_data.currentParty = partyCode;
+            $(".party-page").removeClass("disabled");
+            $("#party-code").text("รหัสเชิญ : " + partyCode)
+            // Socket JoinRoom
+            socket.emit("join_party_room", {
+                party_code: partyCode,
+                player_id: client_data.playerId,
+            });
+            socket.emit("message", {
+                custom_class: "join",
+                party_code: client_data.currentParty,
+                name: client_data.playerName,
+                avatar: client_data.avatar,
+                msg: `${client_data.playerName} เข้าร่วมปาร์ตี้!`,
+            });
+        } catch (err) {
+            console.error("Error creating party:", err);
+            alert("There was an error joining the party. Please try again.");
+            $(".main-page").removeClass("disabled");
+        } finally {
+            $(".loader").removeClass("active");
+        }
+    }, 250);
 });
 
 // Party Buttons
@@ -244,7 +248,7 @@ $("#party-code").on("click", async () => {
     }, 1000);
 });
 
-$("#leave-button").on("click", async () => {
+$("#leave-button").on("click", () => {
     const confirmLeave = confirm("Are you sure you want to leave the party?");
     const partyCode = $("#party-code").text().replace("รหัสเชิญ : ", "").trim().toUpperCase();
     if (!confirmLeave) {
@@ -252,37 +256,39 @@ $("#leave-button").on("click", async () => {
     }
     $(".loader").addClass("active");
     $(".party-page").addClass("disabled");
-    try {
-        const res = await axios.post("/leave_party", {
-            code: partyCode,
-            player_id: client_data.playerId
-        });
-        if (!res.data.success) throw new Error("Failed to leave");
-        $(".main-page").removeClass("disabled");
-        $("#party-code").text("รหัสเชิญ : ----");
-        // Socket LeaveRoom
-        socket.emit("leave_party_room", {
-            party_code: client_data.partyCode,
-            player_id: client_data.playerId,
-        });
-        socket.emit("message", {
-            custom_class: "left",
-            party_code: client_data.currentParty,
-            name: client_data.playerName,
-            avatar: client_data.avatar,
-            msg: `${client_data.playerName} ออกจากปาร์ตี้!`,
-        });
-    } catch (err) {
-        console.error("Error leaving party:", err);
-        alert("There was an error leaving the party. Please try again.");
+    setTimeout(async () => {
+        try {
+            const res = await axios.post("/leave_party", {
+                code: partyCode,
+                player_id: client_data.playerId
+            });
+            if (!res.data.success) throw new Error("Failed to leave");
+            $(".main-page").removeClass("disabled");
+            $("#party-code").text("รหัสเชิญ : ----");
+            // Socket LeaveRoom
+            socket.emit("leave_party_room", {
+                party_code: client_data.partyCode,
+                player_id: client_data.playerId,
+            });
+            socket.emit("message", {
+                custom_class: "left",
+                party_code: client_data.currentParty,
+                name: client_data.playerName,
+                avatar: client_data.avatar,
+                msg: `${client_data.playerName} ออกจากปาร์ตี้!`,
+            });
+        } catch (err) {
+            console.error("Error leaving party:", err);
+            alert("There was an error leaving the party. Please try again.");
 
-        // Restore UI since leave failed
-        $(".main-page").addClass("disabled");
-        $(".party-page").removeClass("disabled");
-        $("#party-code").text("รหัสเชิญ : " + partyCode);
-    } finally {
-        $(".loader").removeClass("active");
-    }
+            // Restore UI since leave failed
+            $(".main-page").addClass("disabled");
+            $(".party-page").removeClass("disabled");
+            $("#party-code").text("รหัสเชิญ : " + partyCode);
+        } finally {
+            $(".loader").removeClass("active");
+        }
+    }, 250);
 });
 
 // Chat Textbox function
