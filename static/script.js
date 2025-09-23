@@ -1,13 +1,17 @@
 // ============================
 // GLOBAL SETUP
 // ============================
+
+// Initialize socket.io
 const socket = io();
+
 // Avatar Items count
 const colors_amount = 7;
 const hairs_amount = 11;
 const accessories_amount = 8;
 const faces_amount = 10;
-// Random Words
+
+// Random names (first + last = player nickname)
 const firstNames = [
     "กะเพรา", "ข้าวผัด", "ผัดไทย", "ต้มยำ", "แกงเขียวหวาน",
     "มัสมั่น", "ลาบ", "ส้มตำ", "หมูกระทะ", "ไก่ทอด",
@@ -32,34 +36,28 @@ const lastNames = [
     "ฟองดู", "หิมะ", "มารุโกะ", "มังกร", "น่ารัก",
     "เทพเจ้า", "ซุปเปอร์", "โคตร", "ขั้นสุด", "สะท้านฟ้า"
 ];
-// Client Data
+
+// Store client/player data
 let client_data = {
-    "playerId": "xxxx",
-    "playerName": "Player",
-    "avatar": [1, 1, 1, 1],
-    "currentParty": null,
-    "loadedPlayers": [],
+    "playerId": "",          // Will be set after joining/creating party
+    "playerName": "",      // Default until set/edited
+    "avatar": [1, 1, 1, 1],      // [color, face, hair, accessory]
+    "currentParty": null,        // Current party code
+    "loadedPlayers": [],         // Tracks players already rendered
 };
 
 // ============================
 // IMAGE URL HELPERS
 // ============================
-function urlColor(i) {
-    return `/static/Images/Avatar/Colors/${i}.svg`;
-}
-function urlFace(i) {
-    return `/static/Images/Avatar/Faces/${i}.svg`;
-}
-function urlHair(i) {
-    return `/static/Images/Avatar/Hairs/${i}.svg`;
-}
-function urlAccessory(i) {
-    return `/static/Images/Avatar/Accessories/${i}.svg`;
-}
+function urlColor(i) { return `/static/Images/Avatar/Colors/${i}.svg`; }
+function urlFace(i) { return `/static/Images/Avatar/Faces/${i}.svg`; }
+function urlHair(i) { return `/static/Images/Avatar/Hairs/${i}.svg`; }
+function urlAccessory(i) { return `/static/Images/Avatar/Accessories/${i}.svg`; }
+
 const urlPlayer = `/static/Images/Avatar/Player.svg`;
 const urlShirt = `/static/Images/Avatar/Shirt.svg`;
 
-// Build all URLs
+// Preload all avatar images for smooth rendering
 const imageUrls = [];
 for (let i = 1; i <= colors_amount; i++) imageUrls.push(urlColor(i));
 for (let i = 1; i <= faces_amount; i++) imageUrls.push(urlFace(i));
@@ -71,14 +69,16 @@ randomizeAvatar();
 // ============================
 // HELPER FUNCTIONS
 // ============================
+
+// Generate random integer between min and max
 function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-
+// Set player name: use input value or generate random name
 function setPlayerName() {
     var userName = $("#userName").val();
-    if (userName.trim() == 0) {
+    if (userName.trim().length == 0) {
         const first = firstNames[Math.floor(Math.random() * firstNames.length)];
         const last = lastNames[Math.floor(Math.random() * lastNames.length)];
         userName = first + last
@@ -86,7 +86,7 @@ function setPlayerName() {
     client_data.playerName = userName
 }
 
-
+// Load image smoothly (swap src only after fully loaded)
 function setImageWhenLoaded(selector, url) {
     const img = new Image();
     img.onload = () => {
@@ -95,122 +95,187 @@ function setImageWhenLoaded(selector, url) {
     img.src = url;
 }
 
-// Randomize avatar
+// Randomize avatar parts and update client_data
 function randomizeAvatar() {
     const color = randomInt(1, colors_amount);
     const face = randomInt(1, faces_amount);
     const hair = randomInt(1, hairs_amount);
     const accessory = randomInt(1, accessories_amount);
     setImageWhenLoaded("#player-color", urlColor(color));
+    setImageWhenLoaded("#expand-container #color .player", urlColor(color));
     client_data.avatar[0] = color
     setImageWhenLoaded("#player-face", urlFace(face));
+    setImageWhenLoaded("#expand-container #face .face", urlFace(face));
     client_data.avatar[1] = face
     setImageWhenLoaded("#player-hair", urlHair(hair));
+    setImageWhenLoaded("#expand-container #hair .hair", urlHair(hair));
     client_data.avatar[2] = hair
     setImageWhenLoaded("#player-accessory", urlAccessory(accessory));
+    setImageWhenLoaded("#expand-container #accessory .accessory", urlAccessory(accessory));
     client_data.avatar[3] = accessory
 }
 
+// Return next index in cycle (1 → max, goes back to 1)
+function nextIndex(current, max) {
+  return current >= max ? 1 : current + 1;
+}
+
 // ============================
-// WEBSOCKETS
+// SOCKET EVENT HANDLERS
 // ============================
+
+// Handle incoming chat messages
 socket.on("message", (data) => {
-    // Create msg-box
     const $msgBox = $('<div class="msg-box"></div>');
+
+    // System/custom messages
     if (data.custom_class) {
         $msgBox.addClass("system")
         $msgBox.addClass(data.custom_class)
     }
 
-    // Avatar container
+    // Build avatar profile pic
     const $avatarContainer = $('<div class="avatar-container"></div>');
+    $avatarContainer.append(
+        $(`<img class="player" src="${urlColor(data.avatar[0])}">`),
+        $(`<img class="shirt" src="${urlShirt}">`),
+        $(`<img class="face" src="${urlFace(data.avatar[1])}">`),
+        $(`<img class="hair" src="${urlHair(data.avatar[2])}">`),
+        $(`<img class="accessory" src="${urlAccessory(data.avatar[3])}">`)
+    );
 
-    // Avatar images (replace with dynamic data later)
-    const $player = $(`<img class="player" src="/static/Images/Avatar/Colors/${data.avatar[0]}.svg">`);
-    const $shirt = $(`<img class="shirt" src="/static/Images/Avatar/Shirt.svg">`);
-    const $face = $(`<img class="face" src="/static/Images/Avatar/Faces/${data.avatar[1]}.svg">`);
-    const $hair = $(`<img class="hair" src="/static/Images/Avatar/Hairs/${data.avatar[2]}.svg">`);
-    const $accessory = $(`<img class="accessory" id="player-accessory" src="/static/Images/Avatar/Accessories/${data.avatar[3]}.svg">`);
-    $avatarContainer.append($player, $shirt, $face, $hair, $accessory);
-
-    // Text container
+    // Build text content
     const $container = $('<div></div>');
     const $senderName = $('<p class="sender-name"></p>').text(data.name);
     const $textContainer = $('<p class="text-container"></p>').text(data.message);
-    $msgBox.append($avatarContainer, $container);
     $container.append($senderName, $textContainer);
+
+    $msgBox.append($avatarContainer, $container);
     $(".chat-display .box").append($msgBox);
 
+    // Animate and scroll down
     requestAnimationFrame(() => {
         $msgBox.addClass("show");
     });
-    // Scroll to bottom
     $(".chat-display .box").scrollTop($(".chat-display .box").prop("scrollHeight"));
 });
 
-
+// Handle party player list updates
 socket.on("update_players", (data) => {
     $(".players-container .box").empty();
+
     $.each(data.players, function (uuid, plr) {
-        // Create plr-box
         const $plrBox = $('<div class="plr-box"></div>');
+
+        // Play cool animation
         if (client_data.loadedPlayers[uuid]) {
             $plrBox.css({ transform: "scale(1)" });
         }
-        // Avatar container
-        const $avatarContainer = $('<div class="avatar-container"></div>');
+
+        // Add crown if host
         if (uuid == data.host) {
             const $hostCrown = $('<img class="crown" src="/static/Images/Icons/Host.svg"></img>');
             $plrBox.append($hostCrown);
         }
+
+        // Host only buttons
         if (client_data.playerId == data.host) {
             $("#start-button, #settings-button").removeClass("disabled");
         }
 
-        // Avatar images (replace with dynamic data later)
-        const $player = $(`<img class="player" src="/static/Images/Avatar/Colors/${plr.avatar[0]}.svg">`);
-        const $shirt = $(`<img class="shirt" src="/static/Images/Avatar/Shirt.svg">`);
-        const $face = $(`<img class="face" src="/static/Images/Avatar/Faces/${plr.avatar[1]}.svg">`);
-        const $hair = $(`<img class="hair" src="/static/Images/Avatar/Hairs/${plr.avatar[2]}.svg">`);
-        const $accessory = $(`<img class="accessory" id="player-accessory" src="/static/Images/Avatar/Accessories/${plr.avatar[3]}.svg">`);
-        $avatarContainer.append($player, $shirt, $face, $hair, $accessory);
+        // Avatar display
+        const $avatarContainer = $('<div class="avatar-container"></div>').append(
+            $(`<img class="player" src="${urlColor(plr.avatar[0])}">`),
+            $(`<img class="shirt" src="${urlShirt}">`),
+            $(`<img class="face" src="${urlFace(plr.avatar[1])}">`),
+            $(`<img class="hair" src="${urlHair(plr.avatar[2])}">`),
+            $(`<img class="accessory" src="${urlAccessory(plr.avatar[3])}">`)
+        );
 
-        // Info container
+        // Player info
         const $info = $('<div class="plr-info"></div>');
         const $userName = $('<p class="username"></p>').text(plr.name);
-        const $idText = $('<p class="uuid"></p>').text(`UUID : ${uuid}`);
         if (client_data.playerId == uuid) {
-            const $meTag = $('<span class="meTag"></span>').text("(คุณ)");
-            $userName.append($meTag);
+            $userName.append($('<span class="meTag">(คุณ)</span>'));
         }
-        $plrBox.append($avatarContainer, $info);
+        const $idText = $('<p class="uuid"></p>').text(`UUID : ${uuid}`);
+
         $info.append($userName, $idText);
+        $plrBox.append($avatarContainer, $info);
+
         $(".players-container .box").append($plrBox);
 
+        // Animate new players
         if (!client_data.loadedPlayers[uuid]) {
             client_data.loadedPlayers[uuid] = true;
-            requestAnimationFrame(() => {
-                $plrBox.addClass("show");
-            });
+            requestAnimationFrame(() => $plrBox.addClass("show"));
         }
     });
 });
 
 // ============================
-// MAIN
+// BUTTONS & UI ACTIONS
 // ============================
 
-// Main Buttons
-$("#random-avatar").on("click", () => {
-    randomizeAvatar();
+// Toggle avatar customization menu
+$("#expand-avatar").on("click", () => {
+    $("#expand-avatar").toggleClass("active");
+    $(".pydraw-icon").toggleClass("hide");
 });
 
 
+// Handle avatar part change buttons (color/face/hair/accessory)
+$("#expand-container .item-display").each(function () {
+    const $display = $(this);
+    const id = $display.attr("id"); 
+    const $container = $display.find(".item-container");
+
+    // Cycle avatar part
+    function cycleAvatar() {
+        switch (id) {
+            case "color":
+                client_data.avatar[0] = nextIndex(client_data.avatar[0], colors_amount);
+                setImageWhenLoaded("#player-color", urlColor(client_data.avatar[0]));
+                setImageWhenLoaded("#expand-container #color .player", urlColor(client_data.avatar[0]));
+                break;
+
+            case "face":
+                client_data.avatar[1] = nextIndex(client_data.avatar[1], faces_amount);
+                setImageWhenLoaded("#player-face", urlFace(client_data.avatar[1]));
+                setImageWhenLoaded("#expand-container #face .face", urlFace(client_data.avatar[1]));
+                break;
+
+            case "hair":
+                client_data.avatar[2] = nextIndex(client_data.avatar[2], hairs_amount);
+                setImageWhenLoaded("#player-hair", urlHair(client_data.avatar[2]));
+                setImageWhenLoaded("#expand-container #hair .hair", urlHair(client_data.avatar[2]));
+                break;
+
+            case "accessory":
+                client_data.avatar[3] = nextIndex(client_data.avatar[3], accessories_amount);
+                setImageWhenLoaded("#player-accessory", urlAccessory(client_data.avatar[3]));
+                setImageWhenLoaded("#expand-container #accessory .accessory", urlAccessory(client_data.avatar[3]));
+                break;
+        }
+    }
+    $container.on("click", cycleAvatar);
+});
+
+
+// Random avatar button
+$("#random-avatar").on("click", randomizeAvatar);
+
+// ============================
+// PARTY ACTIONS (Create/Join/Leave)
+// ============================
+
+// Create new party
 $("#create-button").on("click", () => {
     $(".main-page").addClass("disabled");
     $(".loader").addClass("active");
     $(".chat-display .box").empty();
     setPlayerName();
+
     setTimeout(async () => {
         try {
             const res = await axios.post("/create_party", {
@@ -218,19 +283,22 @@ $("#create-button").on("click", () => {
                 avatar: client_data.avatar
             });
             const { party_code, player_id } = res.data;
+
             client_data.playerId = player_id;
             client_data.currentParty = party_code;
-            $(".party-page").removeClass("disabled");
-            $("#party-code").text("รหัสเชิญ : " + party_code)
-            $(".players-container .box").empty();
-            client_data.loadedPlayers = []
+            client_data.loadedPlayers = [];
 
-            // Socket Create
+            $(".party-page").removeClass("disabled");
+            $("#party-code").text("รหัสเชิญ : " + party_code);
+            $(".players-container .box").empty();
+
+            // Join socket room as host
             socket.emit("join_party_room", {
                 party_code: party_code,
                 player_id: player_id,
                 host_name: client_data.playerName,
             });
+
         } catch (err) {
             console.error("Error creating party:", err);
             alert("There was an error creating the party. Please try again.");
@@ -241,18 +309,20 @@ $("#create-button").on("click", () => {
     }, 250);
 });
 
-
+// Join existing party
 $("#join-button").on("click", () => {
-    const partyCode = $("#inviteCode").val().toUpperCase()
+    const partyCode = $("#inviteCode").val().toUpperCase();
     const codeRegex = /^[A-Z0-9]{5}$/;
     if (!codeRegex.test(partyCode)) {
         alert("Please enter a valid 5-character party code (A–Z, 0–9).");
         return;
     }
+
     $(".chat-display .box").empty();
     $(".main-page").addClass("disabled");
     $(".loader").addClass("active");
     setPlayerName();
+
     setTimeout(async () => {
         try {
             const res = await axios.post("/join_party", {
@@ -260,20 +330,23 @@ $("#join-button").on("click", () => {
                 name: client_data.playerName,
                 avatar: client_data.avatar
             });
-            const { player_id, party_host, players } = res.data;
+            const { player_id } = res.data;
+
             client_data.playerId = player_id;
             client_data.currentParty = partyCode;
-            $(".party-page").removeClass("disabled");
-            $("#party-code").text("รหัสเชิญ : " + partyCode)
 
-            // Socket JoinRoom
+            $(".party-page").removeClass("disabled");
+            $("#party-code").text("รหัสเชิญ : " + partyCode);
+
+            // Join socket room as player
             socket.emit("join_party_room", {
                 party_code: partyCode,
                 player_id: client_data.playerId,
                 player_name: client_data.playerName,
             });
+
         } catch (err) {
-            console.error("Error creating party:", err);
+            console.error("Error joining party:", err);
             alert("There was an error joining the party. Please try again.");
             $(".main-page").removeClass("disabled");
         } finally {
@@ -282,7 +355,7 @@ $("#join-button").on("click", () => {
     }, 250);
 });
 
-
+// Copy party code to clipboard
 $("#party-code").on("click", async () => {
     const original = $("#party-code").text();
     const code = original.split(":")[1]?.trim();
@@ -290,22 +363,20 @@ $("#party-code").on("click", async () => {
     if (!code || code === "-----" || $(".code-copied").hasClass("show")) {
         return;
     }
-    await navigator.clipboard.writeText(code).catch(() => { });
+    await navigator.clipboard.writeText(code).catch(() => {});
     $(".code-copied").addClass("show");
-    setTimeout(() => {
-        $(".code-copied").removeClass("show");
-    }, 1000);
+    setTimeout(() => $(".code-copied").removeClass("show"), 1000);
 });
 
-
+// Leave party
 $("#leave-button").on("click", () => {
     const confirmLeave = confirm("Are you sure you want to leave the party?");
     const partyCode = $("#party-code").text().replace("รหัสเชิญ : ", "").trim().toUpperCase();
-    if (!confirmLeave) {
-        return;
-    }
+    if (!confirmLeave) return;
+
     $(".loader").addClass("active");
     $(".party-page").addClass("disabled");
+
     setTimeout(async () => {
         try {
             const res = await axios.post("/leave_party", {
@@ -313,16 +384,18 @@ $("#leave-button").on("click", () => {
                 player_id: client_data.playerId
             });
             if (!res.data.success) throw new Error("Failed to leave");
+
             $(".main-page").removeClass("disabled");
             $("#party-code").text("รหัสเชิญ : ----");
             $(".players-container .box").empty();
-            client_data.loadedPlayers = []
+            client_data.loadedPlayers = [];
 
-            // Socket LeaveRoom
+            // Notify server
             socket.emit("leave_party_room", {
                 party_code: client_data.currentParty,
                 player_name: client_data.playerName,
             });
+
         } catch (err) {
             console.error("Error leaving party:", err);
             alert("There was an error leaving the party. Please try again.");
@@ -337,31 +410,23 @@ $("#leave-button").on("click", () => {
     }, 250);
 });
 
+// ============================
+// CHAT BOX
+// ============================
 
-// Chat Textbox function
+// Send message when Enter is pressed
 $("#chatMsg").on("keydown", function (e) {
     if (e.key === 'Enter') {
         var message = $("#chatMsg").val();
-        if (message.trim() == 0) {
-            return
-        }
+        if (message.trim() == 0) return;
+
         socket.emit("message", {
             custom_class: null,
             party_code: client_data.currentParty,
             name: client_data.playerName,
             avatar: client_data.avatar,
-            msg: message,
+            message: message,
         });
         $("#chatMsg").val('');
-    }
-});
-
-
-// Refresh Confirm
-window.addEventListener("beforeunload", e => {
-    if (!$("#party-page").hasClass("disabled")) {
-        const msg = "Changes you made may not be saved.";
-        e.preventDefault();
-        return msg;
     }
 });

@@ -17,21 +17,36 @@ socketio = SocketIO(app, async_mode="gevent", cors_allowed_origins="*")
 # ============================
 # GLOBALS & SETTINGS
 # ============================
-PARTIES = {}
+PARTIES = {}  # Stores all active parties
+SOCKET_MAP = {}  # Maps socket session id -> (party_code, player_id)
 
 # ============================
 # HELPER FUNCTIONS
 # ============================
 def gen_code():
-    """Generate a unique random 5-character party code."""
+    """
+    Generate a unique random 5-character party code using uppercase letters and digits.
+    
+    Returns:
+        str: A 5-character unique party code.
+    """
     while True:
         code = ''.join(random.choices(ascii_uppercase + digits, k=5))
         if code not in PARTIES:
             return code
 
 
-def make_player(name,avatar_items):
-    """Create a new player entry and return (id, player_dict)."""
+def make_player(name, avatar_items):
+    """
+    Create a new player dictionary with a unique ID.
+
+    Args:
+        name (str): The player's display name.
+        avatar_items (list): List of 4 integers representing avatar parts.
+
+    Returns:
+        tuple: (player_id (str), player_data (dict))
+    """
     playerId = str(uuid.uuid4().hex[:20])
     return playerId, {
         "name": name,
@@ -41,30 +56,50 @@ def make_player(name,avatar_items):
 
 
 def update_plrList(data):
-    """Socket to Handle player list refreshing."""
+    """
+    Emit the updated list of players in a party to all sockets in the room.
+
+    Args:
+        data (dict): Contains 'party_code' key for the room to update.
+    """
     party_code = data.get("party_code")
-    value = {
-        "host" : PARTIES[party_code]["Host"],
-        "players": PARTIES[party_code]["Players"]
-    }
-    emit("update_players", value, room=party_code)
+    if party_code in PARTIES:
+        value = {
+            "host": PARTIES[party_code]["Host"],
+            "players": PARTIES[party_code]["Players"]
+        }
+        emit("update_players", value, room=party_code)
 
 # ============================
-# ROUTES & SOCKETS
+# ROUTES
 # ============================
 @app.route("/")
 def home():
-    """Render index.html page."""
+    """
+    Render the main index page.
+
+    Returns:
+        str: Rendered HTML page.
+    """
     return render_template("index.html")
 
 
 @app.route("/create_party", methods=["POST"])
 def create_party():
-    """Create a new party with a unique code and return host info."""
+    """
+    Create a new party and assign the creator as the host.
+
+    JSON Request:
+        name: str
+        avatar: list[int]
+
+    Returns:
+        JSON: party_code and player_id
+    """
     player_name = request.json.get("name")
     player_avatar = request.json.get("avatar")
     party_code = gen_code()
-    player_id, player_data = make_player(player_name,player_avatar)
+    player_id, player_data = make_player(player_name, player_avatar)
 
     PARTIES[party_code] = {
         "Host": player_id,
@@ -79,7 +114,17 @@ def create_party():
 
 @app.route("/join_party", methods=["POST"])
 def join_party():
-    """Join an existing party by code."""
+    """
+    Add a player to an existing party.
+
+    JSON Request:
+        code: str (party code)
+        name: str
+        avatar: list[int]
+
+    Returns:
+        JSON: player_id, host info, and current players in party.
+    """
     code = request.json.get("code")
     player_name = request.json.get("name")
     player_avatar = request.json.get("avatar")
@@ -87,10 +132,7 @@ def join_party():
     if code not in PARTIES:
         return jsonify({"error": "Party not found"}), 404
 
-    # Create new player
     player_id, player_data = make_player(player_name, player_avatar)
-
-    # Add to party
     PARTIES[code]["Players"][player_id] = player_data
 
     return jsonify({
@@ -106,7 +148,16 @@ def join_party():
 
 @app.route("/leave_party", methods=["POST"])
 def leave_party():
-    """Remove a player from a party and handle host/cleanup."""
+    """
+    Remove a player from a party when they explicitly leave.
+
+    JSON Request:
+        code: str
+        player_id: str
+
+    Returns:
+        JSON: success status and party_deleted flag if party becomes empty.
+    """
     code = request.json.get("code")
     player_id = request.json.get("player_id")
 
@@ -115,7 +166,6 @@ def leave_party():
     if player_id not in PARTIES[code]["Players"]:
         return jsonify({"error": "Player not in party"}), 400
 
-    # Remove player
     del PARTIES[code]["Players"][player_id]
 
     # Delete party if empty
@@ -129,57 +179,92 @@ def leave_party():
 
     return jsonify({"success": True})
 
-
+# ============================
+# SOCKET HANDLERS
+# ============================
 @socketio.on("message")
 def handle_message(data):
-    """Socket to Handle chat messages."""
+    """
+    Handle incoming chat messages and broadcast to the party.
+
+    Args (data dict):
+        custom_class: optional string (e.g., 'system')
+        party_code: str
+        name: str
+        avatar: list[int]
+        message: str
+
+    Emits:
+        message: dict containing custom_class, name, avatar, and message
+    """
     custom_class = data.get("custom_class")
     party_code = data.get("party_code")
     name = data.get("name")
     avatar = data.get("avatar")
-    msg = data.get("msg")
+    message = data.get("message")
 
     value = {
         "custom_class": custom_class,
         "name": name,
         "avatar": avatar,
-        "message": msg
+        "message": message
     }
     emit("message", value, room=party_code)
 
 
 @socketio.on("join_party_room")
 def handle_join_party(data):
-    """Put player inside socket room when joined party."""
+    """
+    Join a player to a Socket.IO room for the party.
+
+    Args (data dict):
+        party_code: str
+        player_id: str
+        player_name: str (optional)
+        host_name: str (optional)
+
+    Stores:
+        SOCKET_MAP[sid] = (party_code, player_id)
+    
+    Emits:
+        message: system message for join/create
+        update_players: refreshed player list
+    """
     party_code = data.get("party_code")
     player_id = data.get("player_id")
-    host_name = data.get("host_name")
-    player_name = data.get("player_name")
+    player_name = data.get("player_name") or data.get("host_name")
+
     if party_code in PARTIES and player_id in PARTIES[party_code]["Players"]:
         join_room(party_code)
+        SOCKET_MAP[request.sid] = (party_code, player_id)
         update_plrList(data)
-        if player_name:
-            value = {
-                "custom_class": "join",
-                "name": player_name,
-                "avatar": [1, 1, 1, 1],
-                "message": f"{player_name} เข้าร่วมปาร์ตี้!"
-            }
-        elif host_name:
-            value = {
-                "custom_class": "create",
-                "name": host_name,
-                "avatar": [1, 1, 1, 1],
-                "message": f"{host_name} สร้างปาร์ตี้!"
-            }
+
+        msg_type = "create" if "host_name" in data else "join"
+        value = {
+            "custom_class": msg_type,
+            "name": player_name,
+            "avatar": PARTIES[party_code]["Players"][player_id]["avatar"],
+            "message": f"{player_name} {'สร้าง' if msg_type=='create' else 'เข้าร่วม'}ปาร์ตี้!"
+        }
         emit("message", value, room=party_code)
 
 
 @socketio.on("leave_party_room")
 def handle_leave_party(data):
-    """Kick player outside socket room when left party."""
+    """
+    Explicitly remove a player from a Socket.IO room.
+
+    Args (data dict):
+        party_code: str
+        player_name: str
+
+    Emits:
+        message: system message for leaving
+        update_players: refreshed player list
+    """
     party_code = data.get("party_code")
     player_name = data.get("player_name")
+
     if party_code in PARTIES:
         value = {
             "custom_class": "left",
@@ -191,6 +276,41 @@ def handle_leave_party(data):
         leave_room(party_code)
         update_plrList(data)
 
+
+@socketio.on("disconnect")
+def handle_disconnect():
+    """
+    Handle socket disconnection (tab closed or network lost).
+
+    Removes the player from the party if present, reassigns host if necessary,
+    and emits updated player list to remaining players.
+    """
+    sid = request.sid
+    if sid not in SOCKET_MAP:
+        return
+
+    party_code, player_id = SOCKET_MAP.pop(sid)
+
+    if party_code in PARTIES and player_id in PARTIES[party_code]["Players"]:
+        player_name = PARTIES[party_code]["Players"][player_id]["name"]
+        del PARTIES[party_code]["Players"][player_id]
+
+        # Reassign host or delete party if empty
+        if PARTIES[party_code]["Host"] == player_id:
+            if PARTIES[party_code]["Players"]:
+                PARTIES[party_code]["Host"] = next(iter(PARTIES[party_code]["Players"]))
+            else:
+                del PARTIES[party_code]
+                return
+
+        value = {
+            "custom_class": "left",
+            "name": player_name,
+            "avatar": [1, 1, 1, 1],
+            "message": f"{player_name} ออกจากปาร์ตี้!"
+        }
+        emit("message", value, room=party_code)
+        update_plrList({"party_code": party_code})
 
 # ============================
 # MAIN
