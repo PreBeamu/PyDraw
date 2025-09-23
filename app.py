@@ -5,7 +5,6 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 from string import ascii_uppercase, digits
 import random
 import uuid
-from time import sleep
 monkey.patch_all()
 
 # ============================
@@ -30,6 +29,7 @@ def gen_code():
         if code not in PARTIES:
             return code
 
+
 def make_player(name,avatar_items):
     """Create a new player entry and return (id, player_dict)."""
     playerId = str(uuid.uuid4().hex[:20])
@@ -39,6 +39,16 @@ def make_player(name,avatar_items):
         "score": 0,
     }
 
+
+def update_plrList(data):
+    """Socket to Handle player list refreshing."""
+    party_code = data.get("party_code")
+    value = {
+        "host" : PARTIES[party_code]["Host"],
+        "players": PARTIES[party_code]["Players"]
+    }
+    emit("update_players", value, room=party_code)
+
 # ============================
 # ROUTES & SOCKETS
 # ============================
@@ -46,6 +56,7 @@ def make_player(name,avatar_items):
 def home():
     """Render index.html page."""
     return render_template("index.html")
+
 
 @app.route("/create_party", methods=["POST"])
 def create_party():
@@ -64,6 +75,7 @@ def create_party():
         "party_code": party_code,
         "player_id": player_id,
     })
+
 
 @app.route("/join_party", methods=["POST"])
 def join_party():
@@ -91,6 +103,7 @@ def join_party():
         "players": PARTIES[code]["Players"]
     })
 
+
 @app.route("/leave_party", methods=["POST"])
 def leave_party():
     """Remove a player from a party and handle host/cleanup."""
@@ -116,6 +129,7 @@ def leave_party():
 
     return jsonify({"success": True})
 
+
 @socketio.on("message")
 def handle_message(data):
     """Socket to Handle chat messages."""
@@ -125,24 +139,58 @@ def handle_message(data):
     avatar = data.get("avatar")
     msg = data.get("msg")
 
-    value = {"custom_class": custom_class, "name": name, "avatar": avatar, "message": msg}
+    value = {
+        "custom_class": custom_class,
+        "name": name,
+        "avatar": avatar,
+        "message": msg
+    }
     emit("message", value, room=party_code)
+
 
 @socketio.on("join_party_room")
 def handle_join_party(data):
     """Put player inside socket room when joined party."""
     party_code = data.get("party_code")
     player_id = data.get("player_id")
+    host_name = data.get("host_name")
+    player_name = data.get("player_name")
     if party_code in PARTIES and player_id in PARTIES[party_code]["Players"]:
         join_room(party_code)
-        
+        update_plrList(data)
+        if player_name:
+            value = {
+                "custom_class": "join",
+                "name": player_name,
+                "avatar": [1, 1, 1, 1],
+                "message": f"{player_name} เข้าร่วมปาร์ตี้!"
+            }
+        elif host_name:
+            value = {
+                "custom_class": "create",
+                "name": host_name,
+                "avatar": [1, 1, 1, 1],
+                "message": f"{host_name} สร้างปาร์ตี้!"
+            }
+        emit("message", value, room=party_code)
+
+
 @socketio.on("leave_party_room")
 def handle_leave_party(data):
     """Kick player outside socket room when left party."""
     party_code = data.get("party_code")
-    player_id = data.get("player_id")
+    player_name = data.get("player_name")
     if party_code in PARTIES:
+        value = {
+            "custom_class": "left",
+            "name": player_name,
+            "avatar": [1, 1, 1, 1],
+            "message": f"{player_name} ออกจากปาร์ตี้!"
+        }
+        emit("message", value, room=party_code)
         leave_room(party_code)
+        update_plrList(data)
+
 
 # ============================
 # MAIN

@@ -37,7 +37,8 @@ let client_data = {
     "playerId": "xxxx",
     "playerName": "Player",
     "avatar": [1, 1, 1, 1],
-    "currentParty": null
+    "currentParty": null,
+    "loadedPlayers": [],
 };
 
 // ============================
@@ -74,6 +75,7 @@ function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+
 function setPlayerName() {
     var userName = $("#userName").val();
     if (userName.trim() == 0) {
@@ -83,6 +85,7 @@ function setPlayerName() {
     }
     client_data.playerName = userName
 }
+
 
 function setImageWhenLoaded(selector, url) {
     const img = new Image();
@@ -118,8 +121,10 @@ socket.on("message", (data) => {
         $msgBox.addClass("system")
         $msgBox.addClass(data.custom_class)
     }
+
     // Avatar container
     const $avatarContainer = $('<div class="avatar-container"></div>');
+
     // Avatar images (replace with dynamic data later)
     const $player = $(`<img class="player" src="/static/Images/Avatar/Colors/${data.avatar[0]}.svg">`);
     const $shirt = $(`<img class="shirt" src="/static/Images/Avatar/Shirt.svg">`);
@@ -127,6 +132,7 @@ socket.on("message", (data) => {
     const $hair = $(`<img class="hair" src="/static/Images/Avatar/Hairs/${data.avatar[2]}.svg">`);
     const $accessory = $(`<img class="accessory" id="player-accessory" src="/static/Images/Avatar/Accessories/${data.avatar[3]}.svg">`);
     $avatarContainer.append($player, $shirt, $face, $hair, $accessory);
+
     // Text container
     const $container = $('<div></div>');
     const $senderName = $('<p class="sender-name"></p>').text(data.name);
@@ -134,11 +140,60 @@ socket.on("message", (data) => {
     $msgBox.append($avatarContainer, $container);
     $container.append($senderName, $textContainer);
     $(".chat-display .box").append($msgBox);
+
     requestAnimationFrame(() => {
         $msgBox.addClass("show");
     });
     // Scroll to bottom
     $(".chat-display .box").scrollTop($(".chat-display .box").prop("scrollHeight"));
+});
+
+
+socket.on("update_players", (data) => {
+    $(".players-container .box").empty();
+    $.each(data.players, function (uuid, plr) {
+        // Create plr-box
+        const $plrBox = $('<div class="plr-box"></div>');
+        if (client_data.loadedPlayers[uuid]) {
+            $plrBox.css({ transform: "scale(1)" });
+        }
+        // Avatar container
+        const $avatarContainer = $('<div class="avatar-container"></div>');
+        if (uuid == data.host) {
+            const $hostCrown = $('<img class="crown" src="/static/Images/Icons/Host.svg"></img>');
+            $plrBox.append($hostCrown);
+        }
+        if (client_data.playerId == data.host) {
+            $("#start-button, #settings-button").removeClass("disabled");
+        }
+
+        // Avatar images (replace with dynamic data later)
+        const $player = $(`<img class="player" src="/static/Images/Avatar/Colors/${plr.avatar[0]}.svg">`);
+        const $shirt = $(`<img class="shirt" src="/static/Images/Avatar/Shirt.svg">`);
+        const $face = $(`<img class="face" src="/static/Images/Avatar/Faces/${plr.avatar[1]}.svg">`);
+        const $hair = $(`<img class="hair" src="/static/Images/Avatar/Hairs/${plr.avatar[2]}.svg">`);
+        const $accessory = $(`<img class="accessory" id="player-accessory" src="/static/Images/Avatar/Accessories/${plr.avatar[3]}.svg">`);
+        $avatarContainer.append($player, $shirt, $face, $hair, $accessory);
+
+        // Info container
+        const $info = $('<div class="plr-info"></div>');
+        const $userName = $('<p class="username"></p>').text(plr.name);
+        const $idText = $('<p class="uuid"></p>').text(`UUID : ${uuid}`);
+        if (client_data.playerId == uuid) {
+            const $meTag = $('<span class="meTag"></span>').text("(คุณ)");
+            $userName.append($meTag);
+        }
+        $plrBox.append($avatarContainer, $info);
+        $info.append($userName, $idText);
+        $(".players-container .box").append($plrBox);
+
+        if (!client_data.loadedPlayers[uuid]) {
+            client_data.loadedPlayers[uuid] = true;
+            requestAnimationFrame(() => {
+                $plrBox.addClass("show");
+            });
+        }
+    });
 });
 
 // ============================
@@ -150,10 +205,12 @@ $("#random-avatar").on("click", () => {
     randomizeAvatar();
 });
 
+
 $("#create-button").on("click", () => {
     $(".main-page").addClass("disabled");
     $(".loader").addClass("active");
     $(".chat-display .box").empty();
+    setPlayerName();
     setTimeout(async () => {
         try {
             const res = await axios.post("/create_party", {
@@ -161,22 +218,18 @@ $("#create-button").on("click", () => {
                 avatar: client_data.avatar
             });
             const { party_code, player_id } = res.data;
-            setPlayerName();
             client_data.playerId = player_id;
             client_data.currentParty = party_code;
             $(".party-page").removeClass("disabled");
             $("#party-code").text("รหัสเชิญ : " + party_code)
+            $(".players-container .box").empty();
+            client_data.loadedPlayers = []
+
             // Socket Create
             socket.emit("join_party_room", {
                 party_code: party_code,
                 player_id: player_id,
-            });
-            socket.emit("message", {
-                custom_class: "create",
-                party_code: client_data.currentParty,
-                name: client_data.playerName,
-                avatar: client_data.avatar,
-                msg: `${client_data.playerName} สร้างปาร์ตี้!`,
+                host_name: client_data.playerName,
             });
         } catch (err) {
             console.error("Error creating party:", err);
@@ -188,6 +241,7 @@ $("#create-button").on("click", () => {
     }, 250);
 });
 
+
 $("#join-button").on("click", () => {
     const partyCode = $("#inviteCode").val().toUpperCase()
     const codeRegex = /^[A-Z0-9]{5}$/;
@@ -198,6 +252,7 @@ $("#join-button").on("click", () => {
     $(".chat-display .box").empty();
     $(".main-page").addClass("disabled");
     $(".loader").addClass("active");
+    setPlayerName();
     setTimeout(async () => {
         try {
             const res = await axios.post("/join_party", {
@@ -206,22 +261,16 @@ $("#join-button").on("click", () => {
                 avatar: client_data.avatar
             });
             const { player_id, party_host, players } = res.data;
-            setPlayerName();
             client_data.playerId = player_id;
             client_data.currentParty = partyCode;
             $(".party-page").removeClass("disabled");
             $("#party-code").text("รหัสเชิญ : " + partyCode)
+
             // Socket JoinRoom
             socket.emit("join_party_room", {
                 party_code: partyCode,
                 player_id: client_data.playerId,
-            });
-            socket.emit("message", {
-                custom_class: "join",
-                party_code: client_data.currentParty,
-                name: client_data.playerName,
-                avatar: client_data.avatar,
-                msg: `${client_data.playerName} เข้าร่วมปาร์ตี้!`,
+                player_name: client_data.playerName,
             });
         } catch (err) {
             console.error("Error creating party:", err);
@@ -233,7 +282,7 @@ $("#join-button").on("click", () => {
     }, 250);
 });
 
-// Party Buttons
+
 $("#party-code").on("click", async () => {
     const original = $("#party-code").text();
     const code = original.split(":")[1]?.trim();
@@ -247,6 +296,7 @@ $("#party-code").on("click", async () => {
         $(".code-copied").removeClass("show");
     }, 1000);
 });
+
 
 $("#leave-button").on("click", () => {
     const confirmLeave = confirm("Are you sure you want to leave the party?");
@@ -265,17 +315,13 @@ $("#leave-button").on("click", () => {
             if (!res.data.success) throw new Error("Failed to leave");
             $(".main-page").removeClass("disabled");
             $("#party-code").text("รหัสเชิญ : ----");
+            $(".players-container .box").empty();
+            client_data.loadedPlayers = []
+
             // Socket LeaveRoom
             socket.emit("leave_party_room", {
-                party_code: client_data.partyCode,
-                player_id: client_data.playerId,
-            });
-            socket.emit("message", {
-                custom_class: "left",
                 party_code: client_data.currentParty,
-                name: client_data.playerName,
-                avatar: client_data.avatar,
-                msg: `${client_data.playerName} ออกจากปาร์ตี้!`,
+                player_name: client_data.playerName,
             });
         } catch (err) {
             console.error("Error leaving party:", err);
@@ -290,6 +336,7 @@ $("#leave-button").on("click", () => {
         }
     }, 250);
 });
+
 
 // Chat Textbox function
 $("#chatMsg").on("keydown", function (e) {
@@ -308,6 +355,7 @@ $("#chatMsg").on("keydown", function (e) {
         $("#chatMsg").val('');
     }
 });
+
 
 // Refresh Confirm
 window.addEventListener("beforeunload", e => {

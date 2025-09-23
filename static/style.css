@@ -471,6 +471,9 @@ body,
   color: #ffffff;
   transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
 }
+#start-button.disabled {
+  display: none;
+}
 #start-button:hover {
   background: #3b3c64;
   transform: scale(0.95);
@@ -497,6 +500,9 @@ body,
   white-space: nowrap;
   color: #ffffff;
   transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+#settings-button.disabled {
+  display: none;
 }
 #settings-button:hover {
   background: #555555;
@@ -567,6 +573,18 @@ body,
   box-sizing: border-box;
   border: 2px solid #d5d5d5;
   background-color: #eeeeee;
+  transform: scaleX(0);
+  transition: all 0.15s cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+.plr-box.show {
+  transform: scaleX(1);
+}
+.plr-box .crown {
+  position: absolute;
+  height: 32.5px;
+  width: 32.5px;
+  z-index: 1;
+  transform: translate(-0.55rem, -1.25rem);
 }
 .plr-box .avatar-container {
   all: unset;
@@ -584,8 +602,15 @@ body,
   background: #ebebeb;
 }
 .plr-info .username {
+  display: flex;
+  align-items: center;
+  gap: 3px;
   font-size: 1.15rem;
   opacity: 75%;
+}
+.meTag {
+  font-size: 0.9rem;
+  opacity: 80%;
 }
 .plr-info .uuid {
   font-size: 0.75rem;
