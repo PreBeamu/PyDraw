@@ -1,12 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&display=swap");
-/* Main-Menu */
-@import url("../static/Css/Main/Avatar.css");
-@import url("../static/Css/Main/Inputs.css");
-/* Party-Menu */
-@import url("../static/Css/Party/Header.css");
-@import url("../static/Css/Party/Party.css");
+/* Main */
+@import url("CSS/Main/Avatar.css");
+@import url("CSS/Main/Inputs.css");
+/* Party */
+@import url("CSS/Party/Header.css");
+@import url("CSS/Party/Party.css");
 /* Misc */
-@import url("../static/Css/Misc/Cordinates.css");
+@import url("CSS/Misc/Cordinates.css");;
 
 /* ==============================
    BASE SETUP
