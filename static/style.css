@@ -1,4 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&display=swap");
+/* Main-Menu */
+@import url("StyleSheets/mainMenu/Avatar.css");
+@import url("StyleSheets/mainMenu/Inputs.css");
+/* Party-Menu */
+@import url("StyleSheets/partyMenu/Header.css");
+@import url("StyleSheets/partyMenu/Party.css");
+/* Others */
+@import url("StyleSheets/others/Cordinates.css");
 
 /* ==============================
    BASE SETUP
