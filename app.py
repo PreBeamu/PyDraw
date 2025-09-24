@@ -103,7 +103,12 @@ def create_party():
 
     PARTIES[party_code] = {
         "Host": player_id,
-        "Players": {player_id: player_data}
+        "Players": {player_id: player_data},
+        "Gamerules": {
+            "Rounds" : 1,
+            "DrawTime" : 5,
+            "GuessLimit" : 0,
+        }
     }
 
     return jsonify({

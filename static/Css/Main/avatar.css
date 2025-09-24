@@ -1,0 +1,184 @@
+/* ==============================
+   AVATAR CONTAINER
+============================== */
+.avatar-container {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 1rem;
+  border: 5px solid black;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: end;
+  background: #ebebeb;
+  transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+/* ==============================
+   CUSTOMIZE AVATAR BUTTON
+============================== */
+#customize-avatar {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 1rem;
+  pointer-events: all;
+  z-index: 100;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+#customize-avatar .icon {
+  position: absolute;
+  width: 75%;
+  height: 75%;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Hover & Active states */
+#customize-avatar:hover {
+  opacity: 100%;
+}
+
+#customize-avatar:hover ~ .avatar-container {
+  transform: scale(0.85);
+}
+
+#customize-avatar:active {
+  transform: scale(1.1);
+}
+
+#customize-avatar:active ~ .avatar-container {
+  transform: scale(1);
+}
+
+/* ==============================
+   CUSTOMIZE MENU
+============================== */
+#customize-avatar.active + #customize-container {
+  transform: scale(1);
+}
+
+#customize-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: scale(0);
+  transition: transform 0.25s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+/* Item display containers */
+.item-display {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Labels above items */
+.item-display p {
+  position: absolute;
+  width: 150px;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  opacity: 75%;
+  transform: translateY(-3rem);
+}
+
+/* Position specific item displays */
+.item-display#color {
+  transform: translate(-12rem, 0);
+}
+.item-display#face {
+  transform: translate(12rem, 0);
+}
+.item-display#hair {
+  transform: translate(-7rem, 0);
+}
+.item-display#accessory {
+  transform: translate(7rem, 0);
+}
+
+/* Item containers */
+.item-display .item-container {
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  border-radius: 0.75rem;
+  border: 3.5px solid black;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: end;
+  background: #ebebeb;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Hover & active states for items */
+.item-display .item-container:hover {
+  transform: scale(0.95);
+}
+.item-display .item-container:active {
+  transform: scale(1.05);
+  transition: none;
+}
+
+.item-display .item-container .icon {
+  position: absolute;
+  width: 105%;
+  height: 105%;
+  background-color: #000000aa;
+  opacity: 0%;
+  align-self: center;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.item-display .item-container:hover .icon {
+  opacity: 80%;
+}
+
+/* ==============================
+   RANDOM AVATAR BUTTON
+============================== */
+#random-avatar {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  transform: translate(3rem, 3rem);
+  border-radius: 50%;
+  border: 3.5px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  z-index: 100;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+#random-avatar .icon {
+  width: 50%;
+  height: 50%;
+  opacity: 75%;
+}
+
+/* Hover & Active states */
+#random-avatar:hover {
+  background: #a4a4a4;
+}
+#random-avatar:active {
+  transform: translate(3rem, 3rem) scale(0.9) rotate(360deg);
+  transition: none;
+}
+#random-avatar:active ~ .avatar-container {
+  transform: scale(0.85);
+}

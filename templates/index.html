@@ -58,10 +58,10 @@
     </div>
     <div class="input-container">
       <input type="text" id="userName" maxlength="20" placeholder="ชื่อผู้เล่น" />
-      <button class="button" id="create-button">สร้างห้อง</button>
+      <button id="create-button" style="--btn-color: #3c3e5e;">สร้างห้อง</button>
       <div class="join-container">
         <input type="text" id="inviteCode" maxlength="5" placeholder="รหัสเชิญ" />
-        <button class="button" id="join-button">เข้าร่วม</button>
+        <button id="join-button" style="--btn-color: #4f3c5e;">เข้าร่วม</button>
       </div>
     </div>
   </div>
@@ -76,17 +76,22 @@
           <img class="icon" src="/static/Images/Icons/Leave.svg" />
           <span>ออก</span>
         </button>
-        <button class="disabled" id="start-button">
+        <button id="return-button" class="hidden">
+          <img class="icon" src="/static/Images/Icons/Leave.svg" />
+          <span>กลับ</span>
+        </button>
+        <button id="start-button">
           <img class="icon" src="/static/Images/Icons/Start.svg" />
           <span>เริ่ม</span>
         </button>
-        <button class="disabled" id="settings-button">
+        <button id="settings-button">
           <img class="icon" src="/static/Images/Icons/Settings.svg" />
           <span>ตั้งค่า</span>
         </button>
       </div>
     </div>
     <div class="party-container">
+      <div class="transition-div"></div>
       <div class="players-container">
         <div class="box"></div>
       </div>
@@ -96,6 +101,7 @@
         </div>
         <input type="text" id="chatMsg" placeholder="ข้อความ.." />
       </div>
+      <div class="settings-container"></div>
     </div>
   </div>
 

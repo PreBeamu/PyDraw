@@ -1,0 +1,70 @@
+/* ==============================
+   INPUTS & BUTTONS
+============================== */
+.input-container {
+  position: absolute;
+  width: 250px;
+  transform: translateY(9.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Text inputs */
+.input-container input[type="text"] {
+  width: 200px;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.15rem;
+  text-align: center;
+  border: 3px solid #b1b1b1;
+  border-radius: 15px;
+  box-sizing: border-box;
+  margin-bottom: 1.2rem;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Buttons inside input container */
+.input-container button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.25rem;
+  border-radius: 6px;
+  border: 3px solid black;
+  background: var(--btn-color);
+  color: white;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.input-container button:hover {
+  filter: brightness(75%);
+}
+.input-container button:active {
+  transform: scale(0.925);
+  transition: none;
+}
+
+/* ==============================
+   JOIN CONTAINER
+============================== */
+.join-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.25rem;
+}
+
+#inviteCode {
+  width: 58.5%;
+  margin-bottom: 0;
+  border-radius: 6px;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+}
+
+.join-container button {
+  width: 40%;
+}

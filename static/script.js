@@ -96,30 +96,30 @@ function setImageWhenLoaded(selector, url) {
 
 // Save avatar data as JSON in localStorage
 function saveAvatar() {
-  localStorage.setItem("avatar", JSON.stringify(client_data.avatar));
+    localStorage.setItem("avatar", JSON.stringify(client_data.avatar));
 }
 
 // If avatar data exists in localStorage load them
 function loadAvatar() {
-  const saved = localStorage.getItem("avatar");
-  if (saved) {
-    client_data.avatar = JSON.parse(saved);
+    const saved = localStorage.getItem("avatar");
+    if (saved) {
+        client_data.avatar = JSON.parse(saved);
 
-    // Apply Images
-    setImageWhenLoaded("#player-color", urlColor(client_data.avatar[0]));
-    setImageWhenLoaded("#customize-container #color .player", urlColor(client_data.avatar[0]));
+        // Apply Images
+        setImageWhenLoaded("#player-color", urlColor(client_data.avatar[0]));
+        setImageWhenLoaded("#customize-container #color .player", urlColor(client_data.avatar[0]));
 
-    setImageWhenLoaded("#player-face", urlFace(client_data.avatar[1]));
-    setImageWhenLoaded("#customize-container #face .face", urlFace(client_data.avatar[1]));
+        setImageWhenLoaded("#player-face", urlFace(client_data.avatar[1]));
+        setImageWhenLoaded("#customize-container #face .face", urlFace(client_data.avatar[1]));
 
-    setImageWhenLoaded("#player-hair", urlHair(client_data.avatar[2]));
-    setImageWhenLoaded("#customize-container #hair .hair", urlHair(client_data.avatar[2]));
+        setImageWhenLoaded("#player-hair", urlHair(client_data.avatar[2]));
+        setImageWhenLoaded("#customize-container #hair .hair", urlHair(client_data.avatar[2]));
 
-    setImageWhenLoaded("#player-accessory", urlAccessory(client_data.avatar[3]));
-    setImageWhenLoaded("#customize-container #accessory .accessory", urlAccessory(client_data.avatar[3]));
-  } else {
-    randomizeAvatar();
-  }
+        setImageWhenLoaded("#player-accessory", urlAccessory(client_data.avatar[3]));
+        setImageWhenLoaded("#customize-container #accessory .accessory", urlAccessory(client_data.avatar[3]));
+    } else {
+        randomizeAvatar();
+    }
 }
 
 // Randomize avatar parts and update client_data
@@ -145,7 +145,7 @@ function randomizeAvatar() {
 
 // Return next index in cycle (1 → max, goes back to 1)
 function nextIndex(current, max) {
-  return current >= max ? 1 : current + 1;
+    return current >= max ? 1 : current + 1;
 }
 
 // ============================
@@ -208,7 +208,7 @@ socket.on("update_players", (data) => {
 
         // Host only buttons
         if (client_data.playerId == data.host) {
-            $("#start-button, #settings-button").removeClass("disabled");
+            $("#start-button, #settings-button").removeClass("hidden");
         }
 
         // Avatar display
@@ -243,7 +243,8 @@ socket.on("update_players", (data) => {
 
 // Run when DOM is ready
 $(document).ready(function () {
-  loadAvatar();
+    loadAvatar();
+    $("#return-button").hide()
 });
 
 // ============================
@@ -255,11 +256,10 @@ $("#customize-avatar").on("click", () => {
     $("#customize-avatar").toggleClass("active");
 });
 
-
 // Handle avatar part change buttons (color/face/hair/accessory)
 $("#customize-container .item-display").each(function () {
     const $display = $(this);
-    const id = $display.attr("id"); 
+    const id = $display.attr("id");
     const $container = $display.find(".item-container");
 
     // Cycle avatar part
@@ -293,7 +293,6 @@ $("#customize-container .item-display").each(function () {
     }
     $container.on("click", cycleAvatar);
 });
-
 
 // Random avatar button
 $("#random-avatar").on("click", randomizeAvatar);
@@ -398,9 +397,21 @@ $("#party-code").on("click", async () => {
     if (!code || code === "-----" || $(".code-copied").hasClass("show")) {
         return;
     }
-    await navigator.clipboard.writeText(code).catch(() => {});
+    await navigator.clipboard.writeText(code).catch(() => { });
     $(".code-copied").addClass("show");
     setTimeout(() => $(".code-copied").removeClass("show"), 1000);
+});
+
+// Settings button
+$("#settings-button").on("click", () => {
+    $(".transition-div").addClass("fill")
+    $("#start-button, #settings-button, #leave-button").addClass("hidden")
+    setTimeout(() => {
+        $(".players-container, .chat-container").hide();
+        $(".settings-container, #return-button").show();
+        $("#return-button").removeClass("hidden");
+        $(".transition-div").removeClass("fill")
+    }, 500);
 });
 
 // Leave party
@@ -410,8 +421,8 @@ $("#leave-button").on("click", () => {
     if (!confirmLeave) return;
 
     $(".loader").addClass("active");
-    $(".party-page").addClass("disabled");
     $("#customize-avatar").removeClass("active");
+    $(".party-page").addClass("disabled");
 
     setTimeout(async () => {
         try {
