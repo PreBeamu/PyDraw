@@ -54,10 +54,43 @@ def make_player(name, avatar_items):
         "score": 0,
     }
 
+
 def score_update(score, time_max, time_remain, answered):
-    """update score based on many factors"""
+    """
+    update score based on time and people who have answered
+
+    Args:
+        score (int): the score before this update.
+        time_max (int): total time of the round (seconds)
+        time_remain (int): total time left in said round (seconds)
+        answered (int: default 0) total people that have answered this picture
+
+    Returns:
+        int: the new update score
+    """
     score = score + ((time_remain // time_max) * 1000) + (1 // (answered + 1)) * 450
-    return score
+    return int(score)
+
+def get_top_three(playerId):
+    """
+    idk what the player format just yet so please fix
+    because it will 100% break
+
+    Args:
+        playerId{?} (tuple?):
+                playerId = str(uuid.uuid4().hex[:20])
+            return playerId, {
+                "name": name,
+                "avatar": avatar_items,
+                "score": 0,
+                ^ this format ig
+    return
+        list: [{firstplace_score}, {secondplace_score}, {threeplace_score}]
+    }
+
+    """
+    three = sorted(playerId, key=lambda tres: tres["score"], reverse=True)
+    return three[:3]
 
 def update_plrList(data):
     """
