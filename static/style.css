@@ -139,7 +139,7 @@ body,
   position: absolute;
   width: 450px;
   filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25));
-  transform: translateY(-10rem);
+  transform: translateY(-9.5rem);
   transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
   pointer-events: none;
   z-index: 5;
@@ -263,38 +263,37 @@ body,
   transform: translate(0%, -10%);
 }
 
-#expand-avatar {
+#customize-avatar {
   position: absolute;
-  width: 50px;
-  height: 30px;
-  transform: translateY(-3.5rem);
-  border-radius: 5px;
-  border: 3.5px solid black;
+  width: 100px;
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: white;
+  opacity: 0%;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 1rem;
   pointer-events: all;
+  z-index: 100;
   transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
 }
-#expand-avatar .icon {
+#customize-avatar .icon {
   position: absolute;
-  width: 25px;
-  height: 25px;
-  opacity: 75%;
-  transform: translateY(-0.3rem);
+  width: 75%;
+  height: 75%;
   transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
 }
-#expand-avatar:hover {
-  background: #a4a4a4;
-  transform: translateY(-3.75rem);
+#customize-avatar:hover {
+  opacity: 100%;
 }
-#expand-avatar:hover .icon {
-  transform: translateY(-0.2rem);
+#customize-avatar:hover ~ .avatar-container {
+  transform: scale(0.85);
 }
-#expand-avatar:active {
-  transform: translateY(-3.6rem);
-  transition: none;
+#customize-avatar:active {
+  transform: scale(1.1);
+}
+#customize-avatar:active ~ .avatar-container {
+  transform: scale(1);
 }
 
 /* Manually Dress-up */
@@ -304,23 +303,17 @@ body,
   transform: translateY(-8.25rem) scale(1.5);
 }
 
-#expand-avatar.active + #expand-container {
+#customize-avatar.active + #customize-container {
   transform: scale(1);
 }
-#expand-avatar.active .icon {
-  transform: translateY(-0.3rem) rotate(180deg);
-}
-#expand-avatar.active:hover .icon {
-  transform: translateY(-0.2rem) rotate(180deg);
-}
 
-#expand-container {
+#customize-container {
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   transform: scale(0);
-  transition: transform 0.25s cubic-bezier(0.47,1.64,0.41,0.8);
+  transition: transform 0.25s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 .item-display {
   position: absolute;
@@ -337,19 +330,19 @@ body,
   font-size: 0.8rem;
   font-weight: 500;
   opacity: 75%;
-  transform: translateY(-2.75rem);
+  transform: translateY(-3rem);
 }
 .item-display#color {
-  transform: translate(-8rem, 0rem);
+  transform: translate(-9rem, -6rem);
 }
 .item-display#face {
-  transform: translate(8rem, 0rem);
+  transform: translate(9rem, -6rem);
 }
 .item-display#hair {
-  transform: translate(-5rem, -8rem);
+  transform: translate(-3rem, -7rem);
 }
 .item-display#accessory {
-  transform: translate(5rem, -8rem);
+  transform: translate(3rem, -7rem);
 }
 .item-display .item-container {
   position: absolute;

@@ -102,16 +102,16 @@ function randomizeAvatar() {
     const hair = randomInt(1, hairs_amount);
     const accessory = randomInt(1, accessories_amount);
     setImageWhenLoaded("#player-color", urlColor(color));
-    setImageWhenLoaded("#expand-container #color .player", urlColor(color));
+    setImageWhenLoaded("#customize-container #color .player", urlColor(color));
     client_data.avatar[0] = color
     setImageWhenLoaded("#player-face", urlFace(face));
-    setImageWhenLoaded("#expand-container #face .face", urlFace(face));
+    setImageWhenLoaded("#customize-container #face .face", urlFace(face));
     client_data.avatar[1] = face
     setImageWhenLoaded("#player-hair", urlHair(hair));
-    setImageWhenLoaded("#expand-container #hair .hair", urlHair(hair));
+    setImageWhenLoaded("#customize-container #hair .hair", urlHair(hair));
     client_data.avatar[2] = hair
     setImageWhenLoaded("#player-accessory", urlAccessory(accessory));
-    setImageWhenLoaded("#expand-container #accessory .accessory", urlAccessory(accessory));
+    setImageWhenLoaded("#customize-container #accessory .accessory", urlAccessory(accessory));
     client_data.avatar[3] = accessory
 }
 
@@ -218,14 +218,14 @@ socket.on("update_players", (data) => {
 // ============================
 
 // Toggle avatar customization menu
-$("#expand-avatar").on("click", () => {
-    $("#expand-avatar").toggleClass("active");
+$("#customize-avatar").on("click", () => {
+    $("#customize-avatar").toggleClass("active");
     $(".pydraw-icon").toggleClass("hide");
 });
 
 
 // Handle avatar part change buttons (color/face/hair/accessory)
-$("#expand-container .item-display").each(function () {
+$("#customize-container .item-display").each(function () {
     const $display = $(this);
     const id = $display.attr("id"); 
     const $container = $display.find(".item-container");
@@ -236,25 +236,25 @@ $("#expand-container .item-display").each(function () {
             case "color":
                 client_data.avatar[0] = nextIndex(client_data.avatar[0], colors_amount);
                 setImageWhenLoaded("#player-color", urlColor(client_data.avatar[0]));
-                setImageWhenLoaded("#expand-container #color .player", urlColor(client_data.avatar[0]));
+                setImageWhenLoaded("#customize-container #color .player", urlColor(client_data.avatar[0]));
                 break;
 
             case "face":
                 client_data.avatar[1] = nextIndex(client_data.avatar[1], faces_amount);
                 setImageWhenLoaded("#player-face", urlFace(client_data.avatar[1]));
-                setImageWhenLoaded("#expand-container #face .face", urlFace(client_data.avatar[1]));
+                setImageWhenLoaded("#customize-container #face .face", urlFace(client_data.avatar[1]));
                 break;
 
             case "hair":
                 client_data.avatar[2] = nextIndex(client_data.avatar[2], hairs_amount);
                 setImageWhenLoaded("#player-hair", urlHair(client_data.avatar[2]));
-                setImageWhenLoaded("#expand-container #hair .hair", urlHair(client_data.avatar[2]));
+                setImageWhenLoaded("#customize-container #hair .hair", urlHair(client_data.avatar[2]));
                 break;
 
             case "accessory":
                 client_data.avatar[3] = nextIndex(client_data.avatar[3], accessories_amount);
                 setImageWhenLoaded("#player-accessory", urlAccessory(client_data.avatar[3]));
-                setImageWhenLoaded("#expand-container #accessory .accessory", urlAccessory(client_data.avatar[3]));
+                setImageWhenLoaded("#customize-container #accessory .accessory", urlAccessory(client_data.avatar[3]));
                 break;
         }
     }
