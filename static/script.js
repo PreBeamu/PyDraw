@@ -39,8 +39,8 @@ const lastNames = [
 
 // Store client/player data
 let client_data = {
-    "playerId": "",          // Will be set after joining/creating party
-    "playerName": "",      // Default until set/edited
+    "playerId": "",              // Will be set after joining/creating party
+    "playerName": "",            // Default until set/edited
     "avatar": [1, 1, 1, 1],      // [color, face, hair, accessory]
     "currentParty": null,        // Current party code
     "loadedPlayers": [],         // Tracks players already rendered
@@ -64,7 +64,6 @@ for (let i = 1; i <= faces_amount; i++) imageUrls.push(urlFace(i));
 for (let i = 1; i <= hairs_amount; i++) imageUrls.push(urlHair(i));
 for (let i = 1; i <= accessories_amount; i++) imageUrls.push(urlAccessory(i));
 imageUrls.push(urlPlayer, urlShirt);
-randomizeAvatar();
 
 // ============================
 // HELPER FUNCTIONS
@@ -95,6 +94,34 @@ function setImageWhenLoaded(selector, url) {
     img.src = url;
 }
 
+// Save avatar data as JSON in localStorage
+function saveAvatar() {
+  localStorage.setItem("avatar", JSON.stringify(client_data.avatar));
+}
+
+// If avatar data exists in localStorage load them
+function loadAvatar() {
+  const saved = localStorage.getItem("avatar");
+  if (saved) {
+    client_data.avatar = JSON.parse(saved);
+
+    // Apply Images
+    setImageWhenLoaded("#player-color", urlColor(client_data.avatar[0]));
+    setImageWhenLoaded("#customize-container #color .player", urlColor(client_data.avatar[0]));
+
+    setImageWhenLoaded("#player-face", urlFace(client_data.avatar[1]));
+    setImageWhenLoaded("#customize-container #face .face", urlFace(client_data.avatar[1]));
+
+    setImageWhenLoaded("#player-hair", urlHair(client_data.avatar[2]));
+    setImageWhenLoaded("#customize-container #hair .hair", urlHair(client_data.avatar[2]));
+
+    setImageWhenLoaded("#player-accessory", urlAccessory(client_data.avatar[3]));
+    setImageWhenLoaded("#customize-container #accessory .accessory", urlAccessory(client_data.avatar[3]));
+  } else {
+    randomizeAvatar();
+  }
+}
+
 // Randomize avatar parts and update client_data
 function randomizeAvatar() {
     const color = randomInt(1, colors_amount);
@@ -113,6 +140,7 @@ function randomizeAvatar() {
     setImageWhenLoaded("#player-accessory", urlAccessory(accessory));
     setImageWhenLoaded("#customize-container #accessory .accessory", urlAccessory(accessory));
     client_data.avatar[3] = accessory
+    saveAvatar();
 }
 
 // Return next index in cycle (1 → max, goes back to 1)
@@ -213,6 +241,11 @@ socket.on("update_players", (data) => {
     });
 });
 
+// Run when DOM is ready
+$(document).ready(function () {
+  loadAvatar();
+});
+
 // ============================
 // BUTTONS & UI ACTIONS
 // ============================
@@ -220,7 +253,6 @@ socket.on("update_players", (data) => {
 // Toggle avatar customization menu
 $("#customize-avatar").on("click", () => {
     $("#customize-avatar").toggleClass("active");
-    $(".pydraw-icon").toggleClass("hide");
 });
 
 
@@ -257,6 +289,7 @@ $("#customize-container .item-display").each(function () {
                 setImageWhenLoaded("#customize-container #accessory .accessory", urlAccessory(client_data.avatar[3]));
                 break;
         }
+        saveAvatar();
     }
     $container.on("click", cycleAvatar);
 });
@@ -273,6 +306,7 @@ $("#random-avatar").on("click", randomizeAvatar);
 $("#create-button").on("click", () => {
     $(".main-page").addClass("disabled");
     $(".loader").addClass("active");
+    $("#customize-avatar").removeClass("active");
     $(".chat-display .box").empty();
     setPlayerName();
 
@@ -321,6 +355,7 @@ $("#join-button").on("click", () => {
     $(".chat-display .box").empty();
     $(".main-page").addClass("disabled");
     $(".loader").addClass("active");
+    $("#customize-avatar").removeClass("active");
     setPlayerName();
 
     setTimeout(async () => {
@@ -376,6 +411,7 @@ $("#leave-button").on("click", () => {
 
     $(".loader").addClass("active");
     $(".party-page").addClass("disabled");
+    $("#customize-avatar").removeClass("active");
 
     setTimeout(async () => {
         try {

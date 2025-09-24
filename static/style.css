@@ -296,13 +296,7 @@ body,
   transform: scale(1);
 }
 
-/* Manually Dress-up */
-.pydraw-icon.hide {
-  z-index: -5;
-  opacity: 0%;
-  transform: translateY(-8.25rem) scale(1.5);
-}
-
+/* Customize Menu */
 #customize-avatar.active + #customize-container {
   transform: scale(1);
 }
@@ -333,16 +327,16 @@ body,
   transform: translateY(-3rem);
 }
 .item-display#color {
-  transform: translate(-9rem, -6rem);
+  transform: translate(-12rem, 0rem);
 }
 .item-display#face {
-  transform: translate(9rem, -6rem);
+  transform: translate(12rem, 0rem);
 }
 .item-display#hair {
-  transform: translate(-3rem, -7rem);
+  transform: translate(-7rem, 0rem);
 }
 .item-display#accessory {
-  transform: translate(3rem, -7rem);
+  transform: translate(7rem, 0rem);
 }
 .item-display .item-container {
   position: absolute;
