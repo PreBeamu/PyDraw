@@ -1,0 +1,107 @@
+/* ==============================
+   PARTY HEADER
+============================== */
+.party-header {
+  position: absolute;
+  width: 460px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+  transform: translate(6rem, -14rem);
+}
+
+/* PartyCode Label */
+#party-code {
+  all: unset;
+  width: 170px;
+  display: inline-block;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 0.15rem 0.75rem;
+  border: 3px solid #000000;
+  border-radius: 6px;
+  background: #ffffff;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  color: #3c3c3c;
+  transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+#party-code:hover {
+  background: #d6d6d6;
+  transform: scale(0.95);
+}
+
+#party-code:active {
+  background: #b6b6b6;
+  transform: scale(1);
+  transition: none;
+}
+
+.code-copied {
+  all: unset;
+  position: absolute;
+  display: inline-block;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 0.1rem 0.75rem;
+  border-radius: 10px;
+  background: #3e692c;
+  font-size: 0.8rem;
+  text-align: center;
+  white-space: nowrap;
+  color: #ffffff;
+  transition: all 0.15s cubic-bezier(0.47, 1.64, 0.41, 0.8);
+  z-index: -5;
+  transform: translate(2.25rem, 0rem);
+}
+.code-copied.show {
+  transform: translate(2.25rem, -2rem);
+}
+
+/* ==============================
+   BUTTONS
+============================== */
+.party-buttons {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 3px;
+}
+
+.party-buttons button {
+  all: unset;
+  display: flex;
+  box-sizing: border-box;
+  cursor: pointer;
+  height: 30px;
+  padding: 0.1rem 0.75rem 0.1rem 0.5rem;
+  gap: 3px;
+  border: 3px solid #000000;
+  border-radius: 6px;
+  background: var(--btn-color);
+  font-size: 0.9rem;
+  text-align: center;
+  white-space: nowrap;
+  color: white;
+  transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.party-buttons button.hidden {
+  transform: scale(0);
+}
+.party-buttons button:not(.hidden):hover {
+  filter: brightness(75%);
+  transform: scale(0.95);
+}
+.party-buttons button:not(.hidden):active {
+  filter: brightness(75%);
+  transform: scale(1.05);
+  transition: none;
+}
+
+.party-buttons .icon {
+  width: 20px;
+}

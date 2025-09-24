@@ -208,7 +208,7 @@ socket.on("update_players", (data) => {
 
         // Host only buttons
         if (client_data.playerId == data.host) {
-            $("#start-button, #settings-button").removeClass("hidden");
+            $("#start-button, #settings-button").show();
         }
 
         // Avatar display
@@ -244,7 +244,7 @@ socket.on("update_players", (data) => {
 // Run when DOM is ready
 $(document).ready(function () {
     loadAvatar();
-    $("#return-button").hide()
+    $("#start-button, #settings-button, #settings-exit").hide()
 });
 
 // ============================
@@ -402,19 +402,33 @@ $("#party-code").on("click", async () => {
     setTimeout(() => $(".code-copied").removeClass("show"), 1000);
 });
 
-// Settings button
+// Open settings menu
 $("#settings-button").on("click", () => {
     $(".transition-div").addClass("fill")
     $("#start-button, #settings-button, #leave-button").addClass("hidden")
     setTimeout(() => {
+        $("#start-button, #settings-button, #leave-button").hide()
         $(".players-container, .chat-container").hide();
-        $(".settings-container, #return-button").show();
-        $("#return-button").removeClass("hidden");
+        $(".settings-container, #settings-exit").show();
+        $("#settings-exit").removeClass("hidden");
         $(".transition-div").removeClass("fill")
-    }, 500);
+    }, 300);
 });
 
-// Leave party
+// Close settings menu
+$("#settings-exit").on("click", () => {
+    $(".transition-div").addClass("fill")
+    $("#settings-exit").addClass("hidden")
+    setTimeout(() => {
+        $(".settings-container, #settings-exit").hide()
+        $(".players-container, .chat-container").show();
+        $("#start-button, #settings-button, #leave-button").show();
+        $("#start-button, #settings-button, #leave-button").removeClass("hidden");
+        $(".transition-div").removeClass("fill")
+    }, 300);
+});
+
+// Leave current party
 $("#leave-button").on("click", () => {
     const confirmLeave = confirm("Are you sure you want to leave the party?");
     const partyCode = $("#party-code").text().replace("รหัสเชิญ : ", "").trim().toUpperCase();

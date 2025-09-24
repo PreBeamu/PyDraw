@@ -1,9 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&display=swap");
 /* Main-Menu */
-@import url("../Css/Main/avatar.css");
-@import url("../Css/Main/inputs.css");
+@import url("../Css/Main/Avatar.css");
+@import url("../Css/Main/Inputs.css");
+/* Party-Menu */
+@import url("../Css/Party/Header.css");
+@import url("../Css/Party/Party.css");
 /* Misc */
-@import url("../Css/Misc/cordinates.css");
+@import url("../Css/Misc/Cordinates.css");
 
 /* ==============================
    BASE SETUP
@@ -176,4 +179,27 @@ body,
   display: block;
   width: 80%;
   height: 80%;
+}
+
+/* ==============================
+   ANIMATIONS
+============================== */
+@keyframes inf-bg {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: -10000px 5000px;
+  }
+}
+
+@keyframes inf-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

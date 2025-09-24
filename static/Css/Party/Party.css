@@ -1,0 +1,279 @@
+/* ==============================
+   PARTY MENU
+============================== */
+.party-container {
+  position: absolute;
+  width: 675px;
+  height: 425px;
+  padding: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  border: 3.5px solid rgb(0, 0, 0);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+  background: white;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+/* Transition effect for overlay divs */
+.transition-div {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 5;
+  transform-origin: top center;
+  transform: scaleY(0);
+  transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.transition-div.fill {
+  background: #252525;
+  transform: scaleY(1.05);
+}
+
+/* ==============================
+   PLAYERS LIST
+============================== */
+.players-container {
+  position: absolute;
+  width: 360px;
+  height: 385px;
+  padding: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  border: 2.5px solid #5e5e5e;
+  transform: translate(-9rem, 0.4rem);
+}
+
+.players-container .box {
+  width: 100%;
+  height: 100%;
+  padding: 0.1rem 0.3rem 0.1rem 0.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 5px;
+  border-radius: 0.5rem;
+  scrollbar-width: thin;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.plr-box {
+  width: 95%;
+  height: fit-content;
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  border-radius: 5px;
+  border: 2px solid #d5d5d5;
+  background-color: #eeeeee;
+  transform: scaleX(0);
+  transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.plr-box.show {
+  transform: scaleX(1);
+}
+
+/* Player crown icon */
+.plr-box .crown {
+  position: absolute;
+  width: 32.5px;
+  height: 32.5px;
+  z-index: 5;
+  transform: translate(-0.55rem, -1.25rem);
+}
+
+/* Player avatar container */
+.plr-box .avatar-container {
+  all: unset;
+  position: relative;
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+  min-height: 45px;
+  border-radius: 0.25rem;
+  border: 2px solid black;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: end;
+  background: #ebebeb;
+}
+
+/* Player info */
+.plr-info .username {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 1.15rem;
+  opacity: 0.75;
+}
+
+.meTag {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.plr-info .uuid {
+  font-size: 0.75rem;
+  opacity: 0.35;
+}
+
+/* ==============================
+   CHATBOX
+============================== */
+.chat-container {
+  position: absolute;
+  width: 280px;
+  height: 400px;
+  padding: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: translateX(11.75rem);
+  transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.chat-display {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ebebeb;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  border: 2.5px solid rgb(131, 131, 131);
+  overflow: hidden;
+}
+
+.chat-display .box {
+  width: 98%;
+  height: 98%;
+  padding: 0.25rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  border-radius: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: grey #ebebeb;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.chat-container input[type="text"] {
+  width: 100%;
+  padding: 2.5px 3%;
+  font-size: 0.85rem;
+  text-align: left;
+  border: 2.5px solid #b1b1b1;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-top: 0.25rem;
+}
+
+/* ==============================
+   MESSAGES HOLDER
+============================== */
+.msg-box {
+  width: 200%;
+  height: fit-content;
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+  border-radius: 5px;
+  background-color: #d5d5d5;
+  transform-origin: center center;
+  transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.msg-box.show {
+  width: 100%;
+}
+
+/* Message avatar container */
+.msg-box .avatar-container {
+  all: unset;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
+  border-radius: 0.25rem;
+  border: 2px solid black;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: end;
+  background: #ebebeb;
+}
+
+/* System messages */
+.msg-box.system {
+  padding: 0.25rem;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.msg-box.system .text-container {
+  font-size: 0.75rem;
+  margin-top: 0.1rem;
+}
+
+.msg-box.system .avatar-container,
+.msg-box.system .sender-name {
+  display: none;
+}
+
+/* Message background types */
+.msg-box.create {
+  background: #000435;
+}
+.msg-box.join {
+  background: #0e3500;
+}
+.msg-box.left {
+  background: #350000;
+}
+
+/* Message text */
+.sender-name {
+  margin-top: -1.5px;
+  font-size: 0.8rem;
+  opacity: 0.65;
+}
+
+.text-container {
+  width: 100%;
+  height: fit-content;
+  margin-top: -3px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-size: 0.85rem;
+  letter-spacing: 0.025rem;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
