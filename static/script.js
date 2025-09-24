@@ -343,17 +343,6 @@ $("#create-button").on("click", () => {
     }, 250);
 });
 
-$("#create-button").on("click", function () {
-  const elem = document.documentElement; // whole page
-
-  if (elem.requestFullscreen) {
-    elem.requestFullscreen();
-  } else if (elem.webkitRequestFullscreen) { // Safari
-    elem.webkitRequestFullscreen();
-  } else if (elem.msRequestFullscreen) { // IE/Edge
-    elem.msRequestFullscreen();
-  }
-});
 // Join existing party
 $("#join-button").on("click", () => {
     const partyCode = $("#inviteCode").val().toUpperCase();
