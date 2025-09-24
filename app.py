@@ -54,6 +54,10 @@ def make_player(name, avatar_items):
         "score": 0,
     }
 
+def score_update(score, time_max, time_remain, answered):
+    """update score based on many factors"""
+    score = score + ((time_remain // time_max) * 1000) + (1 // (answered + 1)) * 450
+    return score
 
 def update_plrList(data):
     """
