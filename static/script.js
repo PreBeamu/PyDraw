@@ -148,6 +148,38 @@ function nextIndex(current, max) {
     return current >= max ? 1 : current + 1;
 }
 
+// If "ปิด" return as 0
+function parseGuess(text) {
+  if (text === "ปิด") return 0;
+  return parseInt(text, 10) || 0;
+}
+
+// If 0 return as "ปิด"
+function formatGuess(value) {
+  return value === 0 ? "ปิด" : value;
+}
+
+// Enable/disable increase/decrease buttons
+function updateButtons($num) {
+  const value = parseGuess($num.text());
+  const min = parseInt($num.data("min"), 10);
+  const max = parseInt($num.data("max"), 10);
+
+  $num.siblings(".decrease").toggleClass("disabled", value <= min);
+  $num.siblings(".increase").toggleClass("disabled", value >= max);
+}
+
+// Reset settings to default value
+function resetSettings() {
+  $(".setting-value").each(function () {
+    const $num = $(this);
+    const defaultValue = parseInt($num.data("default"), 10);
+
+    $num.text(formatGuess(defaultValue));
+    updateButtons($num);
+  });
+}
+
 // ============================
 // SOCKET EVENT HANDLERS
 // ============================
@@ -244,7 +276,7 @@ socket.on("update_players", (data) => {
 // Run when DOM is ready
 $(document).ready(function () {
     loadAvatar();
-    $("#start-button, #settings-button, #settings-exit").hide()
+    $("#start-button, #settings-button, #settings-exit, .settings-container").hide()
 });
 
 // ============================
@@ -402,32 +434,6 @@ $("#party-code").on("click", async () => {
     setTimeout(() => $(".code-copied").removeClass("show"), 1000);
 });
 
-// Open settings menu
-$("#settings-button").on("click", () => {
-    $(".transition-div").addClass("fill")
-    $("#start-button, #settings-button, #leave-button").addClass("hidden")
-    setTimeout(() => {
-        $("#start-button, #settings-button, #leave-button").hide()
-        $(".players-container, .chat-container").hide();
-        $(".settings-container, #settings-exit").show();
-        $("#settings-exit").removeClass("hidden");
-        $(".transition-div").removeClass("fill")
-    }, 300);
-});
-
-// Close settings menu
-$("#settings-exit").on("click", () => {
-    $(".transition-div").addClass("fill")
-    $("#settings-exit").addClass("hidden")
-    setTimeout(() => {
-        $(".settings-container, #settings-exit").hide()
-        $(".players-container, .chat-container").show();
-        $("#start-button, #settings-button, #leave-button").show();
-        $("#start-button, #settings-button, #leave-button").removeClass("hidden");
-        $(".transition-div").removeClass("fill")
-    }, 300);
-});
-
 // Leave current party
 $("#leave-button").on("click", () => {
     const confirmLeave = confirm("Are you sure you want to leave the party?");
@@ -437,6 +443,7 @@ $("#leave-button").on("click", () => {
     $(".loader").addClass("active");
     $("#customize-avatar").removeClass("active");
     $(".party-page").addClass("disabled");
+    resetSettings();
 
     setTimeout(async () => {
         try {
@@ -490,4 +497,69 @@ $("#chatMsg").on("keydown", function (e) {
         });
         $("#chatMsg").val('');
     }
+});
+
+// ============================
+// SETTINGS ACTIONS
+// ============================
+
+// Open settings menu
+$("#settings-button").on("click", () => {
+    $(".transition-div").addClass("fill")
+    $("#start-button, #settings-button, #leave-button").addClass("hidden")
+    setTimeout(() => {
+        $("#start-button, #settings-button, #leave-button").hide()
+        $(".players-container, .chat-container").hide();
+        $(".settings-container, #settings-exit").show();
+        $("#settings-exit").removeClass("hidden");
+        $(".transition-div").removeClass("fill")
+    }, 300);
+});
+
+// Close settings menu
+$("#settings-exit").on("click", () => {
+    $(".transition-div").addClass("fill")
+    $("#settings-exit").addClass("hidden")
+    setTimeout(() => {
+        $(".settings-container, #settings-exit").hide()
+        $(".players-container, .chat-container").show();
+        $("#start-button, #settings-button, #leave-button").show();
+        $("#start-button, #settings-button, #leave-button").removeClass("hidden");
+        $(".transition-div").removeClass("fill")
+    }, 300);
+});
+
+// Increase
+$(".settings-container").on("click", ".increase", function () {
+  const $num = $(this).siblings(".setting-value");
+  let value = parseGuess($num.text());
+  const max = parseInt($num.data("max"), 10);
+
+  if (value < max) $num.text(formatGuess(value + 1));
+  updateButtons($num);
+});
+
+// Decrease
+$(".settings-container").on("click", ".decrease", function () {
+  const $num = $(this).siblings(".setting-value");
+  let value = parseGuess($num.text());
+  const min = parseInt($num.data("min"), 10);
+
+  if (value > min) $num.text(formatGuess(value - 1));
+  updateButtons($num);
+});
+
+// Toggle custom topic style
+$("#cword-override").on("click", () => {
+    $("#cword-override").removeClass("disabled");
+    $("#cword-add").addClass("disabled");
+});
+$("#cword-add").on("click", () => {
+    $("#cword-add").removeClass("disabled");
+    $("#cword-override").addClass("disabled");
+});
+
+// Init
+$(".setting-value").each(function () {
+  updateButtons($(this));
 });

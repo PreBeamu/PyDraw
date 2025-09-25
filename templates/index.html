@@ -2,17 +2,19 @@
 <!-- Background -->
 <div id="animated-bg"></div>
 
-<div class="page-wrapper mitr-font">
+<main class="page-wrapper mitr-font">
   <!-- Loading Circle -->
   <div class="loader">
     <img class="icon" src="/static/Images/Icons/Loading.svg" />
   </div>
 
   <!-- Main Page -->
-  <div class="page main-page">
+  <section class="page main-page">
     <button id="customize-avatar">
       <img class="icon" src="/static/Images/Icons/Customize.svg" />
     </button>
+
+    <!-- Customize Avatar -->
     <div id="customize-container">
       <div class="item-display" id="color">
         <p>ตัวละคร</p>
@@ -46,9 +48,13 @@
         </div>
       </div>
     </div>
+
+    <!-- Random Button -->
     <button id="random-avatar">
       <img class="icon" src="/static/Images/Icons/Random.svg" />
     </button>
+
+    <!-- Avatar Display -->
     <div class="avatar-container">
       <img class="player" id="player-color" src="" />
       <img class="shirt" id="player-shirt" src="/static/Images/Avatar/Shirt.svg" />
@@ -56,6 +62,8 @@
       <img class="hair" id="player-hair" src="" />
       <img class="accessory" id="player-accessory" src="" />
     </div>
+
+    <!-- Username - InviteCode & Buttons -->
     <div class="input-container">
       <input type="text" id="userName" maxlength="20" placeholder="ชื่อผู้เล่น" />
       <button id="create-button" style="--btn-color: #3c3e5e;">สร้างห้อง</button>
@@ -64,48 +72,124 @@
         <button id="join-button" style="--btn-color: #4f3c5e;">เข้าร่วม</button>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- Party Page -->
-  <div class="page party-page disabled">
-    <div class="party-header">
+  <section class="page party-page disabled">
+
+    <!-- Party Header & Buttons -->
+    <header class="party-header">
       <button class="code-copied">คัดลอกแล้ว!</button>
       <button id="party-code">รหัสเชิญ : -----</button>
-      <div class="party-buttons">
+      <nav class="party-buttons">
+        <!-- Button: Leave Party -->
         <button id="leave-button" style="--btn-color: #87463d;">
           <img class="icon" src="/static/Images/Icons/Leave.svg" />
           <span>ออก</span>
         </button>
-        <button id="settings-exit" class="hidden" style="--btn-color: #733d36;">
-          <img class="icon" src="/static/Images/Icons/Return.svg" />
-          <span>กลับไปก่อนหน้า</span>
-        </button>
+        <!-- Button: Start Game -->
         <button id="start-button" style="--btn-color: #313253;">
           <img class="icon" src="/static/Images/Icons/Start.svg" />
           <span>เริ่ม</span>
         </button>
+        <!-- Button: Open Settings -->
         <button id="settings-button" style="--btn-color: #474747;">
           <img class="icon" src="/static/Images/Icons/Settings.svg" />
           <span>ตั้งค่า</span>
         </button>
-      </div>
-    </div>
+        <!-- Button: Exit Settings -->
+        <button id="settings-exit" class="hidden" style="--btn-color: #733d36;">
+          <img class="icon" src="/static/Images/Icons/Return.svg" />
+          <span>กลับไปก่อนหน้า</span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Container -->
     <div class="party-container">
       <div class="transition-div"></div>
-      <div class="players-container">
+      <!-- PlayerLists -->
+      <aside class="players-container">
         <div class="box"></div>
-      </div>
-      <div class="chat-container">
+      </aside>
+      <!-- Chatbox -->
+      <aside class="chat-container">
         <div class="chat-display">
           <div class="box"></div>
         </div>
         <input type="text" id="chatMsg" placeholder="ข้อความ.." />
+      </aside>
+
+      <!-- Settings Menu -->
+      <div class="settings-container">
+        <!-- Setting: Rounds Count -->
+        <div class="box">
+          <div class="info">
+            <img class="icon" src="/static/Images/Icons/RoundsCount.svg" />
+            <detais>
+              <h2>จำนวนรอบ</h2>
+              <p>นับเป็นหนึ่งรอบเมื่อทุกคนได้วาดครบคนละหนึ่งครั้ง</p>
+            </detais>
+          </div>
+          <div class="setting-adjuster">
+            <button class="decrease">-</button>
+            <span class="setting-value" id="roundsCount" data-min="1" data-max="10" data-default="1">1</span>
+            <button class="increase">+</button>
+          </div>
+        </div>
+        <!-- Setting: Draw Time -->
+        <div class="box">
+          <div class="info">
+            <img class="icon" src="/static/Images/Icons/DrawTime.svg" />
+            <detais>
+              <h2>เวลาในการวาด</h2>
+              <p>นาทีที่ผู้เล่นใช้วาดภาพแต่ละรอบก่อนหมดเวลา</p>
+            </detais>
+          </div>
+          <div class="setting-adjuster">
+            <button class="decrease">-</button>
+            <span class="setting-value" id="drawTime" data-min="1" data-max="15" data-default="3">3</span>
+            <button class="increase">+</button>
+          </div>
+        </div>
+        <!-- Setting: Guess Limit -->
+        <div class="box">
+          <div class="info">
+            <img class="icon" src="/static/Images/Icons/GuessLimit.svg" />
+            <detais>
+              <h2>จำกัดการทาย</h2>
+              <p>จำกัดจำนวนครั้งที่ผู้เล่นสามารถทายคำตอบ</p>
+            </detais>
+          </div>
+          <div class="setting-adjuster">
+            <button class="decrease">-</button>
+            <span class="setting-value" id="guessLimit" data-min="0" data-max="20" data-default="0">ปิด</span>
+            <button class="increase">+</button>
+          </div>
+        </div>
+        <!-- Setting: Custom Words -->
+        <div class="words-box">
+          <header>
+            <div class="info">
+              <img class="icon" src="/static/Images/Icons/CustomWords.svg" />
+              <detais>
+                <h2>กำหนดหัวข้อเอง</h2>
+                <p>เพิ่มคำศัพท์ที่ต้องการไปเป็นหัวข้อในการวาดภาพ</p>
+              </detais>
+            </div>
+            <div class="setting-selector">
+              <button id="cword-override">กำหนดเอง</button>
+              <button id="cword-add" class="disabled">บวกเพิ่ม</button>
+            </div>
+          </header>
+          <textarea id="customWords"
+            placeholder="ใช้เครื่องหมาย , ในการคั่นคำศัพท์ เช่น &quot; ใบลาออก,หอสมุด,กระดาษลัง &quot;"></textarea>
+        </div>
       </div>
-      <div class="settings-container"></div>
     </div>
-  </div>
+  </section>
 
   <!-- Game Icon -->
   <img class="pydraw-icon" src="/static/Images/PyDraw.svg" />
-</div>
+</main>
 {% endblock %}

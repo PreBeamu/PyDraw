@@ -1,0 +1,221 @@
+/* ==============================
+   PARTY SETTINGS
+============================== */
+.settings-container {
+  width: 97.5%;
+  height: 93%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-block: 0.5rem;
+}
+
+/* Normal Box */
+.settings-container .box {
+  width: 97.5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 0.75rem;
+  padding-inline-start: 1rem;
+  padding-inline-end: 2rem;
+  border-radius: 0.5rem;
+  border: 2px solid rgb(192, 192, 192);
+  background-color: #f3f3f3;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.settings-container .box .info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: left;
+  gap: 15px;
+}
+
+.settings-container .box h2 {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.settings-container .box p {
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+.settings-container .box .icon {
+  height: 65px;
+  width: 65px;
+}
+
+/* Words Box */
+.words-box {
+  width: 97.5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding-block: 0.75rem;
+  padding-inline-start: 1rem;
+  padding-inline-end: 2rem;
+  border-radius: 0.5rem;
+  border: 2px solid rgb(192, 192, 192);
+  background-color: #f3f3f3;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.words-box header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.words-box header .info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: left;
+  gap: 15px;
+}
+
+.words-box header h2 {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.words-box header p {
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+.words-box header .icon {
+  height: 65px;
+  width: 65px;
+}
+
+#customWords {
+  width: 100%;
+  min-height: 75px;
+  height: auto;
+  resize: vertical;
+  padding: 0.25rem 0.5rem;
+  font-family: "Mitr", sans-serif;
+  font-size: 1rem;
+  text-align: left;
+  vertical-align: top;
+  border: 3px solid #b1b1b1;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* ==============================
+   SELECTOR
+============================== */
+
+.setting-selector {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.setting-selector button {
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  padding-inline: 0.5rem;
+  border: 2.5px solid #002d07;
+  background: #5d8152;
+  color: white;
+  box-sizing: border-box;
+  pointer-events: none;
+  transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.setting-selector button:hover {
+  filter: brightness(75%);
+  transform: scale(0.95);
+}
+
+.setting-selector button:active {
+  transform: scale(1.05);
+  transition: none;
+}
+
+.setting-selector button.disabled {
+  background: #555555;
+  pointer-events: all;
+}
+
+/* ==============================
+   ADJUSTER
+============================== */
+
+.setting-adjuster {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.setting-adjuster button {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+  border-radius: 6px;
+  border: 2.5px solid #5f4600;
+  background: #ffbb00;
+  pointer-events: all;
+  box-sizing: border-box;
+  color: white;
+  transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.setting-adjuster button:hover {
+  filter: brightness(75%);
+  transform: scale(0.95);
+}
+
+.setting-adjuster button:active {
+  transform: scale(1.05);
+  transition: none;
+}
+
+.setting-adjuster button.disabled {
+  border: 2.5px solid #000000;
+  background: #424242;
+  pointer-events: none;
+  transform: scale(0.85);
+}
+
+.setting-adjuster .setting-value {
+  width: 40px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  border: 2.5px solid #4f4f4f;
+  border-radius: 6px;
+  font-size: 1rem;
+}

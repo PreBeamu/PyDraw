@@ -16,7 +16,7 @@
 /* PartyCode Label */
 #party-code {
   all: unset;
-  width: 170px;
+  width: 185px;
   display: inline-block;
   box-sizing: border-box;
   cursor: pointer;
@@ -32,12 +32,12 @@
 }
 
 #party-code:hover {
-  background: #d6d6d6;
+  filter: brightness(80%);
   transform: scale(0.95);
 }
 
 #party-code:active {
-  background: #b6b6b6;
+  filter: brightness(80%);
   transform: scale(1);
   transition: none;
 }
@@ -57,10 +57,10 @@
   color: #ffffff;
   transition: all 0.15s cubic-bezier(0.47, 1.64, 0.41, 0.8);
   z-index: -5;
-  transform: translate(2.25rem, 0rem);
+  transform: translate(2.65rem, 0rem);
 }
 .code-copied.show {
-  transform: translate(2.25rem, -2rem);
+  transform: translate(2.65rem, -2rem);
 }
 
 /* ==============================

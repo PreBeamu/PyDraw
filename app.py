@@ -143,8 +143,10 @@ def create_party():
         "Players": {player_id: player_data},
         "Gamerules": {
             "Rounds" : 1,
-            "DrawTime" : 5,
+            "DrawTime" : 3,
             "GuessLimit" : 0,
+            "OnlyCustomWords" : False,
+            "CustomWords" : []
         }
     }
 
