@@ -148,6 +148,30 @@ function nextIndex(current, max) {
     return current >= max ? 1 : current + 1;
 }
 
+// Start a countdown
+function startCountdown(val) {
+    let count = val;
+    const $countdown = $(".countdown");
+    $countdown.addClass("active").text(count);
+
+    const timer = setInterval(() => {
+        count--;
+        if (count > 0) {
+            $countdown.text(count);
+            triggerSpin($countdown);
+        } else {
+            clearInterval(timer);
+            $countdown.text("!");
+            triggerSpin($countdown);
+        }
+    }, 1000);
+}
+function triggerSpin($el) {
+  $el.removeClass("spin");
+  void $el[0].offsetWidth;
+  $el.addClass("spin");
+}
+
 // If "ปิด" return as 0
 function parseGuess(text) {
     if (text === "ปิด") return 0;
@@ -478,6 +502,37 @@ $("#leave-button").on("click", () => {
     }, 250);
 });
 
+/// Start the game and apply settings to app.py
+$("#start-button").on("click", () => {
+    $(".code-copied").hasClass("show")
+    $(".party-page").addClass("disabled");
+    startCountdown(3);
+
+    setTimeout(async () => {
+        try {
+            const res = await axios.post("/start_game", {
+                code: client_data.currentParty,
+                player_id: client_data.playerId,
+                roundsCount: parseInt($("#roundsCount").text(), 10),
+                guessLimit: parseInt(parseGuess($("#guessLimit").text()), 10),
+                drawTime: parseInt($("#drawTime").text(), 10),
+                onlyCustom: !$("#cword-override").hasClass("disabled"),
+                customWords: $("#customWords").val()
+            });
+            if (!res.data.success) throw new Error("Failed to start");
+
+        } catch (err) {
+            console.error("Error starting game:", err);
+            alert("There was an error starting the game. Please try again.");
+
+            // Restore UI since start failed
+            $(".party-page").removeClass("disabled");
+        } finally {
+            $(".loader").removeClass("active");
+        }
+    }, 250);
+});
+
 // ============================
 // CHAT BOX
 // ============================
@@ -565,42 +620,4 @@ $("#cword-add").on("click", () => {
 // Init
 $(".setting-value").each(function () {
     updateButtons($(this));
-});
-
-
-
-
-
-
-
-/// GAME
-
-$("#start-button").on("click", () => {
-    $(".code-copied").hasClass("show")
-    $(".loader").addClass("active");
-    $(".party-page").addClass("disabled");
-
-    setTimeout(async () => {
-        try {
-            const res = await axios.post("/start_game", {
-                code: client_data.currentParty,
-                player_id: client_data.playerId,
-                roundsCount: parseInt($("#roundsCount").text(), 10),
-                guessLimit: parseInt(parseGuess($("#guessLimit").text()), 10),
-                drawTime: parseInt($("#drawTime").text(), 10),
-                onlyCustom: !$("#cword-override").hasClass("disabled"),
-                customWords: $("#customWords").val()
-            });
-            if (!res.data.success) throw new Error("Failed to start");
-
-        } catch (err) {
-            console.error("Error starting game:", err);
-            alert("There was an error starting the game. Please try again.");
-
-            // Restore UI since start failed
-            $(".party-page").removeClass("disabled");
-        } finally {
-            $(".loader").removeClass("active");
-        }
-    }, 250);
 });

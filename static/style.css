@@ -8,6 +8,7 @@
 @import url("StyleSheets/partyMenu/Settings.css");
 /* Others */
 @import url("StyleSheets/others/Cordinates.css");
+@import url("StyleSheets/others/Countdown.css");
 
 /* ==============================
    BASE SETUP
@@ -104,6 +105,9 @@ body,
 }
 .party-page:not(.disabled) ~ .pydraw-icon {
   transform: translate(-15rem, -14.75rem) scale(0.45);
+}
+.countdown.active ~ .pydraw-icon {
+  opacity: 0%;
 }
 
 /* ==============================
