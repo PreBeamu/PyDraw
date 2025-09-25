@@ -1,7 +1,7 @@
 """Start the app using py app.py"""
 from gevent import monkey
-from flask import Flask, jsonify, render_template, request
-from flask_socketio import SocketIO, emit, join_room, leave_room
+from flask import Flask, jsonify, render_template, request,redirect
+from flask_socketio import SocketIO, emit, join_room, leave_room 
 from string import ascii_uppercase, digits
 import random
 import uuid
@@ -118,6 +118,7 @@ def home():
     Returns:
         str: Rendered HTML page.
     """
+    
     return render_template("index.html")
 
 
@@ -320,7 +321,6 @@ def handle_leave_party(data):
         leave_room(party_code)
         update_plrList(data)
 
-
 @socketio.on("disconnect")
 def handle_disconnect():
     """
@@ -355,6 +355,20 @@ def handle_disconnect():
         }
         emit("message", value, room=party_code)
         update_plrList({"party_code": party_code})
+
+@app.route("/start_game", methods=["POST"])
+def start_game():
+    roundsCount = request.json.get("roundsCount")
+    guessLimit = request.json.get("guessLimit")
+    drawTime = request.json.get("drawTime")
+    dataplayer = request.json.get("dataplayer")
+    customWords = request.json.get("customWords")
+    return jsonify({"redirect": "/game","roundsCount":roundsCount,"guessLimit":guessLimit,"drawTime":drawTime,"dataplayer":dataplayer,"customWords":customWords}), 200
+
+@app.route("/game")
+def game():
+    return render_template("game.html")
+
 
 # ============================
 # MAIN

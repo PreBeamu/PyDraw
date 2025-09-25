@@ -150,34 +150,34 @@ function nextIndex(current, max) {
 
 // If "ปิด" return as 0
 function parseGuess(text) {
-  if (text === "ปิด") return 0;
-  return parseInt(text, 10) || 0;
+    if (text === "ปิด") return 0;
+    return parseInt(text, 10) || 0;
 }
 
 // If 0 return as "ปิด"
 function formatGuess(value) {
-  return value === 0 ? "ปิด" : value;
+    return value === 0 ? "ปิด" : value;
 }
 
 // Enable/disable increase/decrease buttons
 function updateButtons($num) {
-  const value = parseGuess($num.text());
-  const min = parseInt($num.data("min"), 10);
-  const max = parseInt($num.data("max"), 10);
+    const value = parseGuess($num.text());
+    const min = parseInt($num.data("min"), 10);
+    const max = parseInt($num.data("max"), 10);
 
-  $num.siblings(".decrease").toggleClass("disabled", value <= min);
-  $num.siblings(".increase").toggleClass("disabled", value >= max);
+    $num.siblings(".decrease").toggleClass("disabled", value <= min);
+    $num.siblings(".increase").toggleClass("disabled", value >= max);
 }
 
 // Reset settings to default value
 function resetSettings() {
-  $(".setting-value").each(function () {
-    const $num = $(this);
-    const defaultValue = parseInt($num.data("default"), 10);
+    $(".setting-value").each(function () {
+        const $num = $(this);
+        const defaultValue = parseInt($num.data("default"), 10);
 
-    $num.text(formatGuess(defaultValue));
-    updateButtons($num);
-  });
+        $num.text(formatGuess(defaultValue));
+        updateButtons($num);
+    });
 }
 
 // ============================
@@ -530,23 +530,26 @@ $("#settings-exit").on("click", () => {
 });
 
 // Increase
-$(".settings-container").on("click", ".increase", function () {
-  const $num = $(this).siblings(".setting-value");
-  let value = parseGuess($num.text());
-  const max = parseInt($num.data("max"), 10);
 
-  if (value < max) $num.text(formatGuess(value + 1));
-  updateButtons($num);
+$(".settings-container").on("click", ".increase", function () {
+    const $num = $(this).siblings(".setting-value");
+    let value = parseGuess($num.text());
+    const max = parseInt($num.data("max"), 10);
+
+    if (value < max) {
+        $num.text(formatGuess(value + 1))
+    }
+    updateButtons($num);
 });
 
 // Decrease
 $(".settings-container").on("click", ".decrease", function () {
-  const $num = $(this).siblings(".setting-value");
-  let value = parseGuess($num.text());
-  const min = parseInt($num.data("min"), 10);
+    const $num = $(this).siblings(".setting-value");
+    let value = parseGuess($num.text());
+    const min = parseInt($num.data("min"), 10);
 
-  if (value > min) $num.text(formatGuess(value - 1));
-  updateButtons($num);
+    if (value > min) $num.text(formatGuess(value - 1));
+    updateButtons($num);
 });
 
 // Toggle custom topic style
@@ -561,5 +564,43 @@ $("#cword-add").on("click", () => {
 
 // Init
 $(".setting-value").each(function () {
-  updateButtons($(this));
+    updateButtons($(this));
 });
+
+
+
+
+
+
+
+/// GAME
+
+const roundsCount = document.getElementById("roundsCount");
+const guessLimit = document.getElementById("guessLimit");
+const drawTime = document.getElementById("drawTime");
+const customWords = document.getElementById("customWords");
+
+
+$("#start-button").on("click", async () => {
+    try {
+        const res = await axios.post("/start_game", {
+            // data emtype
+            roundsCount: parseInt(roundsCount.innerText, 10),
+            guessLimit: parseInt(parseGuess(guessLimit.innerText), 10),
+            drawTime: parseInt(drawTime.innerText, 10),
+            dataplayer: client_data.currentParty,
+            customWords: customWords.value
+            // data emtype
+        });
+        const data = res.data;
+        console.log(data)
+        if (data.err) {
+            console.log(data.err)
+        } else if (data.redirect) {
+            window.location.href = data.redirect;
+        }
+    }
+    catch {
+
+    }
+})
