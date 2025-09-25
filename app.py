@@ -1,6 +1,6 @@
 """Start the app using py app.py"""
 from gevent import monkey
-from flask import Flask, jsonify, render_template, request,redirect
+from flask import Flask, jsonify, render_template, request
 from flask_socketio import SocketIO, emit, join_room, leave_room 
 from string import ascii_uppercase, digits
 import random
@@ -224,6 +224,46 @@ def leave_party():
 
     return jsonify({"success": True})
 
+@app.route("/start_game", methods=["POST"])
+def start_game():
+    """
+    Start game and getting all party settings.
+
+    JSON Request:
+        code: str
+        player_id: str
+        roundsCount: int
+        guessLimit: int
+        drawTime: int
+        onlyCustom: bool
+        customWords: str
+
+    Returns:
+        JSON: success status.
+    """
+    code = request.json.get("code")
+    player_id = request.json.get("player_id")
+    roundsCount = request.json.get("roundsCount")
+    drawTime = request.json.get("drawTime")
+    guessLimit = request.json.get("guessLimit")
+    onlyCustom = request.json.get("onlyCustom")
+    customWords = request.json.get("customWords")
+
+    # Check if valid
+    if code not in PARTIES:
+        return jsonify({"error": "Party not found"}), 404
+    if player_id not in PARTIES[code]["Players"]:
+        return jsonify({"error": "Player not in party"}), 400
+    
+    # Assign Gamerules
+    PARTIES[code]["Gamerules"]["Rounds"] = roundsCount
+    PARTIES[code]["Gamerules"]["DrawTime"] = drawTime
+    PARTIES[code]["Gamerules"]["GuessLimit"] = guessLimit
+    PARTIES[code]["Gamerules"]["OnlyCustomWords"] = onlyCustom
+    PARTIES[code]["Gamerules"]["CustomWords"] = customWords.split(",")
+
+    return jsonify({"success": True})
+
 # ============================
 # SOCKET HANDLERS
 # ============================
@@ -355,20 +395,6 @@ def handle_disconnect():
         }
         emit("message", value, room=party_code)
         update_plrList({"party_code": party_code})
-
-@app.route("/start_game", methods=["POST"])
-def start_game():
-    roundsCount = request.json.get("roundsCount")
-    guessLimit = request.json.get("guessLimit")
-    drawTime = request.json.get("drawTime")
-    dataplayer = request.json.get("dataplayer")
-    customWords = request.json.get("customWords")
-    return jsonify({"redirect": "/game","roundsCount":roundsCount,"guessLimit":guessLimit,"drawTime":drawTime,"dataplayer":dataplayer,"customWords":customWords}), 200
-
-@app.route("/game")
-def game():
-    return render_template("game.html")
-
 
 # ============================
 # MAIN
