@@ -1,0 +1,44 @@
+/* ==============================
+   GAME HEADER
+============================== */
+.game-header {
+  position: absolute;
+  width: 375px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+  transform: translate(14rem, -15.55rem);
+}
+
+#letters-count {
+  all: unset;
+  width: 75%;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0.1rem 0.75rem;
+  border: 3px solid #000000;
+  border-radius: 6px;
+  background: #ffffff;
+  text-align: center;
+  white-space: nowrap;
+  color: #3c3c3c;
+  transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+#game-timer {
+  all: unset;
+  width: 90px;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0.1rem 0.75rem;
+  border: 3px solid #000000;
+  border-radius: 6px;
+  background: #313253;
+  text-align: center;
+  white-space: nowrap;
+  color: white;
+  transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+}

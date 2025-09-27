@@ -6,6 +6,10 @@
 @import url("StyleSheets/partyMenu/Header.css");
 @import url("StyleSheets/partyMenu/Party.css");
 @import url("StyleSheets/partyMenu/Settings.css");
+/* Game-Menu */
+@import url("StyleSheets/gameMenu/Header.css");
+@import url("StyleSheets/gameMenu/Containers.css");
+@import url("StyleSheets/gameMenu/Picker.css");
 /* Others */
 @import url("StyleSheets/others/Cordinates.css");
 @import url("StyleSheets/others/Countdown.css");
@@ -106,7 +110,11 @@ body,
 .party-page:not(.disabled) ~ .pydraw-icon {
   transform: translate(-15rem, -14.75rem) scale(0.45);
 }
-.countdown.active ~ .pydraw-icon {
+.game-page:not(.disabled) ~ .pydraw-icon {
+  transform: translate(-3.75rem, -16.25rem) scale(0.4);
+}
+.countdown.active ~ .pydraw-icon,
+.words-picker.show ~ .pydraw-icon {
   opacity: 0%;
 }
 

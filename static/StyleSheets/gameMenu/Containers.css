@@ -1,0 +1,170 @@
+/* ==============================
+   MAIN CONTAINER
+============================== */
+.game-container {
+  position: absolute;
+  width: 850px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.right-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s;
+}
+
+/* ==============================
+   PLAYERS LIST
+============================== */
+#game-players-container {
+  width: 375px;
+  height: 100%;
+  padding: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  border: 2.5px solid rgb(94, 94, 94);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  background: white;
+}
+
+#game-players-container .box {
+  width: 100%;
+  height: 100%;
+  padding: 0.1rem 0.3rem 0.1rem 0.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 5px;
+  border-radius: 0.5rem;
+  scrollbar-width: thin;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#game-players-container .plr-box {
+  width: 100%;
+  height: fit-content;
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  border-radius: 5px;
+  border: 2px solid #d5d5d5;
+  background-color: #eeeeee;
+  box-sizing: border-box;
+  transform: scaleX(0);
+  transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+#game-players-container .plr-box.drawer {
+  border: 3px solid #2e2065;
+}
+
+#game-players-container .plr-box.show {
+  transform: scaleX(1);
+}
+
+/* Player drawer icon */
+#game-players-container .plr-box .drawer {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  z-index: 5;
+  transform: translate(1.75rem, 0.75rem);
+}
+
+/* Player avatar container */
+#game-players-container .plr-box .avatar-container {
+  all: unset;
+  position: relative;
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+  min-height: 45px;
+  border-radius: 0.25rem;
+  border: 2px solid black;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: end;
+  background: #ebebeb;
+}
+
+/* Player info */
+#game-players-container .plr-info .username {
+  display: flex;
+  align-items: center;
+  max-width: 145px;
+}
+
+#game-players-container .plr-info .username .name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+  font-size: 1rem;
+  opacity: 0.75;
+}
+
+#game-players-container .plr-info .username .meTag {
+  flex-shrink: 0;
+  margin-left: 4px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+#game-players-container .plr-info .score {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+/* ==============================
+   GUESSBOX
+============================== */
+#guess-container {
+  width: 100%;
+  height: 30%;
+  padding: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ebebeb;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  border: 2.5px solid rgb(131, 131, 131);
+}
+
+/* ==============================
+   CANVAS
+============================== */
+#drawing-canvas {
+  width: 100%;
+  height: 70%;
+  padding: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  border: 3px solid rgb(0, 0, 0);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+  background: white;
+}

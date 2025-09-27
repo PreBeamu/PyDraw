@@ -37,7 +37,7 @@
 /* ==============================
    PLAYERS LIST
 ============================== */
-.players-container {
+#party-players-container {
   position: absolute;
   width: 360px;
   height: 385px;
@@ -51,7 +51,7 @@
   transform: translate(-9rem, 0.4rem);
 }
 
-.players-container .box {
+#party-players-container .box {
   width: 100%;
   height: 100%;
   padding: 0.1rem 0.3rem 0.1rem 0.1rem;
@@ -67,7 +67,7 @@
   overflow-y: auto;
 }
 
-.plr-box {
+#party-players-container .plr-box {
   width: 95%;
   height: fit-content;
   padding: 0.35rem;
@@ -83,12 +83,12 @@
   transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-.plr-box.show {
+#party-players-container .plr-box.show {
   transform: scaleX(1);
 }
 
 /* Player crown icon */
-.plr-box .crown {
+#party-players-container .plr-box .crown {
   position: absolute;
   width: 32.5px;
   height: 32.5px;
@@ -97,7 +97,7 @@
 }
 
 /* Player avatar container */
-.plr-box .avatar-container {
+#party-players-container .plr-box .avatar-container {
   all: unset;
   position: relative;
   width: 45px;
@@ -114,7 +114,7 @@
 }
 
 /* Player info */
-.plr-info .username {
+#party-players-container .plr-info .username {
   display: flex;
   align-items: center;
   gap: 3px;
@@ -122,12 +122,12 @@
   opacity: 0.75;
 }
 
-.meTag {
+#party-players-container .meTag {
   font-size: 0.9rem;
   opacity: 0.8;
 }
 
-.plr-info .uuid {
+#party-players-container .plr-info .uuid {
   font-size: 0.75rem;
   opacity: 0.35;
 }
@@ -135,7 +135,7 @@
 /* ==============================
    CHATBOX
 ============================== */
-.chat-container {
+#party-chat-container {
   position: absolute;
   width: 280px;
   height: 400px;
@@ -148,7 +148,7 @@
   transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-.chat-display {
+#party-chat-container .chat-display {
   width: 100%;
   height: 100%;
   display: flex;
@@ -161,7 +161,7 @@
   overflow: hidden;
 }
 
-.chat-display .box {
+#party-chat-container .chat-display .box {
   width: 98%;
   height: 98%;
   padding: 0.25rem 0.75rem;
@@ -178,7 +178,7 @@
   overflow-y: auto;
 }
 
-.chat-container input[type="text"] {
+#party-chat-container input[type="text"] {
   width: 100%;
   padding: 2.5px 3%;
   font-size: 0.85rem;

@@ -68,39 +68,38 @@
     <!-- Username - InviteCode & Buttons -->
     <div class="input-container">
       <input type="text" id="userName" maxlength="20" placeholder="ชื่อผู้เล่น" />
-      <button id="create-button" style="--btn-color: #3c3e5e;">สร้างห้อง</button>
+      <button id="create-button" style="--btn-color: #3c3e5e">สร้างห้อง</button>
       <div class="join-container">
         <input type="text" id="inviteCode" maxlength="5" placeholder="รหัสเชิญ" />
-        <button id="join-button" style="--btn-color: #4f3c5e;">เข้าร่วม</button>
+        <button id="join-button" style="--btn-color: #4f3c5e">เข้าร่วม</button>
       </div>
     </div>
   </section>
 
   <!-- Party Page -->
   <section class="page party-page disabled">
-
     <!-- Party Header & Buttons -->
     <header class="party-header">
       <button class="code-copied">คัดลอกแล้ว!</button>
       <button id="party-code">รหัสเชิญ : -----</button>
       <nav class="party-buttons">
         <!-- Button: Leave Party -->
-        <button id="leave-button" style="--btn-color: #87463d;">
+        <button id="leave-button" style="--btn-color: #87463d">
           <img class="icon" src="/static/Images/Icons/Leave.svg" />
           <span>ออก</span>
         </button>
         <!-- Button: Start Game -->
-        <button id="start-button" style="--btn-color: #313253;">
+        <button id="start-button" style="--btn-color: #313253">
           <img class="icon" src="/static/Images/Icons/Start.svg" />
           <span>เริ่ม</span>
         </button>
         <!-- Button: Open Settings -->
-        <button id="settings-button" style="--btn-color: #474747;">
+        <button id="settings-button" style="--btn-color: #474747">
           <img class="icon" src="/static/Images/Icons/Settings.svg" />
           <span>ตั้งค่า</span>
         </button>
         <!-- Button: Exit Settings -->
-        <button id="settings-exit" class="hidden" style="--btn-color: #733d36;">
+        <button id="settings-exit" class="hidden" style="--btn-color: #733d36">
           <img class="icon" src="/static/Images/Icons/Return.svg" />
           <span>กลับไปก่อนหน้า</span>
         </button>
@@ -111,11 +110,11 @@
     <div class="party-container">
       <div class="transition-div"></div>
       <!-- PlayerLists -->
-      <aside class="players-container">
+      <aside id="party-players-container">
         <div class="box"></div>
       </aside>
       <!-- Chatbox -->
-      <aside class="chat-container">
+      <aside id="party-chat-container">
         <div class="chat-display">
           <div class="box"></div>
         </div>
@@ -150,7 +149,7 @@
           </div>
           <div class="setting-adjuster">
             <button class="decrease">-</button>
-            <span class="setting-value" id="drawTime" data-min="1" data-max="15" data-default="3">3</span>
+            <span class="setting-value" id="drawTime" data-min="1" data-max="15" data-default="2">2</span>
             <button class="increase">+</button>
           </div>
         </div>
@@ -169,25 +168,53 @@
             <button class="increase">+</button>
           </div>
         </div>
-        <!-- Setting: Custom Words -->
-        <div class="words-box">
+        <!-- Setting: Custom Topics -->
+        <div class="topics-box">
           <header>
             <div class="info">
-              <img class="icon" src="/static/Images/Icons/CustomWords.svg" />
+              <img class="icon" src="/static/Images/Icons/CustomTopics.svg" />
               <detais>
                 <h2>กำหนดหัวข้อเอง</h2>
                 <p>เพิ่มคำศัพท์ที่ต้องการไปเป็นหัวข้อในการวาดภาพ</p>
               </detais>
             </div>
             <div class="setting-selector">
-              <button id="cword-override" class="disabled">กำหนดเอง</button>
-              <button id="cword-add">บวกเพิ่ม</button>
+              <button id="ctopic-override" class="disabled">กำหนดเอง</button>
+              <button id="ctopic-add">บวกเพิ่ม</button>
             </div>
           </header>
-          <textarea id="customWords"
-            placeholder="ใช้เครื่องหมาย , ในการคั่นคำศัพท์ เช่น &quot; ใบลาออก,หอสมุด,กระดาษลัง &quot;"></textarea>
+          <textarea id="customTopics"
+            placeholder='ใช้เครื่องหมาย , ในการคั่นคำศัพท์ เช่น " ใบลาออก,หอสมุด,กระดาษลัง "'></textarea>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Game Page -->
+  <div class="topics-picker">
+    <h1>เลือกหัวข้อที่ต้องการวาด</h1>
+    <div class="topics-container">
+      <button id="pickTopic1"></button>
+      <button id="pickTopic2"></button>
+      <button id="pickTopic3"></button>
+    </div>
+  </div>
+  <section class="page game-page disabled">
+    <!-- Hints & Timer -->
+    <header class="game-header">
+      <h1 id="letters-count">_____ ___</h1>
+      <h1 id="game-timer">00:00</h1>
+    </header>
+    <!-- Game Container -->
+    <div class="game-container">
+      <!-- PlayerLists -->
+      <aside id="game-players-container">
+        <div class="box"></div>
+      </aside>
+      <aside class="right-container">
+        <canvas id="drawing-canvas"></canvas>
+        <div id="guess-container"></div>
+      </aside>
     </div>
   </section>
 

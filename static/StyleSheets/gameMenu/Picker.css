@@ -1,0 +1,56 @@
+/* ==============================
+   WORDS PICKER
+============================== */
+.topics-picker {
+  position: absolute;
+  width: 200vw;
+  height: 200vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 110;
+  opacity: 0%;
+  pointer-events: none;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.topics-picker.show {
+  opacity: 100%;
+  pointer-events: all;
+}
+
+.topics-picker h1 {
+  all: unset;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.topics-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.topics-picker button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem 1rem;
+  font-size: 1.25rem;
+  border-radius: 1rem;
+  border: 3px solid rgb(73, 73, 73);
+  background: #191421;
+  color: white;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.topics-picker button:hover {
+  filter: brightness(60%);
+}
+.topics-picker button:active {
+  transform: scale(0.925);
+  transition: none;
+}
