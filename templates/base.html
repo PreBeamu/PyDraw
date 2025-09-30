@@ -2,22 +2,24 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+
+  <!-- Viewport for responsive scaling -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
   <title>PyDraw</title>
-  <!-- Css Stylesheet -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-  <!-- Default favicon -->
-  <link rel="icon" href="/static/Favicons/favicon-light.svg" type="image/x-icon" />
-  <!-- Light mode favicon -->
-  <link rel="icon" href="/static/Favicons/favicon-light.svg" type="image/x-icon"
-    media="(prefers-color-scheme: light)" />
-  <!-- Dark mode favicon -->
-  <link rel="icon" href="/static/Favicons/favicon-dark.svg" type="image/x-icon" media="(prefers-color-scheme: dark)" />
-  <!-- jQuery CDN -->
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/Favicons/favicon-light.svg" type="image/x-icon">
+  <link rel="icon" href="/static/Favicons/favicon-light.svg" type="image/x-icon" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="/static/Favicons/favicon-dark.svg" type="image/x-icon" media="(prefers-color-scheme: dark)">
+
+  <!-- Libraries -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- Axios CDN -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <!-- Flask SocketIO -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
     integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
     crossorigin="anonymous"></script>
@@ -25,7 +27,8 @@
 
 <body>
   {% block content %}{% endblock %}
-  <!-- JS Script -->
+
+  <!-- Main script -->
   <script type="module" src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 

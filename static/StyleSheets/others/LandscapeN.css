@@ -1,0 +1,62 @@
+.landscape {
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    background: #000000de;
+    backdrop-filter: blur(5px);
+    z-index: 110;
+}
+
+.landscape .phone {
+    pointer-events: none;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 100px;
+    border: 3.5px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    animation: phone-rotate 1.25s ease-in-out infinite alternate;
+}
+
+.landscape .phone .icon {
+    height: 50%;
+    width: 50%;
+    opacity: 60%;
+    transform: rotate(-90deg);
+}
+
+.landscape h2 {
+    all: unset;
+    letter-spacing: 0.1rem;
+    font-weight: 400;
+    font-size: 1rem;
+    margin-top: 40px;
+    color: rgb(255, 255, 255);
+}
+
+@keyframes phone-rotate {
+    0% {
+        transform: rotate(0deg)
+    }
+
+    50% {
+        transform: rotate(0deg)
+    }
+
+    100% {
+        transform: rotate(90deg)
+    }
+}
+
+@media only screen and (max-device-height: 992px) and (orientation: portrait) {
+    .landscape {
+        display: flex;
+    }
+}
