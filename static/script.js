@@ -3,16 +3,16 @@
 // ============================
 
 // Initialize socket.io
-const socket = io();
+const SOCKET = io()
 
 // Avatar Items count
-const colors_amount = 7;
-const hairs_amount = 11;
-const accessories_amount = 8;
-const faces_amount = 10;
+const COLORS_AMOUNT = 7
+const HAIRS_AMOUNT = 11
+const ACCESSORIES_AMOUNT = 8
+const FACES_AMOUNT = 10
 
 // Random names (first + last = player nickname)
-const firstNames = [
+const FIRSTNAMES = [
     "กะเพรา", "ข้าวผัด", "ผัดไทย", "ต้มยำ", "แกงเขียวหวาน",
     "มัสมั่น", "ลาบ", "ส้มตำ", "หมูกระทะ", "ไก่ทอด",
     "ปลาทอด", "แกงส้ม", "ไข่เจียว", "ข้าวมัน", "ข้าวต้ม",
@@ -23,8 +23,8 @@ const firstNames = [
     "ซาลาเปา", "ข้าวแกง", "บะหมี่", "ก๋วยจั๊บ", "กุ้งอบวุ้นเส้น",
     "เนื้อย่าง", "หม้อไฟ", "สลัด", "โจ๊ก", "บัวลอย",
     "ลอดช่อง", "น้ำแข็งใส", "โกโก้", "มะม่วง", "ทุเรียน"
-];
-const lastNames = [
+]
+const LASTNAMES = [
     "หมูกรอบ", "ไก่ย่าง", "มะนาว", "โค้ก", "น้ำปลา",
     "ไข่ดาว", "ปลาร้า", "หมึกย่าง", "นมสด", "ชานม",
     "ไข่มุก", "สายไหม", "ปูอัด", "ลูกชิ้น", "ข้าวโพด",
@@ -35,174 +35,578 @@ const lastNames = [
     "คริสตัล", "มรกต", "ไพลิน", "เพชร", "ทองคำ",
     "ฟองดู", "หิมะ", "มารุโกะ", "มังกร", "น่ารัก",
     "เทพเจ้า", "ซุปเปอร์", "โคตร", "ขั้นสุด", "สะท้านฟ้า"
-];
+]
 
 // Store client/player data
-let client_data = {
-    "playerId": "",              // Will be set after joining/creating party
-    "playerName": "",            // Default until set/edited
-    "avatar": [1, 1, 1, 1],      // [color, face, hair, accessory]
-    "currentParty": null,        // Current party code
-    "loadedPlayers": [],         // Tracks players already rendered
-};
+let CLIENT_DATA = {
+    "playerId": "", // Will be set after joining/creating party
+    "playerName": "", // Default until set/edited
+    "avatar": [1, 1, 1, 1], // [color, face, hair, acc]
+    "currentParty": null, // Current party code
+    "loadedPlayers": [], // Tracks players already rendered
+}
 
 // ============================
 // HELPERS
 // ============================
 
 // Avatar URL helpers
-function urlColor(i) { return `/static/Images/Avatar/Colors/${i}.svg`; }
-function urlFace(i) { return `/static/Images/Avatar/Faces/${i}.svg`; }
-function urlHair(i) { return `/static/Images/Avatar/Hairs/${i}.svg`; }
-function urlAccessory(i) { return `/static/Images/Avatar/Accessories/${i}.svg`; }
+function urlColor(i) {
+    return `/static/Images/Avatar/Colors/${i}.svg`
+}
 
-const urlPlayer = `/static/Images/Avatar/Player.svg`;
-const urlShirt = `/static/Images/Avatar/Shirt.svg`;
+function urlFace(i) {
+    return `/static/Images/Avatar/Faces/${i}.svg`
+}
+
+function urlHair(i) {
+    return `/static/Images/Avatar/Hairs/${i}.svg`
+}
+
+function urlAccessory(i) {
+    return `/static/Images/Avatar/Accessories/${i}.svg`
+}
+
+const urlPlayer = `/static/Images/Avatar/Player.svg`
+const urlShirt = `/static/Images/Avatar/Shirt.svg`
 
 // Preload avatar images
-const imageUrls = [];
-for (let i = 1; i <= colors_amount; i++) imageUrls.push(urlColor(i));
-for (let i = 1; i <= faces_amount; i++) imageUrls.push(urlFace(i));
-for (let i = 1; i <= hairs_amount; i++) imageUrls.push(urlHair(i));
-for (let i = 1; i <= accessories_amount; i++) imageUrls.push(urlAccessory(i));
-imageUrls.push(urlPlayer, urlShirt);
+const imageUrls = []
+for (let i = 1; i <= COLORS_AMOUNT; i++) imageUrls.push(urlColor(i))
+for (let i = 1; i <= FACES_AMOUNT; i++) imageUrls.push(urlFace(i))
+for (let i = 1; i <= HAIRS_AMOUNT; i++) imageUrls.push(urlHair(i))
+for (let i = 1; i <= ACCESSORIES_AMOUNT; i++) imageUrls.push(urlAccessory(i))
+imageUrls.push(urlPlayer, urlShirt)
 
 // Utilities
 function randomInt(min, max) {
     // Generate random integer between min and max
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min
 }
+
 function nextIndex(current, max) {
     // Return next index in cycle (1 → max, goes back to 1)
-    return current >= max ? 1 : current + 1;
+    return current >= max ? 1 : current + 1
 }
+
 function parseGuess(text) {
     // If "ปิด" return as 0
-    if (text === "ปิด") return 0;
-    return parseInt(text, 10) || 0;
+    if (text === "ปิด") return 0
+    return parseInt(text, 10) || 0
 }
+
 function formatGuess(value) {
     // If 0 return as "ปิด"
-    return value === 0 ? "ปิด" : value;
+    return value === 0 ? "ปิด" : value
 }
-function resetSettings() {
-    // Reset settings to default value
-    $(".setting-value").each(function () {
-        const $num = $(this);
-        const defaultValue = parseInt($num.data("default"), 10);
 
-        $num.text(formatGuess(defaultValue));
-        updateButtons($num);
-    });
+function resetOptions() {
+    // Reset options to default value
+    $(".option-value").each(function () {
+        const $num = $(this)
+        const defaultValue = parseInt($num.data("default"), 10)
+
+        $num.text(formatGuess(defaultValue))
+        updateButtons($num)
+    })
 }
+
 function updateButtons($num) {
     // Enable/disable increase/decrease buttons
-    const value = parseGuess($num.text());
-    const min = parseInt($num.data("min"), 10);
-    const max = parseInt($num.data("max"), 10);
+    const value = parseGuess($num.text())
+    const min = parseInt($num.data("min"), 10)
+    const max = parseInt($num.data("max"), 10)
 
-    $num.siblings(".decrease").toggleClass("disabled", value <= min);
-    $num.siblings(".increase").toggleClass("disabled", value >= max);
+    $num.siblings(".decrease").toggleClass("disabled", value <= min)
+    $num.siblings(".increase").toggleClass("disabled", value >= max)
 }
 
 // Avatar helpers
 function setPlayerName() {
     // Set player name: use input value or generate random name
-    var userName = $("#userName").val().trim().replace(/\s+/g, "");
+    let userName = $("#userName").val().trim().replace(/\s+/g, "")
     if (userName.length == 0) {
-        const first = firstNames[Math.floor(Math.random() * firstNames.length)];
-        const last = lastNames[Math.floor(Math.random() * lastNames.length)];
+        const first = FIRSTNAMES[Math.floor(Math.random() * FIRSTNAMES.length)]
+        const last = LASTNAMES[Math.floor(Math.random() * LASTNAMES.length)]
         userName = first + last
     }
-    client_data.playerName = userName
+    CLIENT_DATA.playerName = userName
 }
+
 function setImageWhenLoaded(selector, url) {
     // Load image smoothly (swap src only after fully loaded)
-    const img = new Image();
+    const img = new Image()
     img.onload = () => {
-        $(selector).attr("src", url);
-    };
-    img.src = url;
+        $(selector).attr("src", url)
+    }
+    img.src = url
 }
+
 function saveAvatar() {
     // Save avatar data as JSON in localStorage
-    localStorage.setItem("avatar", JSON.stringify(client_data.avatar));
+    localStorage.setItem("avatar", JSON.stringify(CLIENT_DATA.avatar))
 }
+
 function loadAvatar() {
     // If avatar data exists in localStorage load them
-    const saved = localStorage.getItem("avatar");
+    const saved = localStorage.getItem("avatar")
     if (saved) {
-        client_data.avatar = JSON.parse(saved);
+        CLIENT_DATA.avatar = JSON.parse(saved)
 
         // Apply Images
-        setImageWhenLoaded("#player-color", urlColor(client_data.avatar[0]));
-        setImageWhenLoaded("#customize-container #color .player", urlColor(client_data.avatar[0]));
+        setImageWhenLoaded("#plr-color", urlColor(CLIENT_DATA.avatar[0]))
+        setImageWhenLoaded("#closet #color .player", urlColor(CLIENT_DATA.avatar[0]))
 
-        setImageWhenLoaded("#player-face", urlFace(client_data.avatar[1]));
-        setImageWhenLoaded("#customize-container #face .face", urlFace(client_data.avatar[1]));
+        setImageWhenLoaded("#plr-face", urlFace(CLIENT_DATA.avatar[1]))
+        setImageWhenLoaded("#closet #face .face", urlFace(CLIENT_DATA.avatar[1]))
 
-        setImageWhenLoaded("#player-hair", urlHair(client_data.avatar[2]));
-        setImageWhenLoaded("#customize-container #hair .hair", urlHair(client_data.avatar[2]));
+        setImageWhenLoaded("#plr-hair", urlHair(CLIENT_DATA.avatar[2]))
+        setImageWhenLoaded("#closet #hair .hair", urlHair(CLIENT_DATA.avatar[2]))
 
-        setImageWhenLoaded("#player-accessory", urlAccessory(client_data.avatar[3]));
-        setImageWhenLoaded("#customize-container #accessory .accessory", urlAccessory(client_data.avatar[3]));
+        setImageWhenLoaded("#plr-acc", urlAccessory(CLIENT_DATA.avatar[3]))
+        setImageWhenLoaded("#closet #acc .acc", urlAccessory(CLIENT_DATA.avatar[3]))
     } else {
-        randomizeAvatar();
+        randomizeAvatar()
     }
 }
+
 function randomizeAvatar() {
-    // Randomize avatar parts and update client_data
-    const color = randomInt(1, colors_amount);
-    const face = randomInt(1, faces_amount);
-    const hair = randomInt(1, hairs_amount);
-    const accessory = randomInt(1, accessories_amount);
-    setImageWhenLoaded("#player-color", urlColor(color));
-    setImageWhenLoaded("#customize-container #color .player", urlColor(color));
-    client_data.avatar[0] = color
-    setImageWhenLoaded("#player-face", urlFace(face));
-    setImageWhenLoaded("#customize-container #face .face", urlFace(face));
-    client_data.avatar[1] = face
-    setImageWhenLoaded("#player-hair", urlHair(hair));
-    setImageWhenLoaded("#customize-container #hair .hair", urlHair(hair));
-    client_data.avatar[2] = hair
-    setImageWhenLoaded("#player-accessory", urlAccessory(accessory));
-    setImageWhenLoaded("#customize-container #accessory .accessory", urlAccessory(accessory));
-    client_data.avatar[3] = accessory
-    saveAvatar();
+    // Randomize avatar parts and update CLIENT_DATA
+    const color = randomInt(1, COLORS_AMOUNT)
+    const face = randomInt(1, FACES_AMOUNT)
+    const hair = randomInt(1, HAIRS_AMOUNT)
+    const acc = randomInt(1, ACCESSORIES_AMOUNT)
+    setImageWhenLoaded("#plr-color", urlColor(color))
+    setImageWhenLoaded("#closet #color .player", urlColor(color))
+    CLIENT_DATA.avatar[0] = color
+    setImageWhenLoaded("#plr-face", urlFace(face))
+    setImageWhenLoaded("#closet #face .face", urlFace(face))
+    CLIENT_DATA.avatar[1] = face
+    setImageWhenLoaded("#plr-hair", urlHair(hair))
+    setImageWhenLoaded("#closet #hair .hair", urlHair(hair))
+    CLIENT_DATA.avatar[2] = hair
+    setImageWhenLoaded("#plr-acc", urlAccessory(acc))
+    setImageWhenLoaded("#closet #acc .acc", urlAccessory(acc))
+    CLIENT_DATA.avatar[3] = acc
+    saveAvatar()
+}
+
+function buildAvatarDOM(avatar) {
+    return $('<div class="av-display"></div>').append(
+        $(`<img class="player" src="${urlColor(avatar[0])}">`),
+        $(`<img class="shirt" src="${urlShirt}">`),
+        $(`<img class="face" src="${urlFace(avatar[1])}">`),
+        $(`<img class="hair" src="${urlHair(avatar[2])}">`),
+        $(`<img class="acc" src="${urlAccessory(avatar[3])}">`)
+    )
 }
 
 // Countdown
 function startCountdown(val) {
     // Start a countdown
-    let count = val;
-    const $countdown = $(".countdown");
-    $countdown.addClass("active").text(count);
-    triggerSpin($countdown);
+    let count = val
+    const $countdown = $("#countdown")
+    $countdown.addClass("active").text(count)
+    triggerAnim($countdown, "spin")
 
     const timer = setInterval(() => {
-        count--;
+        count--
         if (count > 0) {
-            $countdown.text(count);
-            triggerSpin($countdown);
+            $countdown.text(count)
+            triggerAnim($countdown, "spin")
         } else {
-            clearInterval(timer);
-            $countdown.text("!");
-            triggerSpin($countdown);
+            clearInterval(timer)
+            $countdown.text("!")
+            triggerAnim($countdown, "spin")
         }
-    }, 1000);
+    }, 1000)
 }
-function triggerSpin($el) {
-    $el.removeClass("spin");
-    void $el[0].offsetWidth;
-    $el.addClass("spin");
+
+function triggerAnim($el, $class) {
+    $el.removeClass($class)
+    void $el[0].offsetWidth
+    $el.addClass($class)
+}
+
+// Status
+function setStatus($icon, status) {
+    const $status = $(".canvasC .status");
+    const $icons = $(".status img");
+    const $statusText = $(".canvasC .status h2");
+
+    $(".status h1").text()
+    if ($status.hasClass("show") && status) {
+        $status.removeClass("show");
+        $icons.removeClass("show");
+        setTimeout(() => {
+            $("#hint").text(". . .");
+            $status.addClass("show");
+            $icon.addClass("show");
+            $statusText.text(status);
+        }, 200);
+    } else {
+        $status.removeClass("show");
+        $icons.removeClass("show");
+        $statusText.empty();
+        if (status) {
+            $("#hint").text(". . .");
+            $status.addClass("show");
+            $icon.addClass("show");
+            $statusText.text(status);
+        }
+    }
 }
 
 // ============================
-// SOCKET EVENT HANDLERS
+// UI INIT
 // ============================
+$(document).ready(function () {
+    loadAvatar()
+    $("#startGame-btn, #optionsO-btn, #optionsX-btn, .optionsC").hide()
+})
 
-socket.on("message", (data) => { // Handle incoming chat messages
-    const $msgBox = $('<div class="msg-box"></div>');
+// ============================
+// AVATAR CUSTOMIZATION
+// ============================
+$("#customizer").on("click", () => {
+    // Toggle avatar customization menu visibility
+    $("#customizer").toggleClass("active")
+})
+
+$("#closet .islot").each((_, el) => {
+    const $display = $(el)
+    const id = $display.attr("id")
+    const $container = $display.find(".idisplay")
+
+    const cycleAvatar = () => {
+        // Cycle avatar parts based on the button clicked
+        switch (id) {
+            case "color":
+                CLIENT_DATA.avatar[0] = nextIndex(CLIENT_DATA.avatar[0], COLORS_AMOUNT)
+                setImageWhenLoaded("#plr-color", urlColor(CLIENT_DATA.avatar[0]))
+                setImageWhenLoaded("#closet #color .player", urlColor(CLIENT_DATA.avatar[0]))
+                break
+
+            case "face":
+                CLIENT_DATA.avatar[1] = nextIndex(CLIENT_DATA.avatar[1], FACES_AMOUNT)
+                setImageWhenLoaded("#plr-face", urlFace(CLIENT_DATA.avatar[1]))
+                setImageWhenLoaded("#closet #face .face", urlFace(CLIENT_DATA.avatar[1]))
+                break
+
+            case "hair":
+                CLIENT_DATA.avatar[2] = nextIndex(CLIENT_DATA.avatar[2], HAIRS_AMOUNT)
+                setImageWhenLoaded("#plr-hair", urlHair(CLIENT_DATA.avatar[2]))
+                setImageWhenLoaded("#closet #hair .hair", urlHair(CLIENT_DATA.avatar[2]))
+                break
+
+            case "acc":
+                CLIENT_DATA.avatar[3] = nextIndex(CLIENT_DATA.avatar[3], ACCESSORIES_AMOUNT)
+                setImageWhenLoaded("#plr-acc", urlAccessory(CLIENT_DATA.avatar[3]))
+                setImageWhenLoaded("#closet #acc .acc", urlAccessory(CLIENT_DATA.avatar[3]))
+                break
+        }
+        // Save the updated avatar configuration
+        saveAvatar()
+    }
+
+    // Attach click handler to cycle avatar part
+    $container.on("click", cycleAvatar)
+})
+
+$("#randomizer").on("click", () => {
+    // Assign random values to all avatar parts
+    randomizeAvatar()
+})
+
+// ============================
+// PARTY BUTTONS
+// ============================
+$("#createParty-btn").on("click", () => {
+    // Initiate party creation process
+    $("#main-page").addClass("disabled")
+    $("#loader").addClass("active")
+    $("#customizer").removeClass("active")
+    $(".holder .box").empty()
+    setPlayerName()
+
+    setTimeout(async () => {
+        try {
+            // Request server to create a new party
+            const res = await axios.post("/create_party", {
+                name: CLIENT_DATA.playerName,
+                avatar: CLIENT_DATA.avatar
+            })
+
+            const { party_code, player_id } = res.data
+            CLIENT_DATA.playerId = player_id
+            CLIENT_DATA.currentParty = party_code
+            CLIENT_DATA.loadedPlayers = []
+
+            // Show party page
+            $("#party-page").removeClass("disabled")
+            $("#codeLabel").text("รหัสเชิญ : " + party_code)
+            $("#plr-list.party .box").empty()
+
+            // Join socket room as host
+            SOCKET.emit("join_party_room", {
+                party_code: party_code,
+                player_id: player_id,
+                create: true,
+            })
+
+        } catch (err) {
+            console.error("Error creating party:", err)
+            alert("There was an error creating the party. Please try again.")
+            $("#main-page").removeClass("disabled")
+        } finally {
+            $("#loader").removeClass("active")
+        }
+    }, 250)
+})
+
+$("#joinParty-btn").on("click", () => {
+    // Join an existing party using invite code
+    const partyCode = $("#inviteCode").val().toUpperCase()
+    const codeRegex = /^[A-Z0-9]{5}$/
+    if (!codeRegex.test(partyCode)) {
+        alert("Please enter a valid 5-character party code (A–Z, 0–9).")
+        return
+    }
+
+    $(".holder .box").empty()
+    $("#main-page").addClass("disabled")
+    $("#loader").addClass("active")
+    $("#customizer").removeClass("active")
+    $("#startGame-btn, #optionsO-btn, #optionsX-btn, .optionsC").hide()
+    setPlayerName()
+
+    setTimeout(async () => {
+        try {
+            const res = await axios.post("/join_party", {
+                party_code: partyCode,
+                name: CLIENT_DATA.playerName,
+                avatar: CLIENT_DATA.avatar
+            })
+
+            const { player_id, party_state } = res.data
+            CLIENT_DATA.playerId = player_id
+            CLIENT_DATA.currentParty = partyCode
+
+            // Show appropriate page depending on party state
+            $("#codeLabel").text("รหัสเชิญ : " + partyCode)
+            if (party_state !== "InGame") $("#party-page").removeClass("disabled")
+            else $("#game-page").removeClass("disabled")
+
+            // Join socket room as player
+            SOCKET.emit("join_party_room", {
+                party_code: partyCode,
+                player_id: CLIENT_DATA.playerId,
+                join: true,
+            })
+
+        } catch (err) {
+            console.error("Error joining party:", err)
+            alert("There was an error joining the party. Please try again.")
+            $("#main-page").removeClass("disabled")
+        } finally {
+            $("#loader").removeClass("active")
+        }
+    }, 250)
+})
+
+$("#codeLabel").on("click", async () => {
+    // Copy party code to clipboard
+    const original = $("#codeLabel").text()
+    const party_code = original.split(":")[1]?.trim()
+
+    if (!party_code || party_code === "-----" || $(".copied").hasClass("show")) return
+
+    await navigator.clipboard.writeText(party_code).catch(() => { })
+    $(".copied").addClass("show")
+    setTimeout(() => $(".copied").removeClass("show"), 1000)
+})
+
+$("#leaveParty-btn").on("click", async () => {
+    // Leave current party
+    const confirmLeave = confirm("Are you sure you want to leave the party?");
+    if (!confirmLeave) return;
+
+    const partyCode = $("#codeLabel").text().replace("รหัสเชิญ : ", "").trim().toUpperCase();
+
+    // Show loader & hide party UI
+    $("#loader").addClass("active");
+    $("#customizer").removeClass("active");
+    $("#party-page").addClass("disabled");
+    $("#startGame-btn, #optionsO-btn, #optionsX-btn, .optionsC").hide();
+    resetOptions();
+
+    setTimeout(async () => {
+        try {
+            // Emit leave event and wait for server response
+            const res = await new Promise((resolve) => {
+                SOCKET.emit("leave_party_room", (response) => {
+                    resolve(response);
+                });
+            });
+
+            if (!res.success) throw new Error(res.error || "Failed to leave party");
+
+            // Clear UI
+            $("#main-page").removeClass("disabled");
+            $("#codeLabel").text("รหัสเชิญ : ----");
+            $("#plr-list.party .box").empty();
+            CLIENT_DATA.loadedPlayers = [];
+            CLIENT_DATA.currentParty = null;
+            CLIENT_DATA.playerId = null;
+
+        } catch (err) {
+            console.error("Error leaving party:", err);
+            alert("There was an error leaving the party. Please try again.");
+
+            // Restore UI since leave failed
+            $("#main-page").addClass("disabled");
+            $("#party-page").removeClass("disabled");
+            $("#codeLabel").text("รหัสเชิญ : " + partyCode);
+        } finally {
+            $("#loader").removeClass("active");
+        }
+    }, 250)
+});
+
+
+$("#startGame-btn").on("click", async () => {
+    // Start the game and send options to server
+    SOCKET.emit("start_game", {
+        party_code: CLIENT_DATA.currentParty,
+        roundsCount: parseInt($("#roundsCount").text(), 10),
+        guessLimit: parseInt(parseGuess($("#guessLimit").text()), 10),
+        drawTime: parseInt($("#drawTime").text(), 10),
+        onlyCustom: !$("#topic-override").hasClass("disabled"),
+        customTopics: $("#customTopics").val()
+    }, (res) => {
+        if (!res.success) {
+            alert("Error: " + res.success)
+        }
+    })
+})
+
+// ============================
+// CHATBOX & GUESSBOX
+// ============================
+$("#chatMsg").on("keydown", (e) => {
+    // Send chat message when Enter is pressed
+    if (e.key !== 'Enter') return
+
+    const message = $("#chatMsg").val()
+    if (message.trim() === "") return
+
+    SOCKET.emit("message", {
+        custom_class: null,
+        party_code: CLIENT_DATA.currentParty,
+        name: CLIENT_DATA.playerName,
+        avatar: CLIENT_DATA.avatar,
+        message: message,
+    })
+    $("#chatMsg").val('')
+})
+
+$("#guessMsg").on("keydown", (e) => {
+    // Send guess message when Enter is pressed
+    if (e.key !== 'Enter') return
+
+    const message = $("#guessMsg").val()
+    if (message.trim() === "") return
+
+    SOCKET.emit("guess", {
+        party_code: CLIENT_DATA.currentParty,
+        name: CLIENT_DATA.playerName,
+        message: message,
+    })
+    $("#guessMsg").val('')
+})
+
+// ============================
+// SETTINGS MENU
+// ============================
+$("#optionsO-btn").on("click", () => {
+    // Open options panel
+    $(".transition-div").addClass("fill")
+    $("#startGame-btn, #optionsO-btn, #leaveParty-btn").addClass("hidden")
+
+    setTimeout(() => {
+        $("#startGame-btn, #optionsO-btn, #leaveParty-btn").hide()
+        $("#plr-list.party, #chat-box.party").hide()
+        $(".optionsC, #optionsX-btn").show()
+        $("#optionsX-btn").removeClass("hidden")
+        $(".transition-div").removeClass("fill")
+    }, 300)
+})
+
+$("#optionsX-btn").on("click", () => {
+    // Close options panel
+    $(".transition-div").addClass("fill")
+    $("#optionsX-btn").addClass("hidden")
+
+    setTimeout(() => {
+        $(".optionsC, #optionsX-btn").hide()
+        $("#plr-list.party, #chat-box.party").show()
+        $("#startGame-btn, #optionsO-btn, #leaveParty-btn").show().removeClass("hidden")
+        $(".transition-div").removeClass("fill")
+    }, 300)
+})
+
+$(".optionsC").on("click", ".increase", (e) => {
+    // Increase/decrease options
+    const $num = $(e.currentTarget).siblings(".option-value")
+    let value = parseGuess($num.text())
+    const max = parseInt($num.data("max"), 10)
+
+    if (value < max) $num.text(formatGuess(value + 1))
+    updateButtons($num)
+})
+
+$(".optionsC").on("click", ".decrease", (e) => {
+    const $num = $(e.currentTarget).siblings(".option-value")
+    let value = parseGuess($num.text())
+    const min = parseInt($num.data("min"), 10)
+
+    if (value > min) $num.text(formatGuess(value - 1))
+    updateButtons($num)
+})
+
+$("#topic-override").on("click", () => {
+    // Custom topic toggles
+    $("#topic-override").removeClass("disabled")
+    $("#topic-merge").addClass("disabled")
+})
+
+$("#topic-merge").on("click", () => {
+    // Custom topic toggles
+    $("#topic-merge").removeClass("disabled")
+    $("#topic-override").addClass("disabled")
+})
+
+$(".option-value").each((_, el) => updateButtons($(el)))
+
+// ============================
+// TOPIC PICKER
+// ============================
+$(".choose-btn").on("click", (e) => {
+    // Player picks a topic
+    const topic = $(e.currentTarget).text().trim()
+    SOCKET.emit("pick_topic", {
+        picked_topic: topic
+    })
+    $("#topics-list").removeClass("show")
+    triggerAnim($("#hint"), "update")
+    $("#hint").text(topic)
+})
+
+// ============================
+// SOCKET: Chat messages
+// ============================
+SOCKET.on("message", (data) => {
+    const $msgBox = $('<div class="msg-box"></div>')
 
     // System/custom messages
     if (data.custom_class) {
@@ -211,451 +615,216 @@ socket.on("message", (data) => { // Handle incoming chat messages
     }
 
     // Build avatar profile pic
-    const $avatarContainer = $('<div class="avatar-container"></div>');
-    $avatarContainer.append(
-        $(`<img class="player" src="${urlColor(data.avatar[0])}">`),
-        $(`<img class="shirt" src="${urlShirt}">`),
-        $(`<img class="face" src="${urlFace(data.avatar[1])}">`),
-        $(`<img class="hair" src="${urlHair(data.avatar[2])}">`),
-        $(`<img class="accessory" src="${urlAccessory(data.avatar[3])}">`)
-    );
+    const $avDisplay = buildAvatarDOM(data.avatar)
 
     // Build text content
-    const $container = $('<div></div>');
-    const $senderName = $('<p class="sender-name"></p>').text(data.name);
-    const $textContainer = $('<p class="text-container"></p>').text(data.message);
-    $container.append($senderName, $textContainer);
+    const $container = $('<div></div>')
+    const $senderName = $('<p class="sender-name"></p>').text(data.name)
+    const $textContainer = $('<p class="text-container"></p>').text(data.message)
+    $container.append($senderName, $textContainer)
 
-    $msgBox.append($avatarContainer, $container);
-    $(".chat-display .box").append($msgBox);
+    $msgBox.append($avDisplay, $container)
+    $(".party .holder .box").append($msgBox)
 
     // Animate and scroll down
     requestAnimationFrame(() => {
-        $msgBox.addClass("show");
-    });
-    $(".chat-display .box").scrollTop($(".chat-display .box").prop("scrollHeight"));
-});
-socket.on("update_players", (data) => { // Handle party player list updates
+        $msgBox.addClass("show")
+    })
+    $(".party .holder .box").scrollTop($(".party .holder .box").prop("scrollHeight"))
+})
+
+// ============================
+// SOCKET: Player list updates
+// ============================
+SOCKET.on("update_players", (data) => {
     if (data.type == "Party") {
-        $("#party-players-container .box").empty();
+        $("#plr-list.party .box").empty()
         $.each(data.players, function (uuid, plr) {
-            const $plrBox = $('<div class="plr-box"></div>');
+            const $plrBox = $('<div class="plr-box"></div>')
 
             // Play cool animation
-            if (client_data.loadedPlayers[uuid]) {
-                $plrBox.css({ transform: "scale(1)" });
+            if (CLIENT_DATA.loadedPlayers[uuid]) {
+                $plrBox.css({
+                    transform: "scale(1)"
+                })
             }
 
             // Add crown if host
             if (uuid == data.host) {
-                const $hostCrown = $('<img class="crown" src="/static/Images/Icons/Host.svg"></img>');
-                $plrBox.append($hostCrown);
+                const $hostCrown = $('<img class="crown" src="/static/Images/Icons/Host.svg"></img>')
+                $plrBox.append($hostCrown)
             }
 
             // Host only buttons
-            if (client_data.playerId == data.host) {
-                $("#start-button, #settings-button").show();
+            if (CLIENT_DATA.playerId == data.host) {
+                $("#startGame-btn, #optionsO-btn").show()
             }
 
             // Avatar display
-            const $avatarContainer = $('<div class="avatar-container"></div>').append(
-                $(`<img class="player" src="${urlColor(plr.avatar[0])}">`),
-                $(`<img class="shirt" src="${urlShirt}">`),
-                $(`<img class="face" src="${urlFace(plr.avatar[1])}">`),
-                $(`<img class="hair" src="${urlHair(plr.avatar[2])}">`),
-                $(`<img class="accessory" src="${urlAccessory(plr.avatar[3])}">`)
-            );
+            const $avDisplay = buildAvatarDOM(plr.avatar)
 
             // Player info
-            const $info = $('<div class="plr-info"></div>');
-            const $userName = $('<p class="username"></p>').text(plr.name);
-            if (client_data.playerId == uuid) {
-                $userName.append($('<span class="meTag">(คุณ)</span>'));
+            const $info = $('<div class="plr-info"></div>')
+            const $userName = $('<p class="username"></p>').text(plr.name)
+            if (CLIENT_DATA.playerId == uuid) {
+                $userName.append($('<span class="meTag">(คุณ)</span>'))
             }
-            const $idText = $('<p class="uuid"></p>').text(`UUID : ${uuid}`);
+            const displayUUID = uuid.substring(0, 20)
+            const $idText = $('<p class="uuid"></p>').text(`UUID : ${displayUUID}`)
 
-            $info.append($userName, $idText);
-            $plrBox.append($avatarContainer, $info);
+            $info.append($userName, $idText)
+            $plrBox.append($avDisplay, $info)
 
-            $("#party-players-container .box").append($plrBox);
+            $("#plr-list.party .box").append($plrBox)
 
             // Animate new players
-            if (!client_data.loadedPlayers[uuid]) {
-                client_data.loadedPlayers[uuid] = true;
-                requestAnimationFrame(() => $plrBox.addClass("show"));
+            if (!CLIENT_DATA.loadedPlayers[uuid]) {
+                CLIENT_DATA.loadedPlayers[uuid] = true
+                requestAnimationFrame(() => $plrBox.addClass("show"))
             }
-        });
+        })
     } else if (data.type == "InGame") {
-        $("#game-players-container .box").empty();
+        $("#plr-list.game .box").empty()
         $.each(data.players, function (uuid, plr) {
-            const $plrBox = $('<div class="plr-box"></div>');
+            const $plrBox = $('<div class="plr-box"></div>')
 
             // Play cool animation
-            if (client_data.loadedPlayers[uuid] && data.reset) {
-                $plrBox.css({ transform: "scale(1)" });
+            if (CLIENT_DATA.loadedPlayers[uuid] && data.reset) {
+                $plrBox.css({
+                    transform: "scale(1)"
+                })
             }
 
             // Add pencil if drawer
-            if (uuid == data.drawer) {
-                const $drawerPencil = $('<img class="drawer" src="/static/Images/Icons/Pencil.svg"></img>');
-                $plrBox.append($drawerPencil);
+            if (uuid == data.drawer_id) {
+                const $drawerPencil = $('<img class="drawer" src="/static/Images/Icons/Pencil.svg"></img>')
+                $plrBox.append($drawerPencil)
+                $plrBox.addClass("drawer")
             }
 
             // Avatar display
-            const $avatarContainer = $('<div class="avatar-container"></div>').append(
-                $(`<img class="player" src="${urlColor(plr.avatar[0])}">`),
-                $(`<img class="shirt" src="${urlShirt}">`),
-                $(`<img class="face" src="${urlFace(plr.avatar[1])}">`),
-                $(`<img class="hair" src="${urlHair(plr.avatar[2])}">`),
-                $(`<img class="accessory" src="${urlAccessory(plr.avatar[3])}">`)
-            );
+            const $avDisplay = buildAvatarDOM(plr.avatar)
 
             // Player info
-            const $info = $('<div class="plr-info"></div>');
-            const $userName = $('<p class="username"></p>');
-            const $name = $('<span class="name"></span>').text(plr.name);
-            $userName.append($name);
-            if (client_data.playerId == uuid) {
-                $userName.append($('<span class="meTag">(คุณ)</span>'));
+            const $info = $('<div class="plr-info"></div>')
+            const $userName = $('<p class="username"></p>')
+            const $name = $('<span class="name"></span>').text(plr.name)
+            $userName.append($name)
+            if (CLIENT_DATA.playerId == uuid) {
+                $userName.append($('<span class="meTag">(คุณ)</span>'))
             }
-            const $scoreText = $('<p class="score"></p>').text(`${plr.score} คะแนน`);
+            const $scoreText = $('<p class="score"></p>').text(`${plr.score} คะแนน`)
 
-            $info.append($userName, $scoreText);
-            $plrBox.append($avatarContainer, $info);
+            $info.append($userName, $scoreText)
+            $plrBox.append($avDisplay, $info)
 
-            $("#game-players-container .box").append($plrBox);
+            $("#plr-list.game .box").append($plrBox)
 
             // Animate new players
-            if (!client_data.loadedPlayers[uuid]) {
-                client_data.loadedPlayers[uuid] = true;
-                requestAnimationFrame(() => $plrBox.addClass("show"));
+            if (!CLIENT_DATA.loadedPlayers[uuid]) {
+                CLIENT_DATA.loadedPlayers[uuid] = true
+                requestAnimationFrame(() => $plrBox.addClass("show"))
             }
-        });
+        })
     }
-});
-socket.on("start_game", () => { // Start the game
-    $(".party-page").addClass("disabled");
-    startCountdown(3);
-    setTimeout(async () => {
-        $(".countdown").removeClass("active");
-        $(".game-page").removeClass("disabled");
-    }, 3000);
-});
-socket.on("update_timer", (data) => { // Listen for server countdown updates
-    const timeParts = data.time.split(":");
-    const minutes = parseInt(timeParts[0], 10);
-    const seconds = parseInt(timeParts[1], 10);
-    const formatted = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    $("#game-timer").text(formatted);
-});
-socket.on("topics_pick", (data) => { // Start the game
-    if (data.drawer == client_data.playerId) {
-        $(".topics-picker").addClass("show");
-        $("#pickTopic1").text(data.topic1);
-        $("#pickTopic2").text(data.topic2);
-        $("#pickTopic3").text(data.topic3);
-    }
-});
+})
 
 // ============================
-// UI INIT
+// SOCKET: Game start
 // ============================
-
-$(document).ready(function () {
-    loadAvatar();
-    $("#start-button, #settings-button, #settings-exit, .settings-container").hide()
-});
+SOCKET.on("start_game", () => {
+    $("#party-page").addClass("disabled")
+    $(".game .holder .box").empty()
+    $("#guessMsg").prop("disabled", true)
+    startCountdown(3)
+    setTimeout(async () => {
+        $("#countdown").removeClass("active")
+        $("#game-page").removeClass("disabled")
+    }, 3000)
+})
 
 // ============================
-// UI ACTIONS
+// SOCKET: Timer updates
 // ============================
+SOCKET.on("update_timer", (data) => {
+    const timeParts = data.time.split(":")
+    const minutes = parseInt(timeParts[0], 10)
+    const seconds = parseInt(timeParts[1], 10)
+    const formatted = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+    $("#timer").text(formatted)
+})
+SOCKET.on("timer_anim", () => {
+    triggerAnim($("#timer"), "update")
+})
 
-// Avatar customization
-$("#customize-avatar").on("click", () => { // Toggle avatar customization menu
-    $("#customize-avatar").toggleClass("active");
-});
-$("#customize-container .item-display").each(function () { // Handle avatar part change buttons
-    const $display = $(this);
-    const id = $display.attr("id");
-    const $container = $display.find(".item-container");
-
-    // Cycle avatar part
-    function cycleAvatar() {
-        switch (id) {
-            case "color":
-                client_data.avatar[0] = nextIndex(client_data.avatar[0], colors_amount);
-                setImageWhenLoaded("#player-color", urlColor(client_data.avatar[0]));
-                setImageWhenLoaded("#customize-container #color .player", urlColor(client_data.avatar[0]));
-                break;
-
-            case "face":
-                client_data.avatar[1] = nextIndex(client_data.avatar[1], faces_amount);
-                setImageWhenLoaded("#player-face", urlFace(client_data.avatar[1]));
-                setImageWhenLoaded("#customize-container #face .face", urlFace(client_data.avatar[1]));
-                break;
-
-            case "hair":
-                client_data.avatar[2] = nextIndex(client_data.avatar[2], hairs_amount);
-                setImageWhenLoaded("#player-hair", urlHair(client_data.avatar[2]));
-                setImageWhenLoaded("#customize-container #hair .hair", urlHair(client_data.avatar[2]));
-                break;
-
-            case "accessory":
-                client_data.avatar[3] = nextIndex(client_data.avatar[3], accessories_amount);
-                setImageWhenLoaded("#player-accessory", urlAccessory(client_data.avatar[3]));
-                setImageWhenLoaded("#customize-container #accessory .accessory", urlAccessory(client_data.avatar[3]));
-                break;
-        }
-        saveAvatar();
+// ============================
+// SOCKET: Show Topics picker
+// ============================
+SOCKET.on("topics_pick", (data) => {
+    if (data.drawer_id == CLIENT_DATA.playerId) {
+        $("#topics-list").addClass("show")
+        $("#Topic-1").text(data.topic1)
+        $("#Topic-2").text(data.topic2)
+        $("#Topic-3").text(data.topic3)
     }
-    $container.on("click", cycleAvatar);
-});
-$("#random-avatar").on("click", randomizeAvatar); // Random avatar button
+    $("#guessMsg").prop("disabled", true)
+    triggerAnim($("#hint"), "update")
+    setStatus($(".banner"), "ผู้เล่นกำลังเลือกหัวข้อ")
+})
+SOCKET.on("pick_done", (data) => {
+    if (data.drawer_id != CLIENT_DATA.playerId) {
+        triggerAnim($("#hint"), "update")
+        $("#hint").text(data.hint)
+        $("#guessMsg").prop("disabled", false)
+    }
+    $(".game .holder .box").empty()
+    setStatus()
+})
 
-// Party actions
-$("#create-button").on("click", () => { // Create new party
-    $(".main-page").addClass("disabled");
-    $(".loader").addClass("active");
-    $("#customize-avatar").removeClass("active");
-    $(".chat-display .box").empty();
-    setPlayerName();
+// ============================
+// SOCKET: Show Canvas Alert
+// ============================
+SOCKET.on("canvas_alert", (data) => {
+    $("#topics-list").removeClass("show")
+    setStatus($(data.icon), data.msg)
+})
+SOCKET.on("show_answer", (data) => {
+    setStatus($(".reveal"), "คำตอบคือ")
+    $(".status h1").text(data.answer)
+})
 
-    setTimeout(async () => {
-        try {
-            const res = await axios.post("/create_party", {
-                name: client_data.playerName,
-                avatar: client_data.avatar
-            });
-            const { party_code, player_id } = res.data;
-
-            client_data.playerId = player_id;
-            client_data.currentParty = party_code;
-            client_data.loadedPlayers = [];
-
-            $(".party-page").removeClass("disabled");
-            $("#party-code").text("รหัสเชิญ : " + party_code);
-            $("#party-players-container .box").empty();
-
-            // Join socket room as host
-            socket.emit("join_party_room", {
-                party_code: party_code,
-                player_id: player_id,
-                host_name: client_data.playerName,
-            });
-
-        } catch (err) {
-            console.error("Error creating party:", err);
-            alert("There was an error creating the party. Please try again.");
-            $(".main-page").removeClass("disabled");
-        } finally {
-            $(".loader").removeClass("active");
-        }
-    }, 250);
-});
-$("#join-button").on("click", () => { // Join existing party
-    const partyCode = $("#inviteCode").val().toUpperCase();
-    const codeRegex = /^[A-Z0-9]{5}$/;
-    if (!codeRegex.test(partyCode)) {
-        alert("Please enter a valid 5-character party code (A–Z, 0–9).");
-        return;
+// ============================
+// SOCKET: Guess messages
+// ============================
+SOCKET.on("guess", (data) => {
+    // Check if already done
+    if (data.custom_class === "correct" && data.playerId === CLIENT_DATA.playerId) {
+        $("#guessMsg").prop("disabled", true)
     }
 
-    $(".chat-display .box").empty();
-    $(".main-page").addClass("disabled");
-    $(".loader").addClass("active");
-    $("#customize-avatar").removeClass("active");
-    setPlayerName();
+    // Display guesses
+    const $msgBox = $('<div class="msg-box"></div>')
 
-    setTimeout(async () => {
-        try {
-            const res = await axios.post("/join_party", {
-                party_code: partyCode,
-                name: client_data.playerName,
-                avatar: client_data.avatar
-            });
-            const { player_id, party_state } = res.data;
-
-            client_data.playerId = player_id;
-            client_data.currentParty = partyCode;
-
-            $("#party-code").text("รหัสเชิญ : " + partyCode);
-            if (party_state != "InGame") {
-                $(".party-page").removeClass("disabled");
-            } else {
-                $(".game-page").removeClass("disabled");
-            }
-
-            // Join socket room as player
-            socket.emit("join_party_room", {
-                party_code: partyCode,
-                player_id: client_data.playerId,
-                player_name: client_data.playerName,
-            });
-
-        } catch (err) {
-            console.error("Error joining party:", err);
-            alert("There was an error joining the party. Please try again.");
-            $(".main-page").removeClass("disabled");
-        } finally {
-            $(".loader").removeClass("active");
-        }
-    }, 250);
-});
-$("#party-code").on("click", async () => { // Copy party code to clipboard
-    const original = $("#party-code").text();
-    const party_code = original.split(":")[1]?.trim();
-
-    if (!party_code || party_code === "-----" || $(".code-copied").hasClass("show")) {
-        return;
+    // System/custom messages
+    if (data.custom_class) {
+        $msgBox.addClass("system")
+        $msgBox.addClass(data.custom_class)
     }
-    await navigator.clipboard.writeText(party_code).catch(() => { });
-    $(".code-copied").addClass("show");
-    setTimeout(() => $(".code-copied").removeClass("show"), 1000);
-});
-$("#leave-button").on("click", () => { // Leave current party
-    const confirmLeave = confirm("Are you sure you want to leave the party?");
-    const partyCode = $("#party-code").text().replace("รหัสเชิญ : ", "").trim().toUpperCase();
-    if (!confirmLeave) return;
 
-    $(".loader").addClass("active");
-    $("#customize-avatar").removeClass("active");
-    $(".party-page").addClass("disabled");
-    resetSettings();
+    const $senderName = $('<p class="sender-name"></p>').text(data.name)
+    const $textContainer = $('<p class="text-container"></p>').text(data.message)
 
-    setTimeout(async () => {
-        try {
-            const res = await axios.post("/leave_party", {
-                party_code: partyCode,
-                player_id: client_data.playerId
-            });
-            if (!res.data.success) throw new Error("Failed to leave");
-
-            $(".main-page").removeClass("disabled");
-            $("#party-code").text("รหัสเชิญ : ----");
-            $("#party-players-container .box").empty();
-            client_data.loadedPlayers = [];
-
-            // Notify server
-            socket.emit("leave_party_room", {
-                party_code: client_data.currentParty,
-                player_name: client_data.playerName,
-            });
-
-        } catch (err) {
-            console.error("Error leaving party:", err);
-            alert("There was an error leaving the party. Please try again.");
-
-            // Restore UI since leave failed
-            $(".main-page").addClass("disabled");
-            $(".party-page").removeClass("disabled");
-            $("#party-code").text("รหัสเชิญ : " + partyCode);
-        } finally {
-            $(".loader").removeClass("active");
-        }
-    }, 250);
-});
-$("#start-button").on("click", async () => { /// Start the game and apply settings to backend
-    try {
-        const res = await axios.post("/start_game", {
-            party_code: client_data.currentParty,
-            player_id: client_data.playerId,
-            roundsCount: parseInt($("#roundsCount").text(), 10),
-            guessLimit: parseInt(parseGuess($("#guessLimit").text()), 10),
-            drawTime: parseInt($("#drawTime").text(), 10),
-            onlyCustom: !$("#ctopic-override").hasClass("disabled"),
-            customTopics: $("#customTopics").val()
-        });
-        if (!res.data.success) throw new Error("Failed to start");
-
-    } catch (err) {
-        console.error("Error starting game:", err);
-        alert("There was an error starting the game. Please try again.");
+    if (data.custom_class) {
+        $msgBox.append($senderName, $textContainer)
+    } else {
+        const $colon = $('<span>:</span>')
+        $msgBox.append($senderName, $colon, $textContainer)
     }
-});
+    $(".game .holder .box").append($msgBox)
 
-// Chat System
-$("#chatMsg").on("keydown", function (e) {
-    if (e.key === 'Enter') {
-        var message = $("#chatMsg").val();
-        if (message.trim() == 0) return;
-
-        socket.emit("message", {
-            custom_class: null,
-            party_code: client_data.currentParty,
-            name: client_data.playerName,
-            avatar: client_data.avatar,
-            message: message,
-        });
-        $("#chatMsg").val('');
-    }
-});
-
-// Settings
-$("#settings-button").on("click", () => { // Open settings menu
-    $(".transition-div").addClass("fill")
-    $("#start-button, #settings-button, #leave-button").addClass("hidden")
-    setTimeout(() => {
-        $("#start-button, #settings-button, #leave-button").hide()
-        $("#party-players-container, #party-chat-container").hide();
-        $(".settings-container, #settings-exit").show();
-        $("#settings-exit").removeClass("hidden");
-        $(".transition-div").removeClass("fill")
-    }, 300);
-});
-$("#settings-exit").on("click", () => { // Close settings menu
-    $(".transition-div").addClass("fill")
-    $("#settings-exit").addClass("hidden")
-    setTimeout(() => {
-        $(".settings-container, #settings-exit").hide()
-        $("#party-players-container, #party-chat-container").show();
-        $("#start-button, #settings-button, #leave-button").show();
-        $("#start-button, #settings-button, #leave-button").removeClass("hidden");
-        $(".transition-div").removeClass("fill")
-    }, 300);
-});
-$(".settings-container").on("click", ".increase", function () { // Increase
-    const $num = $(this).siblings(".setting-value");
-    let value = parseGuess($num.text());
-    const max = parseInt($num.data("max"), 10);
-
-    if (value < max) {
-        $num.text(formatGuess(value + 1))
-    }
-    updateButtons($num);
-});
-$(".settings-container").on("click", ".decrease", function () { // Decrease
-    const $num = $(this).siblings(".setting-value");
-    let value = parseGuess($num.text());
-    const min = parseInt($num.data("min"), 10);
-
-    if (value > min) $num.text(formatGuess(value - 1));
-    updateButtons($num);
-});
-$("#ctopic-override").on("click", () => { // Toggle custom topic style
-    $("#ctopic-override").removeClass("disabled");
-    $("#ctopic-add").addClass("disabled");
-});
-$("#ctopic-add").on("click", () => { // Toggle custom topic style
-    $("#ctopic-add").removeClass("disabled");
-    $("#ctopic-override").addClass("disabled");
-});
-$(".setting-value").each(function () { // Init
-    updateButtons($(this));
-});
-
-// Topics picker
-function sendPickedTopic(topic) {
-    socket.emit("message", {
-        picked_topic: null,
-    });
-}
-
-$("#pickTopic1").on("click", () => {
-
-});
-$("#pickTopic2").on("click", () => {
-
-});
-$("#pickTopic3").on("click", () => {
-
-});
+    // Animate and scroll down
+    requestAnimationFrame(() => {
+        $msgBox.addClass("show")
+    })
+    $(".game .holder .box").scrollTop($(".game .holder .box").prop("scrollHeight"))
+})

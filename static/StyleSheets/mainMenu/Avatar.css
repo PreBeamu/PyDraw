@@ -1,7 +1,7 @@
 /* ==============================
    AVATAR CONTAINER
 ============================== */
-.avatar-container {
+.av-display {
   position: absolute;
   width: 100px;
   height: 100px;
@@ -19,7 +19,7 @@
 /* ==============================
    CUSTOMIZE AVATAR BUTTON
 ============================== */
-#customize-avatar {
+#customizer {
   position: absolute;
   width: 100px;
   height: 100px;
@@ -34,7 +34,7 @@
   transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-#customize-avatar .icon {
+#customizer .icon {
   position: absolute;
   width: 75%;
   height: 75%;
@@ -42,30 +42,30 @@
 }
 
 /* Hover & Active states */
-#customize-avatar:hover {
+#customizer:hover {
   opacity: 100%;
 }
 
-#customize-avatar:hover ~ .avatar-container {
+#customizer:hover ~ .av-display {
   transform: scale(0.85);
 }
 
-#customize-avatar:active {
+#customizer:active {
   transform: scale(1.1);
 }
 
-#customize-avatar:active ~ .avatar-container {
+#customizer:active ~ .av-display {
   transform: scale(1);
 }
 
 /* ==============================
    CUSTOMIZE MENU
 ============================== */
-#customize-avatar.active + #customize-container {
+#customizer.active + #closet {
   transform: scale(1);
 }
 
-#customize-container {
+#closet {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -75,7 +75,7 @@
 }
 
 /* Item display containers */
-.item-display {
+.islot {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -85,7 +85,7 @@
 }
 
 /* Labels above items */
-.item-display p {
+.islot p {
   position: absolute;
   width: 150px;
   text-align: center;
@@ -96,21 +96,21 @@
 }
 
 /* Position specific item displays */
-.item-display#color {
+.islot#color {
   transform: translate(-12rem, 0);
 }
-.item-display#face {
+.islot#face {
   transform: translate(12rem, 0);
 }
-.item-display#hair {
+.islot#hair {
   transform: translate(-7rem, 0);
 }
-.item-display#accessory {
+.islot#acc {
   transform: translate(7rem, 0);
 }
 
 /* Item containers */
-.item-display .item-container {
+.islot .idisplay {
   position: absolute;
   width: 65px;
   height: 65px;
@@ -125,15 +125,15 @@
 }
 
 /* Hover & active states for items */
-.item-display .item-container:hover {
+.islot .idisplay:hover {
   transform: scale(0.95);
 }
-.item-display .item-container:active {
+.islot .idisplay:active {
   transform: scale(1.05);
   transition: none;
 }
 
-.item-display .item-container .icon {
+.islot .idisplay .icon {
   position: absolute;
   width: 105%;
   height: 105%;
@@ -143,14 +143,14 @@
   transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.item-display .item-container:hover .icon {
+.islot .idisplay:hover .icon {
   opacity: 80%;
 }
 
 /* ==============================
    RANDOM AVATAR BUTTON
 ============================== */
-#random-avatar {
+#randomizer {
   position: absolute;
   width: 35px;
   height: 35px;
@@ -165,20 +165,20 @@
   transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-#random-avatar .icon {
+#randomizer .icon {
   width: 50%;
   height: 50%;
   opacity: 75%;
 }
 
 /* Hover & Active states */
-#random-avatar:hover {
+#randomizer:hover {
   background: #a4a4a4;
 }
-#random-avatar:active {
+#randomizer:active {
   transform: translate(3rem, 3rem) scale(0.9) rotate(360deg);
   transition: none;
 }
-#random-avatar:active ~ .avatar-container {
+#randomizer:active ~ .av-display {
   transform: scale(0.85);
 }

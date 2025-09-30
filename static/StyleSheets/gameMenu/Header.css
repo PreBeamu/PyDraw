@@ -1,34 +1,41 @@
 /* ==============================
    GAME HEADER
 ============================== */
-.game-header {
+#game-page header {
   position: absolute;
-  width: 375px;
+  width: 345px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   gap: 8px;
   z-index: 10;
-  transform: translate(14rem, -15.55rem);
+  transform: translate(14.75rem, -15rem);
 }
 
-#letters-count {
+#hint {
   all: unset;
   width: 75%;
-  display: inline-block;
+  height: 35px;
+  display: flex;
   box-sizing: border-box;
   padding: 0.1rem 0.75rem;
   border: 3px solid #000000;
   border-radius: 6px;
   background: #ffffff;
-  text-align: center;
+  justify-content: center;
+  align-items: center;
   white-space: nowrap;
-  color: #3c3c3c;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #4b4b4b;
   transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
 }
+#hint.update {
+  animation: label-update 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
 
-#game-timer {
+#timer {
   all: unset;
   width: 90px;
   display: inline-block;
@@ -41,4 +48,21 @@
   white-space: nowrap;
   color: white;
   transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+#timer.update {
+  animation: timer-update 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ==============================
+   ANIMATIONS
+============================== */
+
+@keyframes label-update {
+  from { transform: scale(0.25); }
+  to { transform: scale(1); }
+}
+
+@keyframes timer-update {
+  from { transform: scale(0.9); }
+  to { transform: scale(1); }
 }

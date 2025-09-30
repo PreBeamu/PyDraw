@@ -1,0 +1,136 @@
+/* ==============================
+   GUESSBOX
+============================== */
+#chat-box.game {
+  width: 100%;
+  height: 30%;
+  padding: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ebebeb;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  border: 2.5px solid rgb(131, 131, 131);
+}
+
+#chat-box.game .holder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#chat-box.game .holder .box {
+  width: 99%;
+  height: 99%;
+  padding: 0.25rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  border-radius: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: grey #ebebeb;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#chat-box.game input[type="text"] {
+  width: 99%;
+  padding: 2.5px 1.5%;
+  font-size: 0.85rem;
+  text-align: left;
+  border: 2.5px solid #b1b1b1;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-top: 0.25rem;
+  margin-bottom: 0.2rem;
+}
+
+/* ==============================
+   MESSAGES HOLDER
+============================== */
+.game .msg-box {
+  width: 200%;
+  height: fit-content;
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+  border-radius: 5px;
+  background-color: #d5d5d5;
+  transform-origin: center center;
+  transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.game .msg-box.show {
+  width: 100%;
+}
+
+/* System messages */
+.game .msg-box.system {
+  padding: 0.25rem;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.game .msg-box.system .text-container {
+  font-size: 0.75rem;
+  margin-top: 0.1rem;
+  justify-content: center;
+}
+
+.game .msg-box.system .sender-name {
+  display: none;
+}
+
+/* Message background types */
+.game .msg-box.almost {
+  background: #002c35;
+}
+.game .msg-box.correct {
+  background: #1c3f00;
+}
+.game .msg-box.left {
+  background: #350000;
+}
+
+/* Message text */
+.game .sender-name {
+  overflow: visible;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 85%;
+}
+
+.game .msg-box span {
+  font-size: 0.8rem;
+  font-weight: 800;
+  margin-inline: -3px;
+  margin-bottom: 1px;
+  opacity: 40%;
+}
+
+.game .text-container {
+  width: 100%;
+  height: fit-content;
+  margin-top: -1.5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-size: 0.85rem;
+  letter-spacing: 0.025rem;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  opacity: 70%;
+}

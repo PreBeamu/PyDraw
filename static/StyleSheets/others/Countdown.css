@@ -1,7 +1,7 @@
 /* ==============================
    SPINNING LOADER
 ============================== */
-.countdown {
+#countdown {
   position: absolute;
   width: 0px;
   height: 0px;
@@ -9,7 +9,7 @@
   transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.countdown.active {
+#countdown.active {
   width: 70px;
   height: 70px;
   padding: 1rem;
@@ -25,7 +25,7 @@
   background: white;
 }
 
-.countdown.spin {
+#countdown.spin {
   animation: count-spin 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 

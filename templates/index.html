@@ -1,105 +1,105 @@
 {% extends "base.html" %} {% block content %}
 <!-- Background -->
-<div id="animated-bg"></div>
+<div id="background"></div>
 
-<main class="page-wrapper mitr-font">
+<main id="wrapper">
   <!-- Loading Circle -->
-  <div class="loader">
+  <div id="loader">
     <img class="icon" src="/static/Images/Icons/Loading.svg" />
   </div>
   <!-- Countdown -->
-  <div class="countdown">3</div>
+  <div id="countdown"></div>
 
   <!-- Main Page -->
-  <section class="page main-page">
-    <button id="customize-avatar">
+  <section id="main-page" class="page">
+    <button id="customizer">
       <img class="icon" src="/static/Images/Icons/Customize.svg" />
     </button>
 
     <!-- Customize Avatar -->
-    <div id="customize-container">
-      <div class="item-display" id="color">
+    <div id="closet">
+      <div class="islot" id="color">
         <p>ตัวละคร</p>
-        <div class="item-container">
+        <div class="idisplay">
           <img class="player" src="/static/Images/Avatar/Colors/1.svg" />
           <img class="icon" src="/static/Images/Icons/Swap.svg" />
         </div>
       </div>
-      <div class="item-display" id="face">
+      <div class="islot" id="face">
         <p>หน้า</p>
-        <div class="item-container">
+        <div class="idisplay">
           <img class="player" src="/static/Images/Avatar/Colors/Default.svg" />
           <img class="face" src="/static/Images/Avatar/Faces/1.svg" />
           <img class="icon" src="/static/Images/Icons/Swap.svg" />
         </div>
       </div>
-      <div class="item-display" id="hair">
+      <div class="islot" id="hair">
         <p>ทรงผม</p>
-        <div class="item-container">
+        <div class="idisplay">
           <img class="player" src="/static/Images/Avatar/Colors/Default.svg" />
           <img class="hair" src="/static/Images/Avatar/Hairs/1.svg" />
           <img class="icon" src="/static/Images/Icons/Swap.svg" />
         </div>
       </div>
-      <div class="item-display" id="accessory">
+      <div class="islot" id="acc">
         <p>ของตกแต่ง</p>
-        <div class="item-container">
+        <div class="idisplay">
           <img class="player" src="/static/Images/Avatar/Colors/Default.svg" />
-          <img class="accessory" src="/static/Images/Avatar/Accessories/2.svg" />
+          <img class="acc" src="/static/Images/Avatar/Accessories/2.svg" />
           <img class="icon" src="/static/Images/Icons/Swap.svg" />
         </div>
       </div>
     </div>
 
     <!-- Random Button -->
-    <button id="random-avatar">
+    <button id="randomizer">
       <img class="icon" src="/static/Images/Icons/Random.svg" />
     </button>
 
     <!-- Avatar Display -->
-    <div class="avatar-container">
-      <img class="player" id="player-color" src="" />
-      <img class="shirt" id="player-shirt" src="/static/Images/Avatar/Shirt.svg" />
-      <img class="face" id="player-face" src="" />
-      <img class="hair" id="player-hair" src="" />
-      <img class="accessory" id="player-accessory" src="" />
+    <div class="av-display">
+      <img class="player" id="plr-color" src="" />
+      <img class="shirt" id="plr-shirt" src="/static/Images/Avatar/Shirt.svg" />
+      <img class="face" id="plr-face" src="" />
+      <img class="hair" id="plr-hair" src="" />
+      <img class="acc" id="plr-acc" src="" />
     </div>
 
     <!-- Username - InviteCode & Buttons -->
-    <div class="input-container">
+    <div class="main-actions">
       <input type="text" id="userName" maxlength="20" placeholder="ชื่อผู้เล่น" />
-      <button id="create-button" style="--btn-color: #3c3e5e">สร้างห้อง</button>
-      <div class="join-container">
+      <button id="createParty-btn" style="--btn-color: #3c3e5e">สร้างห้อง</button>
+      <div class="bottom">
         <input type="text" id="inviteCode" maxlength="5" placeholder="รหัสเชิญ" />
-        <button id="join-button" style="--btn-color: #4f3c5e">เข้าร่วม</button>
+        <button id="joinParty-btn" style="--btn-color: #4f3c5e">เข้าร่วม</button>
       </div>
     </div>
   </section>
 
   <!-- Party Page -->
-  <section class="page party-page disabled">
+  <section id="party-page" class="page disabled">
     <!-- Party Header & Buttons -->
-    <header class="party-header">
-      <button class="code-copied">คัดลอกแล้ว!</button>
-      <button id="party-code">รหัสเชิญ : -----</button>
-      <nav class="party-buttons">
+    <header class="p-top">
+      <button class="copied">คัดลอกแล้ว!</button>
+      <button id="codeLabel">รหัสเชิญ : -----</button>
+      <nav>
         <!-- Button: Leave Party -->
-        <button id="leave-button" style="--btn-color: #87463d">
+        <button id="leaveParty-btn" style="--btn-color: #87463d">
           <img class="icon" src="/static/Images/Icons/Leave.svg" />
           <span>ออก</span>
         </button>
         <!-- Button: Start Game -->
-        <button id="start-button" style="--btn-color: #313253">
+        <button id="startGame-btn" style="--btn-color: #313253">
           <img class="icon" src="/static/Images/Icons/Start.svg" />
           <span>เริ่ม</span>
         </button>
-        <!-- Button: Open Settings -->
-        <button id="settings-button" style="--btn-color: #474747">
-          <img class="icon" src="/static/Images/Icons/Settings.svg" />
+        <!-- Button: Open Options -->
+        <button id="optionsO-btn" style="--btn-color: #474747">
+          <img class="icon" src="/static/Images/Icons/Options.svg" />
           <span>ตั้งค่า</span>
         </button>
-        <!-- Button: Exit Settings -->
-        <button id="settings-exit" class="hidden" style="--btn-color: #733d36">
+        <!-- Button: Exit Options -->
+        <button id="optionsX-btn" class="hidden" style="--btn-color: #733d36">
           <img class="icon" src="/static/Images/Icons/Return.svg" />
           <span>กลับไปก่อนหน้า</span>
         </button>
@@ -107,23 +107,23 @@
     </header>
 
     <!-- Container -->
-    <div class="party-container">
+    <div class="partyC">
       <div class="transition-div"></div>
       <!-- PlayerLists -->
-      <aside id="party-players-container">
+      <aside id="plr-list" class="party">
         <div class="box"></div>
       </aside>
       <!-- Chatbox -->
-      <aside id="party-chat-container">
-        <div class="chat-display">
+      <aside id="chat-box" class="party">
+        <div class="holder">
           <div class="box"></div>
         </div>
         <input type="text" id="chatMsg" placeholder="ข้อความ.." />
       </aside>
 
-      <!-- Settings Menu -->
-      <div class="settings-container">
-        <!-- Setting: Rounds Count -->
+      <!-- Options Menu -->
+      <div class="optionsC">
+        <!-- Option: Rounds Count -->
         <div class="box">
           <div class="info">
             <img class="icon" src="/static/Images/Icons/RoundsCount.svg" />
@@ -132,13 +132,13 @@
               <p>นับเป็นหนึ่งรอบเมื่อทุกคนได้วาดครบคนละหนึ่งครั้ง</p>
             </detais>
           </div>
-          <div class="setting-adjuster">
+          <div class="adjuster">
             <button class="decrease">-</button>
-            <span class="setting-value" id="roundsCount" data-min="1" data-max="10" data-default="1">1</span>
+            <span class="option-value" id="roundsCount" data-min="1" data-max="10" data-default="1">1</span>
             <button class="increase">+</button>
           </div>
         </div>
-        <!-- Setting: Draw Time -->
+        <!-- Option: Draw Time -->
         <div class="box">
           <div class="info">
             <img class="icon" src="/static/Images/Icons/DrawTime.svg" />
@@ -147,13 +147,13 @@
               <p>นาทีที่ผู้เล่นใช้วาดภาพแต่ละรอบก่อนหมดเวลา</p>
             </detais>
           </div>
-          <div class="setting-adjuster">
+          <div class="adjuster">
             <button class="decrease">-</button>
-            <span class="setting-value" id="drawTime" data-min="1" data-max="15" data-default="2">2</span>
+            <span class="option-value" id="drawTime" data-min="1" data-max="15" data-default="1">1</span>
             <button class="increase">+</button>
           </div>
         </div>
-        <!-- Setting: Guess Limit -->
+        <!-- Option: Guess Limit -->
         <div class="box">
           <div class="info">
             <img class="icon" src="/static/Images/Icons/GuessLimit.svg" />
@@ -162,14 +162,14 @@
               <p>จำกัดจำนวนครั้งที่ผู้เล่นสามารถทายคำตอบ</p>
             </detais>
           </div>
-          <div class="setting-adjuster">
+          <div class="adjuster">
             <button class="decrease">-</button>
-            <span class="setting-value" id="guessLimit" data-min="0" data-max="20" data-default="0">ปิด</span>
+            <span class="option-value" id="guessLimit" data-min="0" data-max="20" data-default="0">ปิด</span>
             <button class="increase">+</button>
           </div>
         </div>
-        <!-- Setting: Custom Topics -->
-        <div class="topics-box">
+        <!-- Option: Custom Topics -->
+        <div class="topics">
           <header>
             <div class="info">
               <img class="icon" src="/static/Images/Icons/CustomTopics.svg" />
@@ -178,9 +178,9 @@
                 <p>เพิ่มคำศัพท์ที่ต้องการไปเป็นหัวข้อในการวาดภาพ</p>
               </detais>
             </div>
-            <div class="setting-selector">
-              <button id="ctopic-override" class="disabled">กำหนดเอง</button>
-              <button id="ctopic-add">บวกเพิ่ม</button>
+            <div class="selectors">
+              <button id="topic-override" class="disabled">กำหนดเอง</button>
+              <button id="topic-merge">ผสมกัน</button>
             </div>
           </header>
           <textarea id="customTopics"
@@ -191,30 +191,47 @@
   </section>
 
   <!-- Game Page -->
-  <div class="topics-picker">
+  <div id="topics-list">
     <h1>เลือกหัวข้อที่ต้องการวาด</h1>
-    <div class="topics-container">
-      <button id="pickTopic1"></button>
-      <button id="pickTopic2"></button>
-      <button id="pickTopic3"></button>
+    <div class="list">
+      <button class="choose-btn" id="Topic-1"></button>
+      <button class="choose-btn" id="Topic-2"></button>
+      <button class="choose-btn" id="Topic-3"></button>
     </div>
   </div>
-  <section class="page game-page disabled">
+  <section id="game-page" class="page disabled">
     <!-- Hints & Timer -->
-    <header class="game-header">
-      <h1 id="letters-count">_____ ___</h1>
-      <h1 id="game-timer">00:00</h1>
+    <header>
+      <h1 id="hint"></h1>
+      <h1 id="timer">00:00</h1>
     </header>
     <!-- Game Container -->
-    <div class="game-container">
+    <div class="gameC">
       <!-- PlayerLists -->
-      <aside id="game-players-container">
+      <aside id="plr-list" class="game">
         <div class="box"></div>
       </aside>
-      <aside class="right-container">
-        <canvas id="drawing-canvas"></canvas>
-        <div id="guess-container"></div>
-      </aside>
+      <aside class="right">
+        <!-- Canvas -->
+        <div class="canvasC">
+          <canvas id="draw"></canvas>
+          <div class="status">
+            <img class="banner" src="/static/Images/Icons/Choosing.svg" />
+            <img class="alert" src="/static/Images/Icons/Alert.svg" />
+            <img class="tag" src="/static/Images/Icons/Tag.svg" />
+            <img class="reveal" src="/static/Images/Icons/Reveal.svg" />
+            <h2></h2>
+            <h1></h1>
+          </div>
+        </div>
+        <div id="chat-box" class="game">
+          <div class="holder">
+            <div class="box"></div>
+          </div>
+          <input type="text" id="guessMsg" placeholder='คำตอบไม่จำเป็นต้องมี "วรรณยุกต์" ครบถ้วนก็ได้' />
+        </div>
+    </div>
+    </aside>
     </div>
   </section>
 

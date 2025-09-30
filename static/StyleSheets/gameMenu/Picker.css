@@ -1,7 +1,7 @@
 /* ==============================
-   WORDS PICKER
+   TOPICS PICKER
 ============================== */
-.topics-picker {
+#topics-list {
   position: absolute;
   width: 200vw;
   height: 200vh;
@@ -16,25 +16,25 @@
   pointer-events: none;
   transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
 }
-.topics-picker.show {
+#topics-list.show {
   opacity: 100%;
   pointer-events: all;
 }
 
-.topics-picker h1 {
+#topics-list h1 {
   all: unset;
   font-size: 1.5rem;
   color: white;
 }
 
-.topics-container {
+#topics-list .list {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
 }
 
-.topics-picker button {
+#topics-list button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -47,10 +47,10 @@
   transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.topics-picker button:hover {
+#topics-list button:hover {
   filter: brightness(60%);
 }
-.topics-picker button:active {
+#topics-list button:active {
   transform: scale(0.925);
   transition: none;
 }

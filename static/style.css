@@ -5,11 +5,12 @@
 /* Party-Menu */
 @import url("StyleSheets/partyMenu/Header.css");
 @import url("StyleSheets/partyMenu/Party.css");
-@import url("StyleSheets/partyMenu/Settings.css");
+@import url("StyleSheets/partyMenu/Options.css");
 /* Game-Menu */
 @import url("StyleSheets/gameMenu/Header.css");
 @import url("StyleSheets/gameMenu/Containers.css");
 @import url("StyleSheets/gameMenu/Picker.css");
+@import url("StyleSheets/gameMenu/Guesser.css");
 /* Others */
 @import url("StyleSheets/others/Cordinates.css");
 @import url("StyleSheets/others/Countdown.css");
@@ -22,44 +23,23 @@
   -webkit-user-drag: none;
 }
 
-html, body {
+html,
+body,
+input,
+button,
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  padding: 0;
   overflow: hidden;
-}
-
-body {
-  margin: 0;
-  padding: 0;
   font-family: "Mitr", sans-serif;
-  box-sizing: border-box;
-}
-
-input {
-  margin: 0;
-  padding: 0;
-  font-family: "Mitr", sans-serif;
-  box-sizing: border-box;
-}
-
-button {
-  margin: 0;
-  padding: 0;
-  font-family: "Mitr", sans-serif;
-  box-sizing: border-box;
-}
-
-h1, h2, h3, p {
-  margin: 0;
-  padding: 0;
-  font-family: "Mitr", sans-serif;
-  box-sizing: border-box;
-}
-
-.mitr-font {
   font-weight: 400;
   letter-spacing: 1px;
 }
 
-.mitr-font input::placeholder {
+input::placeholder {
   color: #b1b1b1;
   letter-spacing: 1px;
 }
@@ -68,7 +48,7 @@ h1, h2, h3, p {
    LAYOUT
 ============================== */
 body,
-.page-wrapper {
+#wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -93,7 +73,7 @@ body,
   transform: scale(0);
 }
 .page.disabled *,
-.main-page.disabled #random-avatar {
+#main-page.disabled #randomizer {
   pointer-events: none;
   transform: scale(0);
 }
@@ -107,14 +87,13 @@ body,
   pointer-events: none;
   z-index: 5;
 }
-.party-page:not(.disabled) ~ .pydraw-icon {
+#party-page:not(.disabled) ~ .pydraw-icon {
   transform: translate(-15rem, -14.75rem) scale(0.45);
 }
-.game-page:not(.disabled) ~ .pydraw-icon {
-  transform: translate(-3.75rem, -16.25rem) scale(0.4);
+#game-page:not(.disabled) ~ .pydraw-icon {
+  transform: translate(-3.25rem, -15.75rem) scale(0.45);
 }
-.countdown.active ~ .pydraw-icon,
-.words-picker.show ~ .pydraw-icon {
+#countdown.active ~ .pydraw-icon {
   opacity: 0%;
 }
 
@@ -122,24 +101,24 @@ body,
    DEVICE SCALING
 ============================== */
 @media (max-width: 1024px) and (max-height: 768px) {
-  .page-wrapper {
+  #wrapper {
     transform: scale(0.85);
   }
-  .party-page {
+  #party-page {
     transform: translateY(1rem);
   }
-  .party-page:not(.disabled) ~ .pydraw-icon {
+  #party-page:not(.disabled) ~ .pydraw-icon {
     transform: translate(-15rem, -13.75rem) scale(0.45);
   }
 }
 @media (max-width: 800px) or (max-height: 400px) {
-  .page-wrapper {
+  #wrapper {
     transform: scale(0.5);
   }
-  .party-page {
+  #party-page {
     transform: translateY(0rem);
   }
-  .party-page:not(.disabled) ~ .pydraw-icon {
+  #party-page:not(.disabled) ~ .pydraw-icon {
     transform: translate(-15rem, -14.75rem) scale(0.45);
   }
 }
@@ -147,7 +126,7 @@ body,
 /* ==============================
    BACKGROUND
 ============================== */
-#animated-bg {
+#background {
   position: absolute;
   top: 0;
   left: 0;
@@ -162,20 +141,20 @@ body,
 /* ==============================
    SPINNING LOADER
 ============================== */
-.loader {
+#loader {
   position: absolute;
   width: 0px;
   height: 0px;
   transition: all 0.2s;
 }
 
-.loader .icon {
+#loader .icon {
   width: 0px;
   height: 0px;
   animation: inf-spin 4s linear infinite;
 }
 
-.loader.active {
+#loader.active {
   width: 70px;
   height: 70px;
   padding: 1rem;
@@ -188,7 +167,7 @@ body,
   background: white;
 }
 
-.loader.active .icon {
+#loader.active .icon {
   display: block;
   width: 80%;
   height: 80%;

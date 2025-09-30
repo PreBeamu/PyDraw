@@ -1,7 +1,7 @@
 /* ==============================
    PARTY SETTINGS
 ============================== */
-.settings-container {
+.optionsC {
   width: 97.5%;
   height: 93%;
   display: flex;
@@ -16,7 +16,7 @@
 }
 
 /* Normal Box */
-.settings-container .box {
+.optionsC .box {
   width: 97.5%;
   display: flex;
   flex-direction: row;
@@ -32,7 +32,7 @@
   box-sizing: border-box;
 }
 
-.settings-container .box .info {
+.optionsC .box .info {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -40,23 +40,23 @@
   gap: 15px;
 }
 
-.settings-container .box h2 {
+.optionsC .box h2 {
   font-size: 1.5rem;
   font-weight: 400;
 }
 
-.settings-container .box p {
+.optionsC .box p {
   font-size: 0.85rem;
   margin-bottom: 0.25rem;
 }
 
-.settings-container .box .icon {
+.optionsC .box .icon {
   height: 65px;
   width: 65px;
 }
 
 /* Words Box */
-.words-box {
+.optionsC .topics {
   width: 97.5%;
   display: flex;
   flex-direction: column;
@@ -73,7 +73,7 @@
   box-sizing: border-box;
 }
 
-.words-box header {
+.optionsC .topics header {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -81,7 +81,7 @@
   align-items: center;
 }
 
-.words-box header .info {
+.optionsC .topics header .info {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -89,22 +89,22 @@
   gap: 15px;
 }
 
-.words-box header h2 {
+.optionsC .topics header h2 {
   font-size: 1.5rem;
   font-weight: 400;
 }
 
-.words-box header p {
+.optionsC .topics header p {
   font-size: 0.85rem;
   margin-bottom: 0.25rem;
 }
 
-.words-box header .icon {
+.optionsC .topics header .icon {
   height: 65px;
   width: 65px;
 }
 
-#customWords {
+#customTopics {
   width: 100%;
   min-height: 75px;
   height: auto;
@@ -124,7 +124,7 @@
    SELECTOR
 ============================== */
 
-.setting-selector {
+.selectors {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -132,7 +132,7 @@
   gap: 0.25rem;
 }
 
-.setting-selector button {
+.selectors button {
   height: 30px;
   display: flex;
   justify-content: center;
@@ -148,17 +148,17 @@
   transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.setting-selector button:hover {
+.selectors button:hover {
   filter: brightness(75%);
   transform: scale(0.95);
 }
 
-.setting-selector button:active {
+.selectors button:active {
   transform: scale(1.05);
   transition: none;
 }
 
-.setting-selector button.disabled {
+.selectors button.disabled {
   background: #555555;
   pointer-events: all;
 }
@@ -167,7 +167,7 @@
    ADJUSTER
 ============================== */
 
-.setting-adjuster {
+.adjuster {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -175,7 +175,7 @@
   gap: 0.25rem;
 }
 
-.setting-adjuster button {
+.adjuster button {
   width: 30px;
   height: 30px;
   display: flex;
@@ -191,24 +191,24 @@
   transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.setting-adjuster button:hover {
+.adjuster button:hover {
   filter: brightness(75%);
   transform: scale(0.95);
 }
 
-.setting-adjuster button:active {
+.adjuster button:active {
   transform: scale(1.05);
   transition: none;
 }
 
-.setting-adjuster button.disabled {
+.adjuster button.disabled {
   border: 2.5px solid #000000;
   background: #424242;
   pointer-events: none;
   transform: scale(0.85);
 }
 
-.setting-adjuster .setting-value {
+.adjuster .option-value {
   width: 40px;
   height: 25px;
   display: flex;

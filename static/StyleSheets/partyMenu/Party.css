@@ -1,7 +1,7 @@
 /* ==============================
    PARTY MENU
 ============================== */
-.party-container {
+.partyC {
   position: absolute;
   width: 675px;
   height: 425px;
@@ -37,7 +37,7 @@
 /* ==============================
    PLAYERS LIST
 ============================== */
-#party-players-container {
+#plr-list.party {
   position: absolute;
   width: 360px;
   height: 385px;
@@ -51,7 +51,7 @@
   transform: translate(-9rem, 0.4rem);
 }
 
-#party-players-container .box {
+#plr-list.party .box {
   width: 100%;
   height: 100%;
   padding: 0.1rem 0.3rem 0.1rem 0.1rem;
@@ -67,7 +67,7 @@
   overflow-y: auto;
 }
 
-#party-players-container .plr-box {
+#plr-list.party .plr-box {
   width: 95%;
   height: fit-content;
   padding: 0.35rem;
@@ -83,12 +83,12 @@
   transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-#party-players-container .plr-box.show {
+#plr-list.party .plr-box.show {
   transform: scaleX(1);
 }
 
 /* Player crown icon */
-#party-players-container .plr-box .crown {
+#plr-list.party .plr-box .crown {
   position: absolute;
   width: 32.5px;
   height: 32.5px;
@@ -97,7 +97,7 @@
 }
 
 /* Player avatar container */
-#party-players-container .plr-box .avatar-container {
+#plr-list.party .plr-box .av-display {
   all: unset;
   position: relative;
   width: 45px;
@@ -114,7 +114,7 @@
 }
 
 /* Player info */
-#party-players-container .plr-info .username {
+#plr-list.party .plr-info .username {
   display: flex;
   align-items: center;
   gap: 3px;
@@ -122,12 +122,12 @@
   opacity: 0.75;
 }
 
-#party-players-container .meTag {
+#plr-list.party .meTag {
   font-size: 0.9rem;
   opacity: 0.8;
 }
 
-#party-players-container .plr-info .uuid {
+#plr-list.party .plr-info .uuid {
   font-size: 0.75rem;
   opacity: 0.35;
 }
@@ -135,7 +135,7 @@
 /* ==============================
    CHATBOX
 ============================== */
-#party-chat-container {
+#chat-box.party {
   position: absolute;
   width: 280px;
   height: 400px;
@@ -148,7 +148,7 @@
   transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-#party-chat-container .chat-display {
+#chat-box.party .holder {
   width: 100%;
   height: 100%;
   display: flex;
@@ -161,7 +161,7 @@
   overflow: hidden;
 }
 
-#party-chat-container .chat-display .box {
+#chat-box.party .holder .box {
   width: 98%;
   height: 98%;
   padding: 0.25rem 0.75rem;
@@ -178,7 +178,7 @@
   overflow-y: auto;
 }
 
-#party-chat-container input[type="text"] {
+#chat-box.party input[type="text"] {
   width: 100%;
   padding: 2.5px 3%;
   font-size: 0.85rem;
@@ -192,7 +192,7 @@
 /* ==============================
    MESSAGES HOLDER
 ============================== */
-.msg-box {
+.party .msg-box {
   width: 200%;
   height: fit-content;
   padding: 0.35rem;
@@ -207,12 +207,12 @@
   transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-.msg-box.show {
+.party .msg-box.show {
   width: 100%;
 }
 
 /* Message avatar container */
-.msg-box .avatar-container {
+.party .msg-box .av-display {
   all: unset;
   position: relative;
   width: 30px;
@@ -229,42 +229,42 @@
 }
 
 /* System messages */
-.msg-box.system {
+.party .msg-box.system {
   padding: 0.25rem;
   justify-content: center;
   align-items: center;
   color: white;
 }
 
-.msg-box.system .text-container {
+.party .msg-box.system .text-container {
   font-size: 0.75rem;
   margin-top: 0.1rem;
 }
 
-.msg-box.system .avatar-container,
-.msg-box.system .sender-name {
+.party .msg-box.system .av-display,
+.party .msg-box.system .sender-name {
   display: none;
 }
 
 /* Message background types */
-.msg-box.create {
+.party .msg-box.create {
   background: #000435;
 }
-.msg-box.join {
+.party .msg-box.join {
   background: #0e3500;
 }
-.msg-box.left {
+.party .msg-box.left {
   background: #350000;
 }
 
 /* Message text */
-.sender-name {
+.party .sender-name {
   margin-top: -1.5px;
   font-size: 0.8rem;
   opacity: 0.65;
 }
 
-.text-container {
+.party .text-container {
   width: 100%;
   height: fit-content;
   margin-top: -3px;

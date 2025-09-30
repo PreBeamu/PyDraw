@@ -1,7 +1,7 @@
 /* ==============================
    PARTY HEADER
 ============================== */
-.party-header {
+.p-top {
   position: absolute;
   width: 460px;
   display: flex;
@@ -14,7 +14,7 @@
 }
 
 /* PartyCode Label */
-#party-code {
+#codeLabel {
   all: unset;
   width: 185px;
   display: inline-block;
@@ -31,18 +31,18 @@
   transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-#party-code:hover {
+#codeLabel:hover {
   filter: brightness(80%);
   transform: scale(0.95);
 }
 
-#party-code:active {
+#codeLabel:active {
   filter: brightness(80%);
   transform: scale(1);
   transition: none;
 }
 
-.code-copied {
+.copied {
   all: unset;
   position: absolute;
   display: inline-block;
@@ -59,20 +59,20 @@
   z-index: -5;
   transform: translate(2.65rem, 0rem);
 }
-.code-copied.show {
+.copied.show {
   transform: translate(2.65rem, -2rem);
 }
 
 /* ==============================
    BUTTONS
 ============================== */
-.party-buttons {
+.p-top nav {
   display: flex;
   flex-direction: row-reverse;
   gap: 3px;
 }
 
-.party-buttons button {
+.p-top nav button {
   all: unset;
   display: flex;
   box-sizing: border-box;
@@ -89,19 +89,19 @@
   color: white;
   transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
 }
-.party-buttons button.hidden {
+.p-top nav button.hidden {
   transform: scale(0);
 }
-.party-buttons button:not(.hidden):hover {
+.p-top nav button:not(.hidden):hover {
   filter: brightness(75%);
   transform: scale(0.95);
 }
-.party-buttons button:not(.hidden):active {
+.p-top nav button:not(.hidden):active {
   filter: brightness(75%);
   transform: scale(1.05);
   transition: none;
 }
 
-.party-buttons .icon {
+.p-top nav .icon {
   width: 20px;
 }
