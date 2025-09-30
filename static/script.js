@@ -234,7 +234,7 @@ function setStatus($icon, status) {
     const $icons = $(".status img");
     const $statusText = $(".canvasC .status h2");
 
-    $(".status h1").text()
+    $(".status h1").text("")
     if ($status.hasClass("show") && status) {
         $status.removeClass("show");
         $icons.removeClass("show");
@@ -735,7 +735,7 @@ SOCKET.on("update_players", (data) => {
 SOCKET.on("start_game", () => {
     $("#party-page").addClass("disabled")
     $(".game .holder .box").empty()
-    $("#guessMsg").prop("disabled", true)
+    $("#guessMsg").prop("disabled", true).addClass("disabled").attr("placeholder", "ไม่สามารถส่งคำตอบได้ในขณะนี้..");
     startCountdown(3)
     setTimeout(async () => {
         $("#countdown").removeClass("active")
@@ -760,14 +760,15 @@ SOCKET.on("timer_anim", () => {
 // ============================
 // SOCKET: Show Topics picker
 // ============================
-SOCKET.on("topics_pick", (data) => {
-    if (data.drawer_id == CLIENT_DATA.playerId) {
-        $("#topics-list").addClass("show")
-        $("#Topic-1").text(data.topic1)
-        $("#Topic-2").text(data.topic2)
-        $("#Topic-3").text(data.topic3)
-    }
-    $("#guessMsg").prop("disabled", true)
+SOCKET.on("topics_pick_drawer", (data) => {
+    $("#topics-list").addClass("show")
+    $("#Topic-1").text(data.topic1)
+    $("#Topic-2").text(data.topic2)
+    $("#Topic-3").text(data.topic3)
+    $("#guessMsg").prop("disabled", true).addClass("disabled").attr("placeholder", "ไม่สามารถส่งคำตอบได้เนื่องจากเป็นคนวาด!");
+})
+SOCKET.on("topics_pick_all", () => {
+    $("#guessMsg").prop("disabled", true).addClass("disabled").attr("placeholder", "ไม่สามารถส่งคำตอบได้ในขณะนี้..");
     triggerAnim($("#hint"), "update")
     setStatus($(".banner"), "ผู้เล่นกำลังเลือกหัวข้อ")
 })
@@ -775,7 +776,7 @@ SOCKET.on("pick_done", (data) => {
     if (data.drawer_id != CLIENT_DATA.playerId) {
         triggerAnim($("#hint"), "update")
         $("#hint").text(data.hint)
-        $("#guessMsg").prop("disabled", false)
+        $("#guessMsg").prop("disabled", false).removeClass("disabled").attr("placeholder", 'คำตอบไม่จำเป็นต้องมี "วรรณยุกต์" ครบถ้วนก็ได้นะ!');
     }
     $(".game .holder .box").empty()
     setStatus()
@@ -799,7 +800,7 @@ SOCKET.on("show_answer", (data) => {
 SOCKET.on("guess", (data) => {
     // Check if already done
     if (data.custom_class === "correct" && data.playerId === CLIENT_DATA.playerId) {
-        $("#guessMsg").prop("disabled", true)
+        $("#guessMsg").prop("disabled", true).addClass("disabled").attr("placeholder", "คำตอบถูกต้อง!");
     }
 
     // Display guesses

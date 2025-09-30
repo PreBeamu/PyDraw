@@ -51,6 +51,25 @@
   box-sizing: border-box;
   margin-top: 0.25rem;
   margin-bottom: 0.2rem;
+  opacity: 100%;
+  transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+#chat-box.game input[type="text"].disabled {
+  width: 99%;
+  padding: 2.5px 1.5%;
+  font-size: 0.85rem;
+  text-align: left;
+  border: 2.5px solid #b1b1b1;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-top: 0.25rem;
+  margin-bottom: 0.2rem;
+  opacity: 50%;
+}
+
+#chat-box.game input[type="text"].disabled::placeholder {
+  color: #1f1f1f;
 }
 
 /* ==============================

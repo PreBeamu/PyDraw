@@ -111,6 +111,14 @@ def make_player(name, avatar_items):
     return player_id, player_data
 
 
+def get_sid_from_player(party_code, player_id):
+    """Return sid of specific player using player_id."""
+    for sid, (p_code, p_id) in SOCKET_MAP.items():
+        if p_code == party_code and p_id == player_id:
+            return sid
+    return None
+
+
 def score_update(score, time_max, time_remain, answered):
     """
     update score based on time and people who have answered
@@ -309,17 +317,23 @@ def run_game(party_code):
                 while len(picked_topics) < 3 and picked_topics:
                     picked_topics.append(picked_topics[-1])
 
-                socketio.emit(
-                    "topics_pick",
-                    {
-                        "drawer_id": drawer_id,
-                        "drawer_name": player["name"],
-                        "topic1": picked_topics[0] if len(picked_topics) > 0 else None,
-                        "topic2": picked_topics[1] if len(picked_topics) > 1 else None,
-                        "topic3": picked_topics[2] if len(picked_topics) > 2 else None,
-                    },
-                    room=party_code,
-                )
+                drawer_sid = get_sid_from_player(party_code, drawer_id)
+
+                if drawer_sid:
+                    socketio.emit(
+                        "topics_pick_drawer",
+                        {
+                            "topic1": picked_topics[0] if len(picked_topics) > 0 else None,
+                            "topic2": picked_topics[1] if len(picked_topics) > 1 else None,
+                            "topic3": picked_topics[2] if len(picked_topics) > 2 else None,
+                        },
+                        to=drawer_sid
+                    )
+                    socketio.emit(
+                        "topics_pick_all",
+                        room=party_code,
+                        skip_sid=drawer_sid
+                    )
 
                 # --- Topic Pick Countdown ---
                 finished = countdown(
@@ -747,7 +761,10 @@ def handle_message(data):
         "name": name,
         "message": message,
     }
-    socketio.emit("guess", value, room=party_code)
+    if custom_class == "almost":
+        socketio.emit("guess", value, to=sid)
+    else:
+        socketio.emit("guess", value, room=party_code)
 
 
 # ============================
