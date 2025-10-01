@@ -1,21 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <!-- Viewport for responsive scaling -->
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
   <title>PyDraw</title>
-
   <!-- Stylesheets -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
   <!-- Favicons -->
   <link rel="icon" href="/static/Favicons/favicon-light.svg" type="image/x-icon">
   <link rel="icon" href="/static/Favicons/favicon-light.svg" type="image/x-icon" media="(prefers-color-scheme: light)">
   <link rel="icon" href="/static/Favicons/favicon-dark.svg" type="image/x-icon" media="(prefers-color-scheme: dark)">
-
   <!-- Libraries -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -26,7 +19,6 @@
 
 <body>
   {% block content %}{% endblock %}
-
   <!-- Main script -->
   <script type="module" src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
