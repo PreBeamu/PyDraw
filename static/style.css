@@ -22,52 +22,35 @@
 * {
   user-select: none;
   -webkit-user-drag: none;
-  box-sizing: border-box;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  min-height: -webkit-fill-available;
-  margin: 0;
-  padding: 0;
+html,
+body {
   overflow: hidden;
   overscroll-behavior: none;
-  -webkit-text-size-adjust: 100%;
-  font-family: "Mitr", sans-serif;
-  font-weight: 400;
-  letter-spacing: 1px;
 }
 
-body {
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-top: env(safe-area-inset-top);
-}
-
-/* ==============================
-   FORM + TEXT ELEMENTS
-============================== */
-input, button, h1, h2, h3, p {
+body,
+input,
+button,
+h1,
+h2,
+h3,
+p {
   margin: 0;
   padding: 0;
-  font: inherit;
-}
-
-input::placeholder {
-  color: #b1b1b1;
-  letter-spacing: 1px;
+  font-family: "Mitr", sans-serif;
 }
 
 /* ==============================
    LAYOUT
 ============================== */
-#wrapper {
+body,#wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100dvh;
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
   transition: all 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
