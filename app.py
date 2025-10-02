@@ -60,14 +60,14 @@ PARTY_TEMPLATE = {
         "CurrentDrawer": None,
         "PickedTopic": None,
         "RoundsLeft": 0,
-        "TimeLeft": 0,
+        "TimesLeft": 0,
     },
 }
 PLAYER_TEMPLATE = {
-    "name": None,
-    "avatar": [0, 0, 0, 0],
-    "score": 0,
-    "guessed": 0,
+    "Name": None,
+    "Avatar": [0, 0, 0, 0],
+    "Scores": 0,
+    "GuessesLeft": 0,
 }
 
 # ============================
@@ -105,8 +105,8 @@ def make_player(name, avatar_items):
     player_id = uuid.uuid4().hex[:30]
     player_data = deepcopy(PLAYER_TEMPLATE)
 
-    player_data["name"] = name
-    player_data["avatar"] = avatar_items
+    player_data["Name"] = name
+    player_data["Avatar"] = avatar_items
 
     return player_id, player_data
 
@@ -252,6 +252,7 @@ def countdown(party_code, seconds, tick=0.1, break_check=None, drawer_id=None):
             room=party_code,
         )
         socketio.emit("timer_anim", room=party_code)
+        party["Values"]["TimesLeft"] = seconds
 
         # Tick down
         for _ in range(int(1 / tick)):
@@ -500,7 +501,7 @@ def handle_join_party(data):
     party_code = data.get("party_code")
     player_id = data.get("player_id")
     type = data.get("join") or data.get("create")
-    player_name = PARTIES[party_code]["Players"][player_id]["name"]
+    player_name = PARTIES[party_code]["Players"][player_id]["Name"]
 
     if party_code not in PARTIES:
         return
@@ -519,7 +520,7 @@ def handle_join_party(data):
     value = {
         "custom_class": msg_type,
         "name": player_name,
-        "avatar": PARTIES[party_code]["Players"][player_id]["avatar"],
+        "avatar": PARTIES[party_code]["Players"][player_id]["Avatar"],
         "message": f"{player_name} {'สร้าง' if msg_type=='create' else 'เข้าร่วม'}ปาร์ตี้!",
     }
     socketio.emit("message", value, room=party_code)
@@ -545,7 +546,7 @@ def handle_leave_party():
     if player_id not in PARTIES[party_code]["Players"]:
         return {"success": False, "error": "Player not in party!"}
 
-    player_name = PARTIES[party_code]["Players"][player_id]["name"]
+    player_name = PARTIES[party_code]["Players"][player_id]["Name"]
     del PARTIES[party_code]["Players"][player_id]
     SOCKET_MAP.pop(sid, None)
 
@@ -587,7 +588,7 @@ def handle_disconnect():
     party_code, player_id = SOCKET_MAP.pop(sid)
 
     if party_code in PARTIES and player_id in PARTIES[party_code]["Players"]:
-        player_name = PARTIES[party_code]["Players"][player_id]["name"]
+        player_name = PARTIES[party_code]["Players"][player_id]["Name"]
         del PARTIES[party_code]["Players"][player_id]
 
         # --- Reassign host or delete party if empty ---
@@ -640,6 +641,8 @@ def handle_start_game(data):
     PARTIES[party_code]["Gamerules"]["DrawTime"] = clamp(draw_time, 1, 15)
     PARTIES[party_code]["Gamerules"]["GuessLimit"] = clamp(guess_limit, 0, 20)
     PARTIES[party_code]["Gamerules"]["OnlyCustomTopics"] = data.get("onlyCustom", False)
+    for plr in PARTIES[party_code]["Players"].values():
+        plr["GuessesLeft"] = PARTIES[party_code]["Gamerules"]["GuessLimit"]
 
     customTopics = data.get("customTopics", "")
     if customTopics:
@@ -650,7 +653,8 @@ def handle_start_game(data):
             PARTIES[party_code]["Values"]["Topics"].extend(topics)
 
     # --- Notify clients ---
-    socketio.emit("start_game", room=party_code)
+    value = {"guessLimit": PARTIES[party_code]["Gamerules"]["GuessLimit"]}
+    socketio.emit("start_game", value, room=party_code)
     update_inGamePlayers(
         {"party_code": party_code}, True, PARTIES[party_code]["Values"]["CurrentDrawer"]
     )
@@ -738,6 +742,13 @@ def handle_message(data):
         return
 
     _, player_id = SOCKET_MAP[sid]
+    player_data = PARTIES[party_code]["Players"][player_id]
+
+    # Check guesses player got left
+    if PARTIES[party_code]["Gamerules"]["GuessLimit"] > 0:
+        if player_data["GuessesLeft"] <= 0:
+            return
+        player_data["GuessesLeft"] -= 1
 
     # Check answer
     picked_word = PARTIES[party_code]["Values"]["PickedTopic"]
@@ -746,8 +757,14 @@ def handle_message(data):
     if guess_clean == word_clean:
         custom_class = "correct"
         message = f"{name} ทายถูกแล้ว! (+100)"
+        # --- แลม Zone ---
         # Cool scoring logic here..
+        # ใช้ PARTIES[party_code]["Values"]["TimesLeft"] เพื่อดุว่าเวลาเหลือเท่าไหร่
+        # ใช้ PARTIES[party_code]["Players"][player_id]["Scores"] เพื่อเข้าถึงข้อมูล scores ของผู้เล่นที่เดามา
+        # เช่น PARTIES[party_code]["Players"][player_id]["Scores"] += 100
+
     
+    # --- ปื้ด Zone ---
     # If close (check if the word is about 85% of the answer) จับ guess_clean มาเทียบ word_clean
     # guess_clean : คำที่ผู้เล่นทายมา
     # word_clean : คำตอบของหัวข้อที่คนวาดกำลังวาด
@@ -756,6 +773,7 @@ def handle_message(data):
     message = f'"{message}" เกือบจะถูกแล้ว!' # will show something like "โทรศัพ" เกือบจะถูกแล้ว!
 
     value = {
+        "guesses_left": player_data["GuessesLeft"],
         "custom_class": custom_class,
         "player_id": player_id,
         "name": name,

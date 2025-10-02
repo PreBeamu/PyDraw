@@ -41,8 +41,36 @@
   overflow-y: auto;
 }
 
-#chat-box.game input[type="text"] {
+#chat-box.game .bottom {
   width: 99%;
+  display: flex;
+}
+
+#guessesLeft {
+  all: unset;
+  position: absolute;
+  display: inline-block;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 0.1rem 0.75rem;
+  border-radius: 10px;
+  background: #472c69;
+  font-size: 0.75rem;
+  text-align: center;
+  white-space: nowrap;
+  color: #ffffff;
+  border: 2.5px solid #ebebeb;
+  transition: all 0.15s cubic-bezier(0.075, 0.82, 0.165, 1);
+  z-index: 5;
+  transform-origin: left center;
+  transform: translate(0rem, -1.75rem) scale(0);
+}
+input:focus ~ #guessesLeft {
+  transform: translate(0rem, -1.75rem) scale(1);
+}
+
+#chat-box.game input[type="text"] {
+  width: 100%;
   padding: 2.5px 1.5%;
   font-size: 0.85rem;
   text-align: left;

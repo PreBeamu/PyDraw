@@ -49,6 +49,7 @@
 
 #topics-list button:hover {
   filter: brightness(60%);
+  padding: 0.25rem 1.5rem;
 }
 #topics-list button:active {
   transform: scale(0.925);

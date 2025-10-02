@@ -44,6 +44,7 @@ let CLIENT_DATA = {
     "avatar": [1, 1, 1, 1], // [color, face, hair, acc]
     "currentParty": null, // Current party code
     "loadedPlayers": [], // Tracks players already rendered
+    "guessesLeft": 0, // Player guesses left
 }
 
 // ============================
@@ -661,11 +662,11 @@ SOCKET.on("update_players", (data) => {
             }
 
             // Avatar display
-            const $avDisplay = buildAvatarDOM(plr.avatar)
+            const $avDisplay = buildAvatarDOM(plr.Avatar)
 
             // Player info
             const $info = $('<div class="plr-info"></div>')
-            const $userName = $('<p class="username"></p>').text(plr.name)
+            const $userName = $('<p class="username"></p>').text(plr.Name)
             if (CLIENT_DATA.playerId == uuid) {
                 $userName.append($('<span class="meTag">(คุณ)</span>'))
             }
@@ -703,17 +704,17 @@ SOCKET.on("update_players", (data) => {
             }
 
             // Avatar display
-            const $avDisplay = buildAvatarDOM(plr.avatar)
+            const $avDisplay = buildAvatarDOM(plr.Avatar)
 
             // Player info
             const $info = $('<div class="plr-info"></div>')
             const $userName = $('<p class="username"></p>')
-            const $name = $('<span class="name"></span>').text(plr.name)
+            const $name = $('<span class="name"></span>').text(plr.Name)
             $userName.append($name)
             if (CLIENT_DATA.playerId == uuid) {
                 $userName.append($('<span class="meTag">(คุณ)</span>'))
             }
-            const $scoreText = $('<p class="score"></p>').text(`${plr.score} คะแนน`)
+            const $scoreText = $('<p class="score"></p>').text(`${plr.Scores} คะแนน`)
 
             $info.append($userName, $scoreText)
             $plrBox.append($avDisplay, $info)
@@ -732,10 +733,17 @@ SOCKET.on("update_players", (data) => {
 // ============================
 // SOCKET: Game start
 // ============================
-SOCKET.on("start_game", () => {
+SOCKET.on("start_game", (data) => {
     $("#party-page").addClass("disabled")
     $(".game .holder .box").empty()
-    $("#guessMsg").prop("disabled", true).addClass("disabled").attr("placeholder", "ไม่สามารถส่งคำตอบได้ในขณะนี้..");
+    $("#guessMsg").prop("disabled", true).addClass("disabled").attr("placeholder", "ไม่สามารถส่งคำตอบได้ในขณะนี้");
+    if (data.guessLimit) {
+        $("#guessesLeft").show()
+        $("#guessesLeft").text(`ทายได้อีก ${data.guessLimit} ครั้ง`)
+        CLIENT_DATA.guessesLeft = data.guessLimit
+    } else {
+        $("#guessesLeft").hide()
+    }
     startCountdown(3)
     setTimeout(async () => {
         $("#countdown").removeClass("active")
@@ -768,7 +776,7 @@ SOCKET.on("topics_pick_drawer", (data) => {
     $("#guessMsg").prop("disabled", true).addClass("disabled").attr("placeholder", "ไม่สามารถส่งคำตอบได้เนื่องจากเป็นคนวาด!");
 })
 SOCKET.on("topics_pick_all", () => {
-    $("#guessMsg").prop("disabled", true).addClass("disabled").attr("placeholder", "ไม่สามารถส่งคำตอบได้ในขณะนี้..");
+    $("#guessMsg").prop("disabled", true).addClass("disabled").attr("placeholder", "ไม่สามารถส่งคำตอบได้ในขณะนี้");
     triggerAnim($("#hint"), "update")
     setStatus($(".banner"), "ผู้เล่นกำลังเลือกหัวข้อ")
 })
@@ -802,6 +810,13 @@ SOCKET.on("guess", (data) => {
     if (data.custom_class === "correct" && data.playerId === CLIENT_DATA.playerId) {
         $("#guessMsg").prop("disabled", true).addClass("disabled").attr("placeholder", "คำตอบถูกต้อง!");
     }
+
+    // Check guessesLeft
+    $("#guessesLeft").text(`ทายได้อีก ${data.guesses_left} ครั้ง`)
+    CLIENT_DATA.guessesLeft = data.guesses_left
+    if (data.guesses_left <= 0) {
+        $("#guessMsg").prop("disabled", true).addClass("disabled").attr("placeholder", "แย่จัง! ทายผิดหมดเลย~");
+    }    
 
     // Display guesses
     const $msgBox = $('<div class="msg-box"></div>')
