@@ -129,7 +129,6 @@ export function initUIHandlers(socket) {
                     create: true,
                 });
             } catch (err) {
-                console.error("Error creating party:", err);
                 alert("There was an error creating the party. Please try again.");
                 $("#main-page").removeClass("disabled");
             } finally {
@@ -175,7 +174,6 @@ export function initUIHandlers(socket) {
                     join: true,
                 });
             } catch (err) {
-                console.error("Error joining party:", err);
                 alert("There was an error joining the party. Please try again.");
                 $("#main-page").removeClass("disabled");
             } finally {
@@ -229,9 +227,7 @@ export function initUIHandlers(socket) {
                 CLIENT_DATA.currentParty = null;
                 CLIENT_DATA.playerId = null;
             } catch (err) {
-                console.error("Error leaving party:", err);
                 alert("There was an error leaving the party. Please try again.");
-
                 $("#main-page").addClass("disabled");
                 $("#party-page").removeClass("disabled");
                 $("#codeLabel").text("รหัสเชิญ : " + partyCode);

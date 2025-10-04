@@ -2,9 +2,9 @@
 // AVATAR HELPERS
 // ============================
 
-import { COLORS_AMOUNT, FACES_AMOUNT, HAIRS_AMOUNT, ACCESSORIES_AMOUNT, FIRSTNAMES, LASTNAMES } from './constants.js';
-import { CLIENT_DATA } from './clientData.js';
-import { randomInt, nextIndex } from './utils.js';
+import { COLORS_AMOUNT, FACES_AMOUNT, HAIRS_AMOUNT, ACCESSORIES_AMOUNT, FIRSTNAMES, LASTNAMES } from '/static/scripts/constants.js';
+import { CLIENT_DATA } from '/static/scripts/clientData.js';
+import { randomInt } from '/static/scripts/utils.js';
 
 // Avatar URL helpers
 export function urlColor(i) {
@@ -23,7 +23,7 @@ export function urlAccessory(i) {
     return `/static/Images/Avatar/Accessories/${i}.svg`;
 }
 
-export const urlPlayer = `/static/Images/Avatar/Colors/Default.svg`;
+export const urlPlayer = `/static/Images/Avatar/Player.svg`;
 export const urlShirt = `/static/Images/Avatar/Shirt.svg`;
 
 // Preload avatar images
@@ -35,6 +35,7 @@ export function preloadAvatarImages() {
     for (let i = 1; i <= ACCESSORIES_AMOUNT; i++) imageUrls.push(urlAccessory(i));
     imageUrls.push(urlPlayer, urlShirt);
 
+    // Preload by creating Image objects
     imageUrls.forEach(url => {
         const img = new Image();
         img.src = url;
@@ -42,6 +43,11 @@ export function preloadAvatarImages() {
 }
 
 export function setPlayerName() {
+    const saved = localStorage.getItem("avatar");
+    if (saved) {
+        CLIENT_DATA.avatar = JSON.parse(saved);
+    }
+    
     let userName = $("#userName").val().trim().replace(/\s+/g, "");
     if (userName.length === 0) {
         const first = FIRSTNAMES[Math.floor(Math.random() * FIRSTNAMES.length)];
