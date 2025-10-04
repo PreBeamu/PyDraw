@@ -23,7 +23,6 @@ export function urlAccessory(i) {
     return `/static/Images/Avatar/Accessories/${i}.svg`;
 }
 
-export const urlPlayer = `/static/Images/Avatar/Player.svg`;
 export const urlShirt = `/static/Images/Avatar/Shirt.svg`;
 
 // Preload avatar images
@@ -33,7 +32,7 @@ export function preloadAvatarImages() {
     for (let i = 1; i <= FACES_AMOUNT; i++) imageUrls.push(urlFace(i));
     for (let i = 1; i <= HAIRS_AMOUNT; i++) imageUrls.push(urlHair(i));
     for (let i = 1; i <= ACCESSORIES_AMOUNT; i++) imageUrls.push(urlAccessory(i));
-    imageUrls.push(urlPlayer, urlShirt);
+    imageUrls.push(urlShirt);
 
     // Preload by creating Image objects
     imageUrls.forEach(url => {
