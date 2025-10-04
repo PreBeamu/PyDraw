@@ -38,7 +38,8 @@ def register_chat_events(socketio, parties, socket_map):
         _, player_id = socket_map[sid]
         player_data = parties[party_code]["Players"][player_id]
 
-        if parties[party_code]["Gamerules"]["GuessLimit"] > 0:
+        isInt = isinstance(player_data["GuessesLeft"], int)
+        if parties[party_code]["Gamerules"]["GuessLimit"] > 0 and isInt:
             if player_data["GuessesLeft"] <= 0:
                 return
             player_data["GuessesLeft"] -= 1

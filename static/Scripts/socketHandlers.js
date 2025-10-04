@@ -47,7 +47,7 @@ export function initSocketHandlers(socket) {
                     $plrBox.append($hostCrown);
                 }
 
-                if (CLIENT_DATA.playerId === data.host) {
+                if (CLIENT_DATA.playerId === data.host && !$("#startGame-btn, #optionsO-btn").hasClass("hidden")) {
                     $("#startGame-btn, #optionsO-btn").show();
                 }
 
@@ -182,7 +182,7 @@ export function initSocketHandlers(socket) {
 
         $("#guessesLeft").text(`ทายได้อีก ${data.guesses_left} ครั้ง`);
         CLIENT_DATA.guessesLeft = data.guesses_left;
-        if (data.guesses_left <= 0) {
+        if (data.guesses_left === 0) {
             $("#guessMsg").prop("disabled", true).addClass("disabled").attr("placeholder", "แย่จัง! ทายผิดหมดเลย~");
         }
 

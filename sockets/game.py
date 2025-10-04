@@ -39,6 +39,8 @@ def register_game_events(socketio, parties, socket_map):
         
         for plr in parties[party_code]["Players"].values():
             plr["GuessesLeft"] = parties[party_code]["Gamerules"]["GuessLimit"]
+            if parties[party_code]["Gamerules"]["GuessLimit"] <= 0:
+                plr["GuessesLeft"] = None
 
         customTopics = data.get("customTopics", "")
         if customTopics:

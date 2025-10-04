@@ -8,7 +8,7 @@ PLAYER_TEMPLATE = {
     "Name": None,
     "Avatar": [0, 0, 0, 0],
     "Scores": 0,
-    "GuessesLeft": 0
+    "GuessesLeft": None
 }
 
 PARTY_TEMPLATE = {
