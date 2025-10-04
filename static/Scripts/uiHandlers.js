@@ -254,7 +254,7 @@ export function initUIHandlers(socket) {
             },
             (res) => {
                 if (!res.success) {
-                    alert("Error: " + res.success);
+                    alert("Failed to start the game!");
                 }
             }
         );
