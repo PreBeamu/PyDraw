@@ -2,9 +2,9 @@
 // SOCKET EVENT HANDLERS
 // ============================
 
-import { CLIENT_DATA } from '/static/scripts/clientData.js';
-import { buildAvatarDOM } from '/static/scripts/avatar.js';
-import { triggerAnim, startCountdown, setStatus } from '/static/scripts/utils.js';
+import { CLIENT_DATA } from '/static/Scripts/clientData.js';
+import { buildAvatarDOM } from '/static/Scripts/avatar.js';
+import { triggerAnim, startCountdown, setStatus } from '/static/Scripts/utils.js';
 
 export function initSocketHandlers(socket) {
     // Chat messages

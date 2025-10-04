@@ -7,8 +7,8 @@ import {
     FACES_AMOUNT,
     HAIRS_AMOUNT,
     ACCESSORIES_AMOUNT,
-} from "/static/scripts/constants.js";
-import { CLIENT_DATA } from "/static/scripts/clientData.js";
+} from "/static/Scripts/constants.js";
+import { CLIENT_DATA } from "/static/Scripts/clientData.js";
 import {
     parseGuess,
     formatGuess,
@@ -16,7 +16,7 @@ import {
     resetOptions,
     nextIndex,
     triggerAnim,
-} from "/static/scripts/utils.js";
+} from "/static/Scripts/utils.js";
 import {
     setPlayerName,
     setImageWhenLoaded,
@@ -26,7 +26,7 @@ import {
     urlFace,
     urlHair,
     urlAccessory,
-} from "/static/scripts/avatar.js";
+} from "/static/Scripts/avatar.js";
 
 export function initUIHandlers(socket) {
     // Avatar customization

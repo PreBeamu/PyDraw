@@ -2,9 +2,9 @@
 // AVATAR HELPERS
 // ============================
 
-import { COLORS_AMOUNT, FACES_AMOUNT, HAIRS_AMOUNT, ACCESSORIES_AMOUNT, FIRSTNAMES, LASTNAMES } from '/static/scripts/constants.js';
-import { CLIENT_DATA } from '/static/scripts/clientData.js';
-import { randomInt } from '/static/scripts/utils.js';
+import { COLORS_AMOUNT, FACES_AMOUNT, HAIRS_AMOUNT, ACCESSORIES_AMOUNT, FIRSTNAMES, LASTNAMES } from '/static/Scripts/constants.js';
+import { CLIENT_DATA } from '/static/Scripts/clientData.js';
+import { randomInt } from '/static/Scripts/utils.js';
 
 // Avatar URL helpers
 export function urlColor(i) {
