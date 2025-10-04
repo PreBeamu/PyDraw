@@ -215,7 +215,7 @@ export function initSocketHandlers(socket) {
 
     let drawing = false;
     let last = null;
-    let currentColor = "#000000";
+    let currentColors = "#000000";
     let currentLineWidth = 4;
     let history = [];
 
@@ -246,7 +246,7 @@ export function initSocketHandlers(socket) {
 
 
     function drawLine(ctx, p1, p2) {
-        ctx.strokeStyle = currentColor;
+        ctx.strokeStyle = currentColors;
         ctx.lineWidth = currentLineWidth;
         ctx.lineCap = "round";
         ctx.beginPath();
