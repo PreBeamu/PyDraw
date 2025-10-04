@@ -75,3 +75,12 @@ def register_game_events(socketio, parties, socket_map):
 
         if picked_topic in parties[party_code]["Values"]["Topics"]:
             parties[party_code]["Values"]["PickedTopic"] = picked_topic
+
+    @socketio.on('draw')
+    def handle_draw(data):
+        sid = request.sid
+        if sid not in socket_map:
+            return
+        party_code, _ = socket_map[sid]
+        parties[party_code]["Values"]["Drawing"] = data['image']
+        socketio.emit('update_image', data['image'], to=party_code, include_self=False)

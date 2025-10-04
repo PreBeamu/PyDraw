@@ -9,7 +9,6 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
-  overflow: hidden;
   transform: translateY(0.5rem);
   transition: all 0.2s;
 }
@@ -148,16 +147,11 @@
   align-items: center;
 }
 
-#draw {
-  width: 100%;
-  height: 100%;
-  padding: 0.25rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-  border-radius: 0.5rem;
-  border: 3px solid rgb(0, 0, 0);
+#game-canvas {
+  width: 100%;   /* fit parent */
+  height: auto;
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 1rem;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
   background: white;
 }
