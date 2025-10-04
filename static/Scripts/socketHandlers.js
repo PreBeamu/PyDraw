@@ -265,11 +265,15 @@ export function initSocketHandlers(socket) {
     canvas.addEventListener("mousemove", e => {
         if (!drawing) return;
         const pos = getPos(e, canvas);
-        drawLine(ctx, last, pos); // วาดเส้นจาก last → pos
+        drawLine(ctx, last, pos); // วาดเองด้วย
+        socket.emit("draw_line", {
+            from: last,
+            to: pos,
+            color: currentColors,
+            width: currentLineWidth
+        });
         last = pos;
-        socket.emit("draw", { image: canvas.toDataURL() });
     });
-
     canvas.addEventListener("mouseup", () => { drawing = false; });
     canvas.addEventListener("mouseleave", () => { drawing = false; });
 
@@ -279,12 +283,13 @@ export function initSocketHandlers(socket) {
 
 
     // อัปเดตภาพจาก server
-    socket.on("update_image", img => {
-        console.log(img)
-        const image = new Image();
-        image.onload = () => {
-            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-        };
-        image.src = img;
+    socket.on("draw_line", data => {
+        ctx.strokeStyle = data.color;
+        ctx.lineWidth = data.width;
+        ctx.lineCap = "round";
+        ctx.beginPath();
+        ctx.moveTo(data.from.x, data.from.y);
+        ctx.lineTo(data.to.x, data.to.y);
+        ctx.stroke();
     });
 }
