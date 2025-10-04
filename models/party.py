@@ -8,7 +8,7 @@ PLAYER_TEMPLATE = {
     "Name": None,
     "Avatar": [0, 0, 0, 0],
     "Scores": 0,
-    "GuessesLeft": 0,
+    "GuessesLeft": 0
 }
 
 PARTY_TEMPLATE = {
@@ -18,7 +18,7 @@ PARTY_TEMPLATE = {
         "Rounds": 1,
         "DrawTime": 2,
         "GuessLimit": 0,
-        "OnlyCustomTopics": False,
+        "OnlyCustomTopics": False
     },
     "Values": {
         "State": "Waiting",
@@ -27,6 +27,7 @@ PARTY_TEMPLATE = {
         "PickedTopic": None,
         "RoundsLeft": 0,
         "TimesLeft": 0,
+        "Drawing": None
     },
 }
 
