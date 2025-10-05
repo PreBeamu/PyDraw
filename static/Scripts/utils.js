@@ -69,6 +69,7 @@ export function setStatus($icon, status) {
     const $statusText = $(".canvasC .status h2");
 
     $(".status h1").text("");
+    clearCanvas()
     if ($status.hasClass("show") && status) {
         $status.removeClass("show");
         $icons.removeClass("show");
@@ -154,4 +155,11 @@ export function optionToast(text, dur) {
             });
         }, 100);
     });
+}
+
+export function clearCanvas() {
+    const canvasEl = document.getElementById("game-canvas");
+    if (!canvasEl) return;
+    const ctx = canvasEl.getContext("2d", { willReadFrequently: true });
+    ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 }

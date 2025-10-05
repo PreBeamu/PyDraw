@@ -20,7 +20,7 @@
     background: linear-gradient(135deg, #73a5ff, #5477f5);
     position: fixed;
     opacity: 0;
-    transition: all .4s cubic-bezier(.215, .61, .355, 1);
+    transition: all .25s cubic-bezier(0.47, 1.64, 0.41, 0.8);
     border-radius: 2px;
     cursor: pointer;
     text-decoration: none;
@@ -136,7 +136,6 @@
 }
 
 .t-options {
-    min-width: 25vw;
     height: 40px;
     padding-inline: 1rem;
     padding-block: 0.35rem;

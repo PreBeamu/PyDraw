@@ -9,4 +9,14 @@ export const CLIENT_DATA = {
     currentParty: null,
     loadedPlayers: [],
     guessesLeft: 0,
+    canvasData: {
+        mode: "Draw",
+        lastPos: null,
+        color: "#000000",
+        thickness: 5,
+        histories: {
+            undo: [],
+            redo: [],
+        },
+    }
 };

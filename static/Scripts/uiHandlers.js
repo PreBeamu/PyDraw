@@ -240,6 +240,7 @@ export function initUIHandlers(socket) {
     });
 
     $("#startGame-btn").on("click", async () => {
+        $(".toastify").remove();
         socket.emit(
             "start_game",
             {
@@ -291,6 +292,7 @@ export function initUIHandlers(socket) {
 
     // Settings menu
     $("#optionsO-btn").on("click", () => {
+        $(".toastify").remove();
         $(".transition-div").addClass("fill");
         $("#startGame-btn, #optionsO-btn, #leaveParty-btn").addClass("hidden");
 
@@ -304,6 +306,7 @@ export function initUIHandlers(socket) {
     });
 
     $("#optionsX-btn").on("click", () => {
+        $(".toastify").remove();
         $(".transition-div").addClass("fill");
         $("#optionsX-btn").addClass("hidden");
 

@@ -22,12 +22,19 @@
    BASE SETUP
 ============================== */
 * {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
   -webkit-user-drag: none;
   touch-action: manipulation;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -91,6 +98,7 @@ body,
   pointer-events: none;
   transform: scale(0);
 }
+
 .page.disabled *,
 #main-page.disabled #randomizer {
   pointer-events: none;
@@ -106,13 +114,16 @@ body,
   pointer-events: none;
   z-index: 5;
 }
-#party-page:not(.disabled) ~ #pydraw-icon {
+
+#party-page:not(.disabled)~#pydraw-icon {
   transform: translate(-15rem, -14.75rem) scale(0.45);
 }
-#game-page:not(.disabled) ~ #pydraw-icon {
+
+#game-page:not(.disabled)~#pydraw-icon {
   transform: translate(-3.25rem, -15.75rem) scale(0.45);
 }
-#countdown.active ~ #pydraw-icon {
+
+#countdown.active~#pydraw-icon {
   opacity: 0%;
 }
 
@@ -123,21 +134,26 @@ body,
   #wrapper {
     transform: scale(0.85);
   }
+
   #party-page {
     transform: translateY(1rem);
   }
-  #party-page:not(.disabled) ~ #pydraw-icon {
+
+  #party-page:not(.disabled)~#pydraw-icon {
     transform: translate(-15rem, -13.75rem) scale(0.45);
   }
 }
+
 @media (max-width: 800px) or (max-height: 400px) {
   #wrapper {
     transform: scale(0.5);
   }
+
   #party-page {
     transform: translateY(0rem);
   }
-  #party-page:not(.disabled) ~ #pydraw-icon {
+
+  #party-page:not(.disabled)~#pydraw-icon {
     transform: translate(-15rem, -14.75rem) scale(0.45);
   }
 }
