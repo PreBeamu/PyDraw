@@ -214,14 +214,53 @@
     </header>
     <!-- Game Container -->
     <div class="gameC">
-      <!-- PlayerLists -->
-      <aside id="plr-list" class="game">
-        <div class="box"></div>
+      <aside class="left">
+        <!-- PlayerLists -->
+        <div id="plr-list" class="game">
+          <div class="box"></div>
+        </div>
+        <!-- Canvas Tools -->
+        <div id="toolbar" class="hidden">
+          <div class="selectable">
+            <!-- Button: Pencil -->
+            <button id="pencil-btn" class="tool selected">
+              <img class="icon" src="/static/Images/Icons/Tools/Pencil.svg" />
+            </button>
+            <!-- Button: Eraser -->
+            <button id="eraser-btn" class="tool">
+              <img class="icon" src="/static/Images/Icons/Tools/Eraser.svg" />
+            </button>
+            <!-- Button: Bucket -->
+            <button id="bucket-btn" class="tool">
+              <img class="icon" src="/static/Images/Icons/Tools/Bucket.svg" />
+            </button>
+            <!-- Input: Color Picker -->
+            <input type="color" id="color-picker" value="#000000" />
+          </div>
+          <!-- Slider: Line Thickness -->
+          <div class="slider">
+            <div class="brush-a"></div>
+            <input type="range" id="thickness" step="any" min="5" max="20" value="5" />
+            <div class="brush-s"></div>
+          </div>
+          <div>
+            <!-- Group: History -->
+            <button id="undo-btn">
+              <img class="icon" src="/static/Images/Icons/Tools/Undo.svg" />
+            </button>
+            <button id="redo-btn">
+              <img class="icon" src="/static/Images/Icons/Tools/Redo.svg" />
+            </button>
+            <!-- Button: Clear -->
+            <button id="clear-btn" class="tool">
+              <img class="icon" src="/static/Images/Icons/Tools/Clear.svg" />
+            </button>
+          </div>
+        </div>
       </aside>
       <aside class="right">
         <!-- Canvas -->
         <div class="canvasC">
-          <!-- ตั้งชื่อ id ใหม่ไม่ซ้ำกับ canvas อื่น -->
           <canvas id="game-canvas"></canvas>
           <div class="status">
             <img class="banner" src="/static/Images/Icons/Choosing.svg" />
@@ -232,6 +271,7 @@
             <h1></h1>
           </div>
         </div>
+        <!-- Guesser -->
         <div id="chat-box" class="game">
           <div class="holder">
             <div class="box"></div>
@@ -241,12 +281,11 @@
             <p id="guessesLeft">ทายได้อีก 0 ครั้ง</p>
           </div>
         </div>
-    </div>
-    </aside>
+      </aside>
     </div>
   </section>
 
   <!-- Game Icon -->
-  <img class="pydraw-icon" src="/static/Images/PyDraw.svg" />
+  <img id="pydraw-icon" src="/static/Images/PyDraw.svg" />
 </main>
 {% endblock %}

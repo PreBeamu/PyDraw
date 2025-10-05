@@ -5,6 +5,7 @@
 import { preloadAvatarImages, loadAvatar } from './Scripts/avatar.js';
 import { initSocketHandlers } from './Scripts/socketHandlers.js';
 import { initUIHandlers } from './Scripts/uiHandlers.js';
+import { initCanvas } from './Scripts/canvas.js';
 
 // Initialize socket.io
 const SOCKET = io();
@@ -18,6 +19,7 @@ $(document).ready(function () {
     $("#startGame-btn, #optionsO-btn, #optionsX-btn, .optionsC").hide();
     initSocketHandlers(SOCKET);
     initUIHandlers(SOCKET);
+    initCanvas(SOCKET);
 });
 
 

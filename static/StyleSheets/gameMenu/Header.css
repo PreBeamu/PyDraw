@@ -8,6 +8,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  pointer-events: none;
   gap: 8px;
   z-index: 10;
   transform: translate(14.75rem, -15rem);

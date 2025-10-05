@@ -10,7 +10,8 @@
 @import url("StyleSheets/gameMenu/Header.css");
 @import url("StyleSheets/gameMenu/Containers.css");
 @import url("StyleSheets/gameMenu/Picker.css");
-@import url("StyleSheets/gameMenu/Guesser.css");
+@import url("StyleSheets/gameMenu/Left.css");
+@import url("StyleSheets/gameMenu/Right.css");
 /* Others */
 @import url("StyleSheets/others/Cordinates.css");
 @import url("StyleSheets/others/Countdown.css");
@@ -91,7 +92,7 @@ body,
   transform: scale(0);
 }
 
-.pydraw-icon {
+#pydraw-icon {
   position: absolute;
   width: 450px;
   filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25));
@@ -100,13 +101,13 @@ body,
   pointer-events: none;
   z-index: 5;
 }
-#party-page:not(.disabled) ~ .pydraw-icon {
+#party-page:not(.disabled) ~ #pydraw-icon {
   transform: translate(-15rem, -14.75rem) scale(0.45);
 }
-#game-page:not(.disabled) ~ .pydraw-icon {
+#game-page:not(.disabled) ~ #pydraw-icon {
   transform: translate(-3.25rem, -15.75rem) scale(0.45);
 }
-#countdown.active ~ .pydraw-icon {
+#countdown.active ~ #pydraw-icon {
   opacity: 0%;
 }
 
@@ -120,7 +121,7 @@ body,
   #party-page {
     transform: translateY(1rem);
   }
-  #party-page:not(.disabled) ~ .pydraw-icon {
+  #party-page:not(.disabled) ~ #pydraw-icon {
     transform: translate(-15rem, -13.75rem) scale(0.45);
   }
 }
@@ -131,7 +132,7 @@ body,
   #party-page {
     transform: translateY(0rem);
   }
-  #party-page:not(.disabled) ~ .pydraw-icon {
+  #party-page:not(.disabled) ~ #pydraw-icon {
     transform: translate(-15rem, -14.75rem) scale(0.45);
   }
 }

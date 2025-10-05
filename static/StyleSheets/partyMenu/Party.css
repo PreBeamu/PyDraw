@@ -70,7 +70,7 @@
 #plr-list.party .plr-box {
   width: 95%;
   height: fit-content;
-  padding: 0.35rem;
+  padding: 0.35rem 0.75rem 0.35rem 0.35rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -113,6 +113,13 @@
   background: #ebebeb;
 }
 
+/* Player info container */
+#plr-list.party .plr-info {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
 /* Player info */
 #plr-list.party .plr-info .username {
   display: flex;
@@ -120,16 +127,32 @@
   gap: 3px;
   font-size: 1.15rem;
   opacity: 0.75;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Username text */
+#plr-list.party .plr-info .username .name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  flex-shrink: 1;
 }
 
 #plr-list.party .meTag {
   font-size: 0.9rem;
   opacity: 0.8;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 #plr-list.party .plr-info .uuid {
   font-size: 0.75rem;
   opacity: 0.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ==============================

@@ -72,6 +72,8 @@ export function setStatus($icon, status) {
     if ($status.hasClass("show") && status) {
         $status.removeClass("show");
         $icons.removeClass("show");
+        $("#plr-list.game").removeClass("cut");
+        $("#toolbar").addClass("hidden");
         setTimeout(() => {
             $("#hint").text(". . .");
             $status.addClass("show");

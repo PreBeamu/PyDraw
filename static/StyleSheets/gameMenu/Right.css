@@ -1,4 +1,67 @@
 /* ==============================
+   CANVAS CONTAINER
+============================== */
+.canvasC {
+  width: 100%;
+  height: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#game-canvas {
+  width: 100%;
+  height: auto;
+  border: 3px solid rgb(0, 0, 0);
+  border-radius: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+  background: white;
+}
+
+.status {
+  position: absolute;
+  height: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  opacity: 0%;
+  transform: scale(0);
+  transition: all 0.2s cubic-bezier(0.47, 1.64, 0.41, 0.8);
+}
+
+.status.show {
+  transform: scale(1);
+  opacity: 100%;
+}
+
+.status h2 {
+  all: unset;
+  font-size: 1.5rem;
+  font-weight: 500;
+  opacity: 50%;
+}
+
+.status img {
+  display: none;
+}
+.status img.show {
+  display: block;
+  height: 110%;
+  opacity: 50%;
+  margin-bottom: -0.5rem;
+}
+
+.status h1 {
+  all: unset;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-top: -1rem;
+  opacity: 70%;
+}
+
+/* ==============================
    GUESSBOX
 ============================== */
 #chat-box.game {
