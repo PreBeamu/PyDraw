@@ -17,6 +17,7 @@ import {
     nextIndex,
     triggerAnim,
     errorToast,
+    optionToast,
 } from "/static/Scripts/utils.js";
 import {
     setPlayerName,
@@ -196,8 +197,8 @@ export function initUIHandlers(socket) {
     });
 
     $("#leaveParty-btn").on("click", async () => {
-        const confirmLeave = confirm("Are you sure you want to leave the party?");
-        if (!confirmLeave) return;
+        const status = await optionToast("ต้องการออกจากปาร์ตี้ปัจจุบันหรือไม่?", -1);
+        if (!status) return;
 
         const partyCode = $("#codeLabel")
             .text()
