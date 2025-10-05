@@ -1,3 +1,5 @@
+import { optionToast } from "/static/Scripts/utils.js";
+
 export function initCanvas(socket) {
     const canvas = document.getElementById("game-canvas");
     const ctx = canvas.getContext("2d");
@@ -9,7 +11,7 @@ export function initCanvas(socket) {
     let history = [];
 
     function changeSelected($e) {
-        $("#toolbar button").removeClass("selected")
+        $("#toolbar button").removeClass("selected");
         $e.addClass("selected");
     }
 
@@ -26,7 +28,6 @@ export function initCanvas(socket) {
         img.src = imgData;
     }
 
-
     function getPos(e, canvas) {
         const rect = canvas.getBoundingClientRect();
         const scaleX = canvas.width / rect.width;
@@ -34,10 +35,9 @@ export function initCanvas(socket) {
 
         return {
             x: (e.clientX - rect.left) * scaleX,
-            y: (e.clientY - rect.top) * scaleY
+            y: (e.clientY - rect.top) * scaleY,
         };
     }
-
 
     function drawLine(ctx, p1, p2) {
         ctx.strokeStyle = currentColors;
@@ -50,13 +50,13 @@ export function initCanvas(socket) {
     }
 
     // Mouse events
-    canvas.addEventListener("mousedown", e => {
+    canvas.addEventListener("mousedown", (e) => {
         drawing = true;
         last = getPos(e, canvas);
         history.push(canvas.toDataURL()); // เก็บ snapshot สำหรับ undo
     });
 
-    canvas.addEventListener("mousemove", e => {
+    canvas.addEventListener("mousemove", (e) => {
         if (!drawing) return;
         const pos = getPos(e, canvas);
         drawLine(ctx, last, pos); // วาดเองด้วย
@@ -64,20 +64,22 @@ export function initCanvas(socket) {
             from: last,
             to: pos,
             color: currentColors,
-            width: currentLineWidth
+            width: currentLineWidth,
         });
         last = pos;
     });
-    canvas.addEventListener("mouseup", () => { drawing = false; });
-    canvas.addEventListener("mouseleave", () => { drawing = false; });
+    canvas.addEventListener("mouseup", () => {
+        drawing = false;
+    });
+    canvas.addEventListener("mouseleave", () => {
+        drawing = false;
+    });
 
-
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
-
     // อัปเดตภาพจาก server
-    socket.on("draw_line", data => {
+    socket.on("draw_line", (data) => {
         ctx.strokeStyle = data.color;
         ctx.lineWidth = data.width;
         ctx.lineCap = "round";
@@ -88,13 +90,13 @@ export function initCanvas(socket) {
     });
 
     $("#pencil-btn").on("click", function () {
-        changeSelected($(this))
+        changeSelected($(this));
     });
     $("#eraser-btn").on("click", function () {
-        changeSelected($(this))
+        changeSelected($(this));
     });
     $("#bucket-btn").on("click", function () {
-        changeSelected($(this))
+        changeSelected($(this));
     });
 
     $("#undo-btn").on("click", function () {
@@ -104,6 +106,8 @@ export function initCanvas(socket) {
         // reduu
     });
 
-    $("#clear-btn").on("click", function () {
+    $("#clear-btn").on("click", async function () {
+        const status = await optionToast("ต้องการลบรูปวาดทั้งหมดไหม?", -1);
+        console.log(status);
     });
 }

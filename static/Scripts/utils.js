@@ -92,3 +92,66 @@ export function setStatus($icon, status) {
         }
     }
 }
+
+export function errorToast(text, dur) {
+    $(".toastify").remove();
+    Toastify({
+        text: `
+            <div class="t-error">
+                <img class="icon" src="/static/Images/Icons/Error.svg" />
+                <p>${text}</p>
+            </div>
+        `,
+        duration: dur,
+        position: "center",
+        escapeMarkup: false,
+        style: {
+            background: "transparent",
+            boxShadow: "none",
+        },
+    }).showToast();
+}
+
+export function optionToast(text, dur) {
+    $(".toastify").remove();
+    return new Promise((resolve) => {
+        Toastify({
+            text: `
+                <div class="t-container">
+                    <div class="t-options">
+                        <img class="icon" src="/static/Images/Icons/Prompt.svg" />
+                        <p>${text}</p>
+                    </div>
+                    <div class="t-buttons">
+                        <button id="o-btn" style="--btn-color: #51e874ff; --border-color: #15481e">
+                            <img class="icon" src="/static/Images/Icons/Check.svg" />
+                        </button>
+                        <button id="x-btn" style="--btn-color: #ff6868; --border-color: #481515">
+                            <img class="icon" src="/static/Images/Icons/Cross.svg" />
+                        </button>
+                    </div>
+                </div>
+            `,
+            duration: dur,
+            position: "center",
+            escapeMarkup: false,
+            style: {
+                background: "transparent",
+                boxShadow: "none",
+            },
+        }).showToast();
+
+        setTimeout(() => {
+            $("#o-btn").on("click", function () {
+                $(".t-container").addClass("hidden");
+                setTimeout(() => $(".toastify").remove(), 200);
+                resolve(true);
+            });
+            $("#x-btn").on("click", function () {
+                $(".t-container").addClass("hidden");
+                setTimeout(() => $(".toastify").remove(), 200);
+                resolve(false);
+            });
+        }, 100);
+    });
+}

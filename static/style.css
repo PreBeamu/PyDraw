@@ -16,6 +16,7 @@
 @import url("StyleSheets/others/Cordinates.css");
 @import url("StyleSheets/others/Countdown.css");
 @import url("StyleSheets/others/LandscapeN.css");
+@import url("StyleSheets/others/Toastify.css");
 
 /* ==============================
    BASE SETUP
@@ -46,6 +47,10 @@ p {
   font-family: "Mitr", sans-serif;
   font-weight: 400;
   letter-spacing: 1px;
+}
+
+button {
+  cursor: pointer;
 }
 
 input::placeholder {

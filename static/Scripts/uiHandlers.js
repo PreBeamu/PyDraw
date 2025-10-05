@@ -16,6 +16,7 @@ import {
     resetOptions,
     nextIndex,
     triggerAnim,
+    errorToast,
 } from "/static/Scripts/utils.js";
 import {
     setPlayerName,
@@ -129,7 +130,7 @@ export function initUIHandlers(socket) {
                     create: true,
                 });
             } catch (err) {
-                alert("There was an error creating the party. Please try again.");
+                errorToast("เกิดปัญหาในการสร้างปาร์ตี้!",2500)
                 $("#main-page").removeClass("disabled");
             } finally {
                 $("#loader").removeClass("active");
@@ -141,7 +142,7 @@ export function initUIHandlers(socket) {
         const partyCode = $("#inviteCode").val().toUpperCase();
         const codeRegex = /^[A-Z0-9]{5}$/;
         if (!codeRegex.test(partyCode)) {
-            alert("Please enter a valid 5-character party code (A–Z, 0–9).");
+            errorToast("รหัสเชิญผิดกรุณาใส่รหัสห้อง 5 หลักที่ประกอบด้วย (A–Z, 0–9)",2500)
             return;
         }
 
@@ -174,7 +175,7 @@ export function initUIHandlers(socket) {
                     join: true,
                 });
             } catch (err) {
-                alert("There was an error joining the party. Please try again.");
+                errorToast("เกิดปัญหาในการเข้าร่วมปาร์ตี้!",2500)
                 $("#main-page").removeClass("disabled");
             } finally {
                 $("#loader").removeClass("active");
@@ -227,7 +228,7 @@ export function initUIHandlers(socket) {
                 CLIENT_DATA.currentParty = null;
                 CLIENT_DATA.playerId = null;
             } catch (err) {
-                alert("There was an error leaving the party. Please try again.");
+                errorToast("เกิดปัญหาในการออกจากปาร์ตี้!",2500)
                 $("#main-page").addClass("disabled");
                 $("#party-page").removeClass("disabled");
                 $("#codeLabel").text("รหัสเชิญ : " + partyCode);
@@ -250,7 +251,7 @@ export function initUIHandlers(socket) {
             },
             (res) => {
                 if (!res.success) {
-                    alert("Failed to start the game!");
+                    errorToast("เกิดปัญหาในการเริ่มเกม!",2500)
                 }
             }
         );

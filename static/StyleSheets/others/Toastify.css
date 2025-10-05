@@ -1,0 +1,190 @@
+/**
+ * Minified by jsDelivr using clean-css v5.3.3.
+ * Original file: /npm/toastify-js@1.12.0/src/toastify.css
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+/*!
+ * Toastify js 1.12.0
+ * https://github.com/apvarun/toastify-js
+ * @license MIT licensed
+ *
+ * Copyright (C) 2018 Varun A P
+ */
+
+.toastify {
+    color: #fff;
+    display: inline-block;
+    box-shadow: 0 3px 6px -1px rgba(0, 0, 0, .12), 0 10px 36px -4px rgba(77, 96, 232, .3);
+    background: -webkit-linear-gradient(315deg, #73a5ff, #5477f5);
+    background: linear-gradient(135deg, #73a5ff, #5477f5);
+    position: fixed;
+    opacity: 0;
+    transition: all .4s cubic-bezier(.215, .61, .355, 1);
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    max-width: calc(50% - 20px);
+    z-index: 2147483646
+}
+
+.toastify.on {
+    opacity: 1
+}
+
+.toast-close {
+    background: 0 0;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1em;
+    opacity: .4;
+    padding: 0 5px
+}
+
+.toastify-right {
+    right: 15px
+}
+
+.toastify-left {
+    left: 15px
+}
+
+.toastify-top {
+    top: -150px
+}
+
+.toastify-bottom {
+    bottom: -150px
+}
+
+.toastify-rounded {
+    border-radius: 25px
+}
+
+.toastify-avatar {
+    width: 1.5em;
+    height: 1.5em;
+    margin: -7px 5px;
+    border-radius: 2px
+}
+
+.toastify-center {
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    max-width: fit-content;
+    max-width: -moz-fit-content
+}
+
+@media only screen and (max-width:360px) {
+
+    .toastify-left,
+    .toastify-right {
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        max-width: fit-content
+    }
+}
+
+/* ==============================
+   ERROR BOX
+============================== */
+.t-error {
+    min-width: 25vw;
+    height: 40px;
+    padding-inline: 1rem;
+    padding-block: 0.35rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 75px 75px;
+    border: 2px solid rgb(94, 94, 94);
+    background: rgb(255, 90, 90);
+    color: rgba(0, 0, 0, 0.827);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.t-error p,
+.t-options p {
+    font-weight: 500;
+}
+
+.t-error .icon,
+.t-options .icon {
+    height: 95%;
+    margin-bottom: 2px;
+}
+
+.t-container {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    transition: all .15s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.t-container.hidden {
+    transform: scaleX(0);
+    opacity: 0%;
+}
+
+.t-options {
+    min-width: 25vw;
+    height: 40px;
+    padding-inline: 1rem;
+    padding-block: 0.35rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 75px 75px;
+    border: 2px solid rgb(94, 94, 94);
+    background: rgb(255, 255, 255);
+    color: rgba(0, 0, 0, 0.827);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.t-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    gap: 5px;
+}
+
+.t-buttons button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    border: 3px solid var(--border-color);
+    background: var(--btn-color);
+    color: rgba(0, 0, 0, 0.827);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    transition: all .15s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.t-buttons button:hover {
+    width: 37px;
+    height: 37px;
+    margin-top: 3px;
+    filter: brightness(75%);
+}
+
+.t-buttons .icon {
+    width: 50%;
+    opacity: 50%;
+    margin-bottom: 2px;
+}
