@@ -51,12 +51,11 @@ def register_chat_events(socketio, parties, socket_map):
         if guess_clean == word_clean:
             custom_class = "correct"
             message = f"{name} ทายถูกแล้ว! (+100)"
-            # --- แลม Zone ---
-            # Cool scoring logic here..
-            # ใช้ PARTIES[party_code]["Values"]["TimesLeft"] เพื่อดุว่าเวลาเหลือเท่าไหร่
-            # ใช้ PARTIES[party_code]["Players"][player_id]["Scores"] เพื่อเข้าถึงข้อมูล scores ของผู้เล่นที่เดามา
-            # เช่น PARTIES[party_code]["Players"][player_id]["Scores"] += 100
-
+            timeleft = parties[party_code]["Values"]["Timesleft"]
+            timemax = parties[party_code]["Gamerules"]["DrawTime"]
+            prev_score = parties[party_code]["Players"][player_id]["Scores"]
+            score = prev_score + ((timeleft // timemax) * 1000) # + (1 // (answered + 1)) * 450 <== ขอตัวแปรคนตอบไปแล้ว
+            parties[party_code]["Players"][player_id]["Scores"] += score
         # --- ปื้ด Zone ---
         # If close (check if the word is about 85% of the answer) จับ guess_clean มาเทียบ word_clean
         # guess_clean : คำที่ผู้เล่นทายมา
