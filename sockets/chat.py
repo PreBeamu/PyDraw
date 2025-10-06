@@ -50,12 +50,12 @@ def register_chat_events(socketio, parties, socket_map):
         
         if guess_clean == word_clean:
             custom_class = "correct"
-            timeleft = parties[party_code]["Values"]["Timesleft"]
+            timeleft = parties[party_code]["Values"]["TimesLeft"]
             answered = parties[party_code]["Values"]["Guessed"]
             timemax = parties[party_code]["Gamerules"]["DrawTime"]
             prev_score = parties[party_code]["Players"][player_id]["Scores"]
             parties[party_code]["Values"]["Guessed"] += 1
-            score = prev_score + ((timeleft // timemax) * 1000) + (1 // (answered + 1)) * 450
+            score = prev_score + ((timeleft // timemax) * 1000) + ((1 // (answered + 1)) * 450)
             parties[party_code]["Players"][player_id]["Scores"] += score
             message = f"{name} ทายถูกแล้ว! +{score}"
         # --- ปื้ด Zone ---
