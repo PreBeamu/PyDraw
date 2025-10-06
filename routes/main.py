@@ -1,6 +1,6 @@
 """HTTP routes"""
 from flask import render_template, request, jsonify
-from models.party import create_player, create_party
+from models.template import create_player, create_party
 from utils.helpers import gen_code
 
 

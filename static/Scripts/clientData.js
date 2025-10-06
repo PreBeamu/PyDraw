@@ -10,6 +10,7 @@ export const CLIENT_DATA = {
     loadedPlayers: [],
     guessesLeft: 0,
     canvasData: {
+        isDrawer: false,
         mode: "Draw",
         lastPos: null,
         color: "#000000",

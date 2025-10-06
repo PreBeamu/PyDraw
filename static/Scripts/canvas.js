@@ -9,7 +9,6 @@ export function initCanvas(socket) {
     const canvas = $canvas[0];
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
-    $canvas.css('cursor', 'none');
     const canvasData = CLIENT_DATA.canvasData;
 
     // Create cursor circle element
@@ -35,7 +34,7 @@ export function initCanvas(socket) {
 
     function updateCursorPosition(e) {
         let clientX, clientY;
-        
+
         if (e.touches && e.touches.length > 0) {
             clientX = e.touches[0].clientX;
             clientY = e.touches[0].clientY;
@@ -43,7 +42,7 @@ export function initCanvas(socket) {
             clientX = e.clientX;
             clientY = e.clientY;
         }
-        
+
         $cursorCircle.css({
             left: clientX + 'px',
             top: clientY + 'px',
@@ -112,7 +111,7 @@ export function initCanvas(socket) {
     function startDrawing(e) {
         if (canvasData.mode === "Bucket") return;
         if (e.cancelable) e.preventDefault();
-        
+
         canvasData.lastPos = getPos(e, canvas);
         canvasData.histories.undo.push(canvas.toDataURL());
         canvasData.histories.redo = [];
@@ -122,11 +121,12 @@ export function initCanvas(socket) {
         if (canvasData.mode === "Bucket") return;
         if (e.cancelable) e.preventDefault();
         if (!canvasData.lastPos) return;
-        
+        if (!canvasData.isDrawer) return;
+
         const pos = getPos(e, canvas);
         const isErasing = canvasData.mode === "Erase";
         const currentColor = isErasing ? "#000000" : canvasData.color;
-        
+
         drawLine(ctx, canvasData.lastPos, pos, currentColor, canvasData.thickness, isErasing);
         socket.emit("draw_line", {
             from: canvasData.lastPos,
@@ -151,13 +151,25 @@ export function initCanvas(socket) {
     canvas.addEventListener("mousemove", (e) => {
         updateCursorPosition(e);
         moveDrawing(e);
+        if (canvasData.isDrawer) {
+            $canvas.css('cursor', 'none');
+        } else {
+            $canvas.css('cursor', 'unset');
+            $cursorCircle.hide();
+        }
     });
     document.addEventListener("mouseup", upDrawing);
     canvas.addEventListener("mouseleave", () => {
-        $cursorCircle.hide();
+        if (canvasData.isDrawer) {
+            $cursorCircle.hide();
+        }
     });
     canvas.addEventListener("mouseenter", () => {
-        $cursorCircle.show();
+        if (canvasData.isDrawer) {
+            $cursorCircle.show();
+        } else {
+            $cursorCircle.hide();
+        }
         updateCursorSize();
     });
 
@@ -191,33 +203,32 @@ export function initCanvas(socket) {
 
         if (targetColor.toString() === fillColorArr.toString()) return;
 
-        // Color matching with tolerance for anti-aliasing
-        const tolerance = 30;
+        // Increased tolerance for better edge coverage
+        const tolerance = 50;
         function matchesTarget(i) {
             return Math.abs(data[i] - targetColor[0]) <= tolerance &&
-                   Math.abs(data[i + 1] - targetColor[1]) <= tolerance &&
-                   Math.abs(data[i + 2] - targetColor[2]) <= tolerance &&
-                   Math.abs(data[i + 3] - targetColor[3]) <= tolerance;
+                Math.abs(data[i + 1] - targetColor[1]) <= tolerance &&
+                Math.abs(data[i + 2] - targetColor[2]) <= tolerance &&
+                Math.abs(data[i + 3] - targetColor[3]) <= tolerance;
         }
 
         const stack = [[Math.floor(x), Math.floor(y)]];
         const visited = new Set();
+        const toFill = [];
 
+        // First pass: identify pixels to fill
         while (stack.length) {
             const [cx, cy] = stack.pop();
             const key = `${cx},${cy}`;
-            
+
             if (visited.has(key)) continue;
             if (cx < 0 || cy < 0 || cx >= canvasWidth || cy >= canvasHeight) continue;
-            
+
             const i = (cy * canvasWidth + cx) * 4;
-            
+
             if (matchesTarget(i)) {
                 visited.add(key);
-                data[i] = fillColorArr[0];
-                data[i + 1] = fillColorArr[1];
-                data[i + 2] = fillColorArr[2];
-                data[i + 3] = fillColorArr[3];
+                toFill.push([cx, cy, i]);
 
                 stack.push([cx + 1, cy]);
                 stack.push([cx - 1, cy]);
@@ -225,11 +236,44 @@ export function initCanvas(socket) {
                 stack.push([cx, cy - 1]);
             }
         }
+
+        // Second pass: fill identified pixels and expand edges slightly
+        const expanded = new Set();
+        for (const [cx, cy, i] of toFill) {
+            data[i] = fillColorArr[0];
+            data[i + 1] = fillColorArr[1];
+            data[i + 2] = fillColorArr[2];
+            data[i + 3] = fillColorArr[3];
+
+            // Fill neighboring pixels to close gaps (expand by 1 pixel at edges)
+            const neighbors = [
+                [cx + 1, cy], [cx - 1, cy], [cx, cy + 1], [cx, cy - 1],
+                [cx + 1, cy + 1], [cx - 1, cy - 1], [cx + 1, cy - 1], [cx - 1, cy + 1]
+            ];
+
+            for (const [nx, ny] of neighbors) {
+                if (nx >= 0 && ny >= 0 && nx < canvasWidth && ny < canvasHeight) {
+                    const key = `${nx},${ny}`;
+
+                    // Fill edge pixels unconditionally to eliminate gaps
+                    if (!visited.has(key) && !expanded.has(key)) {
+                        expanded.add(key);
+                        const ni = (ny * canvasWidth + nx) * 4;
+                        data[ni] = fillColorArr[0];
+                        data[ni + 1] = fillColorArr[1];
+                        data[ni + 2] = fillColorArr[2];
+                        data[ni + 3] = fillColorArr[3];
+                    }
+                }
+            }
+        }
+
         ctx.putImageData(imageData, 0, 0);
     }
 
     canvas.addEventListener("click", e => {
         if (canvasData.mode !== "Bucket") return;
+        if (!canvasData.isDrawer) return;
         const pos = getPos(e, canvas);
         canvasData.histories.undo.push(canvas.toDataURL());
         canvasData.histories.redo = [];
@@ -279,6 +323,7 @@ export function initCanvas(socket) {
     });
 
     $("#undo-btn").on("click", () => {
+        if (!canvasData.isDrawer) return;
         if (canvasData.histories.undo.length > 0) {
             const lastImage = canvasData.histories.undo.pop();
             canvasData.histories.redo.push(canvas.toDataURL());
@@ -293,6 +338,7 @@ export function initCanvas(socket) {
     });
 
     $("#redo-btn").on("click", () => {
+        if (!canvasData.isDrawer) return;
         if (canvasData.histories.redo.length > 0) {
             const redoImage = canvasData.histories.redo.pop();
             canvasData.histories.undo.push(canvas.toDataURL());
@@ -308,6 +354,7 @@ export function initCanvas(socket) {
 
     $("#clear-btn").on("click", async function () {
         const status = await optionToast("ต้องการลบรูปวาดทั้งหมดไหม?", -1);
+        if (!canvasData.isDrawer) return;
         if (status) {
             canvasData.histories.undo.push(canvas.toDataURL());
             canvasData.histories.redo = [];

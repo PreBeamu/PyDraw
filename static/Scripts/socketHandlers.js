@@ -153,6 +153,7 @@ export function initSocketHandlers(socket) {
         $("#guessMsg").prop("disabled", true).addClass("disabled").attr("placeholder", "ไม่สามารถส่งคำตอบได้ในขณะนี้");
         triggerAnim($("#hint"), "update");
         setStatus($(".banner"), "ผู้เล่นกำลังเลือกหัวข้อ");
+        CLIENT_DATA.canvasData.isDrawer = false
     });
 
     socket.on("pick_done", (data) => {
@@ -163,6 +164,7 @@ export function initSocketHandlers(socket) {
         } else {
             $("#plr-list.game").addClass("cut");
             $("#toolbar").removeClass("hidden");
+            CLIENT_DATA.canvasData.isDrawer = true
         }
         $(".game .holder .box").empty();
         setStatus();
@@ -177,6 +179,7 @@ export function initSocketHandlers(socket) {
     socket.on("show_answer", (data) => {
         setStatus($(".reveal"), "คำตอบคือ");
         $(".status h1").text(data.answer);
+        CLIENT_DATA.canvasData.isDrawer = false
     });
 
     // Guess messages

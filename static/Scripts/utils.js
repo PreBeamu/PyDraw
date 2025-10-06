@@ -68,6 +68,7 @@ export function setStatus($icon, status) {
     const $icons = $(".status img");
     const $statusText = $(".canvasC .status h2");
 
+    $(".toastify").remove();
     $(".status h1").text("");
     clearCanvas()
     if ($status.hasClass("show") && status) {

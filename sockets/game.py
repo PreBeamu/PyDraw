@@ -83,6 +83,12 @@ def register_game_events(socketio, parties, socket_map):
         sid = request.sid
         if sid not in socket_map:
             return
-        party_code, _ = socket_map[sid]
+        
+        party_code, player_id = socket_map[sid]
+        if party_code not in parties:
+            return
+        if player_id != parties[party_code]["Values"]["CurrentDrawer"]:
+            return
+        
         parties[party_code]["Values"]["Drawing"] = data
         socketio.emit('draw_line', data, to=party_code, include_self=False)
