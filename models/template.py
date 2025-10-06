@@ -27,7 +27,8 @@ PARTY_TEMPLATE = {
         "PickedTopic": None,
         "RoundsLeft": 0,
         "TimesLeft": 0,
-        "Drawing": None
+        "Drawing": None,
+        "Guessed": 0 #the amount of people that have answered
     },
 }
 
