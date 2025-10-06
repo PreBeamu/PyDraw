@@ -65,7 +65,7 @@ def run_game(socketio, parties, socket_map, party_code):
                 return
             if drawer_id not in party["Players"]:
                 continue
-            
+
             party["Values"]["CurrentDrawer"] = drawer_id
             party["Values"]["PickedTopic"] = None
             update_plrList(socketio, parties, {"party_code": party_code})
@@ -128,6 +128,11 @@ def run_game(socketio, parties, socket_map, party_code):
             draw_finished = countdown(
                 socketio, parties, party_code,
                 party["Gamerules"]["DrawTime"] * 60,
+                break_check=lambda: (
+                    parties.get(party_code, {}).get("Values", {}).get("Guessed", 0)
+                    >= (len(parties.get(party_code, {}).get("Players", [])) - 1)
+                    and len(parties.get(party_code, {}).get("Players", [])) > 1
+                ),
                 drawer_id=drawer_id,
             )
             if draw_finished == "left":

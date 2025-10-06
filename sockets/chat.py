@@ -60,9 +60,14 @@ def register_chat_events(socketio, parties, socket_map):
             time_bonus = int((timeleft / (timemax*60)) * 1000)
             order_bonus = int(450 / (answered + 1))
 
+            # Guesser
             score = time_bonus + order_bonus
             parties[party_code]["Players"][player_id]["Scores"] += score
-            message = f"{name} ทายถูกแล้ว! +{score}"
+            # Drawer
+            drawer_id = parties[party_code]["Values"]["CurrentDrawer"]
+            parties[party_code]["Players"][drawer_id]["Scores"] += int(score/2)
+
+            message = f"{name} ทายถูกแล้ว! (+{score})"
             update_inGamePlayers(
                 socketio, parties, {"party_code": party_code}, True,
                 parties[party_code]["Values"]["CurrentDrawer"]
