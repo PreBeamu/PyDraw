@@ -1,7 +1,7 @@
 """Chat and guess socket events"""
 from flask import request
 from utils.text import remove_diacritic
-
+from sockets.party import update_inGamePlayers
 
 def register_chat_events(socketio, parties, socket_map):
     """Register chat and guess socket events."""
@@ -53,11 +53,21 @@ def register_chat_events(socketio, parties, socket_map):
             timeleft = parties[party_code]["Values"]["TimesLeft"]
             answered = parties[party_code]["Values"]["Guessed"]
             timemax = parties[party_code]["Gamerules"]["DrawTime"]
-            prev_score = parties[party_code]["Players"][player_id]["Scores"]
             parties[party_code]["Values"]["Guessed"] += 1
-            score = prev_score + ((timeleft // timemax) * 1000) + ((1 // (answered + 1)) * 450)
+
+            # Base time bonus: up to 1000 points, scaled by time left
+            # Order bonus: first correct guess gets +450, then diminishing
+            time_bonus = int((timeleft / (timemax*60)) * 1000)
+            order_bonus = int(450 / (answered + 1))
+
+            score = time_bonus + order_bonus
             parties[party_code]["Players"][player_id]["Scores"] += score
             message = f"{name} ทายถูกแล้ว! +{score}"
+            update_inGamePlayers(
+                socketio, parties, {"party_code": party_code}, True,
+                parties[party_code]["Values"]["CurrentDrawer"]
+            )
+
         # --- ปื้ด Zone ---
         # If close (check if the word is about 85% of the answer) จับ guess_clean มาเทียบ word_clean
         # guess_clean : คำที่ผู้เล่นทายมา

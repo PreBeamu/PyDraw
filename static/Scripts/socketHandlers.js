@@ -187,7 +187,6 @@ export function initSocketHandlers(socket) {
         if (data.playerId == CLIENT_DATA.playerId) {
             $("#guessesLeft").text(`ทายได้อีก ${data.guesses_left} ครั้ง`);
             CLIENT_DATA.guessesLeft = data.guesses_left;
-            console.log(data.guesses_left)
             if (data.guesses_left === 0) {
                 $("#guessMsg").prop("disabled", true).addClass("disabled").attr("placeholder", "แย่จัง! ทายผิดหมดเลย~");
             }
