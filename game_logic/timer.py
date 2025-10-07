@@ -59,7 +59,7 @@ def run_game(socketio, parties, socket_map, party_code):
     num_rounds = int(party["Gamerules"]["Rounds"])
     for _ in range(num_rounds):
         plrs = party["Players"].copy()
-        for drawer_id, player in plrs.items():
+        for drawer_id, plrs in plrs.items():
             party = parties.get(party_code)
             if not party:
                 return
@@ -68,6 +68,7 @@ def run_game(socketio, parties, socket_map, party_code):
 
             party["Values"]["CurrentDrawer"] = drawer_id
             party["Values"]["PickedTopic"] = None
+            party["Values"]["Guessed"] = 0
             update_plrList(socketio, parties, {"party_code": party_code})
 
             topics_list = party["Values"].get("Topics", [])
