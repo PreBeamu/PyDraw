@@ -142,7 +142,11 @@ def run_game(socketio, parties, socket_map, party_code):
             if draw_finished == "stopped":
                 return
 
-            socketio.emit("show_answer", {"answer": topic}, room=party_code)
+            value = {
+                "answer": topic,
+                "allguess": party["Values"]["Guessed"] >= (len(party["Players"])-1)
+            }
+            socketio.emit("show_answer", value, room=party_code)
             countdown(socketio, parties, party_code, 5)
             socketio.emit("update_timer", {"time": "99:99"}, room=party_code)
 

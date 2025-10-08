@@ -177,8 +177,13 @@ export function initSocketHandlers(socket) {
     });
 
     socket.on("show_answer", (data) => {
-        setStatus($(".reveal"), "คำตอบคือ");
-        $(".status h1").text(data.answer);
+        if (!data.allguess) {
+            setStatus($(".reveal"), "คำตอบคือ");
+            $(".status h1").text(data.answer);
+        } else {
+            setStatus($(".star"), "ผลงานชิ้นเอก");
+            $(".status h1").text("ตอบถูกทุกคนเลย!");
+        }
         CLIENT_DATA.canvasData.isDrawer = false
     });
 
