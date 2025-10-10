@@ -233,6 +233,6 @@ export function initSocketHandlers(socket) {
         setTimeout(async () => {
             $("#transition-page").removeClass("fill");
             $("#end-page").removeClass("disabled");
-        }, 500);
+        }, 1000);
     });
 }
