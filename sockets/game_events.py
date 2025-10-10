@@ -2,8 +2,8 @@
 from flask import request
 from gevent import spawn_later
 from utils.helpers import clamp
-from sockets.party import update_inGamePlayers
-from game_logic.timer import run_game
+from sockets.party_events import update_inGamePlayers
+from core.game_logic import run_game
 
 
 def register_game_events(socketio, parties, socket_map):

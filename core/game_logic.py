@@ -3,7 +3,7 @@ import random
 from gevent import sleep
 from utils.helpers import get_sid_from_player
 from utils.text import mask_topic
-from sockets.party import update_plrList
+from sockets.party_events import update_plrList
 
 
 def countdown(socketio, parties, party_code, seconds, tick=0.1, break_check=None, drawer_id=None):
@@ -150,4 +150,6 @@ def run_game(socketio, parties, socket_map, party_code):
             countdown(socketio, parties, party_code, 5)
             socketio.emit("update_timer", {"time": "99:99"}, room=party_code)
 
-    print("Game Ended")
+    parties[party_code]["Values"]["State"] = "Ended"
+    value = {}
+    socketio.emit("game_ended", value, room=party_code)

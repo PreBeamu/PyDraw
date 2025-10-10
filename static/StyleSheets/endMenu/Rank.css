@@ -1,0 +1,392 @@
+/* ==============================
+   CONTAINER
+============================== */
+.endC {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#returnMain-btn {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  margin-top: 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 3px solid black;
+  background: var(--btn-color);
+  color: white;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+#returnMain-btn:hover {
+  filter: brightness(75%);
+}
+#returnMain-btn:active {
+  transform: scale(0.95);
+  transition: none;
+}
+
+/* ==============================
+   TOP THREE
+============================== */
+#top-three {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 15px;
+}
+
+#top-three .box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#top-three .box .av-display {
+    all: unset;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
+    border-radius: 0.5rem;
+    border: 3px solid black;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    align-items: end;
+    background: #ebebeb;
+    margin-bottom: 5px;
+}
+
+#top-three .box .plr-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#top-three .box .plr-info .score {
+    background-color: var(--score-color);
+    padding-block: 0.15rem;
+    padding-inline: 0.5rem;
+    border-radius: 75px 75px;
+    font-size: 0.75rem;
+}
+
+/* ==============================
+   PLAYERS LIST
+============================== */
+#plr-list.end {
+    width: 455px;
+    padding: 0.25rem;
+    margin-right: -10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    border: 2.5px solid rgb(94, 94, 94);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    background: white;
+    z-index: 5;
+}
+
+#plr-list.end .box {
+    width: 100%;
+    max-height: 40dvh;
+    height: fit-content;
+    padding: 0.1rem 0.3rem 0.1rem 0.1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 5px;
+    border-radius: 0.5rem;
+    scrollbar-width: thin;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#plr-list.end .plr-box {
+    width: 100%;
+    max-width: 100%;
+    height: fit-content;
+    padding: 0.35rem 0.75rem 0.35rem 0.35rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    border-radius: 5px;
+    border: 2px solid #d5d5d5;
+    background-color: #eeeeee;
+    box-sizing: border-box;
+    transform: scaleX(0);
+    transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+#plr-list.end .plr-box.show {
+    transform: scaleX(1);
+}
+
+#plr-list.end .plr-boxL {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+}
+
+#plr-list.end h1 {
+    font-family: "Luckiest Guy", cursive;
+    padding-right: 10px;
+    opacity: 60%;
+}
+
+/* Player avatar container */
+#plr-list.end .plr-box .av-display {
+    all: unset;
+    position: relative;
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    min-height: 45px;
+    border-radius: 0.25rem;
+    border: 2px solid black;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    align-items: end;
+    background: #ebebeb;
+}
+
+/* Player info container */
+#plr-list.end .plr-info {
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Player info */
+#plr-list.end .plr-info .username {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 1rem;
+    opacity: 0.75;
+    overflow: hidden;
+    width: 100%;
+}
+
+#plr-list.end .plr-info .username .name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    flex-shrink: 1;
+}
+
+#plr-list.end .plr-info .username .meTag {
+    flex-shrink: 0;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    white-space: nowrap;
+}
+
+#plr-list.end .plr-info .score {
+    font-size: 0.75rem;
+    opacity: 0.6;
+}
+
+/* ==============================
+   TOOLS BAR
+============================== */
+#toolbar {
+    width: 55px;
+    max-width: 55px;
+    height: 100%;
+    padding: 0.25rem;
+    padding-block: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    background: rgb(23, 23, 45);
+    transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+#toolbar div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+#toolbar.hidden {
+    width: 0px;
+    height: 0px;
+    opacity: 0%;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border: none;
+}
+
+#color-picker {
+    all: unset;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border-radius: 50%;
+    border: 3px solid #ffffffcb;
+    transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+#color-picker:focus {
+    border-radius: 30%;
+}
+
+/* Thickness slider */
+.slider {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#thickness {
+    appearance: none;
+    width: 12px;
+    height: 150px;
+    border-radius: 4px;
+    background: rgb(57, 57, 90);
+    writing-mode: vertical-rl;
+    direction: rtl;
+    cursor: pointer;
+}
+
+/* Thumb: for Chrome, Safari, Edge */
+#thickness::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 13px;
+    height: 13px;
+    border-radius: 2px;
+    transform: rotate(45deg);
+    border: 3px solid #ffffffcb;
+    background: #e39b00;
+    box-shadow: none;
+}
+
+/* Thumb: for Firefox */
+#thickness::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: none;
+}
+
+.brush-a,
+.brush-s {
+    border-radius: 50%;
+    background: #ffffff;
+}
+
+.brush-a {
+    width: 20px;
+    height: 20px;
+}
+
+.brush-s {
+    width: 10px;
+    height: 10px;
+}
+
+/* Buttons */
+#toolbar button:not(#undo-btn):not(#redo-btn) {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: none;
+    border-radius: 50%;
+    color: white;
+    transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+#toolbar button:not(#undo-btn):not(#redo-btn).selected {
+    width: 30px;
+    height: 30px;
+    background: rgb(71, 71, 97);
+}
+
+#toolbar .icon {
+    width: 60%;
+    height: 60%;
+    opacity: 75%;
+    transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+#toolbar button:not(.selected):hover .icon {
+    width: 75%;
+    opacity: 100%;
+}
+
+#clear-btn:active .icon {
+    width: 40%;
+    height: 40%;
+}
+
+#undo-btn,
+#redo-btn {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: rgb(48, 48, 66);
+    border-radius: 6px;
+    color: white;
+    transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+#redo-btn .icon {
+    transform: scaleX(-1);
+}
+
+#undo-btn:active .icon,
+#redo-btn:active .icon {
+    width: 30%;
+    height: 30%;
+}
+
+#toolbar .group button {
+    width: 30px;
+    height: 30px;
+}
+
+#toolbar .group .icon {
+    opacity: 60%;
+}

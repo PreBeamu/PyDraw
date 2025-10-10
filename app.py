@@ -7,9 +7,9 @@ from flask_socketio import SocketIO
 
 from config import SECRET_KEY, SOCKETIO_ASYNC_MODE, CORS_ALLOWED_ORIGINS
 from routes.main import register_routes
-from sockets.party import register_party_events
-from sockets.game import register_game_events
-from sockets.chat import register_chat_events
+from sockets.party_events import register_party_events
+from sockets.game_events import register_game_events
+from sockets.chat_events import register_chat_events
 
 # ============================
 # APP SETUP

@@ -18,7 +18,7 @@
 }
 
 /* Transition effect for overlay divs */
-.transition-div {
+.partyC .transition-div {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -29,7 +29,7 @@
   transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-.transition-div.fill {
+.partyC .transition-div.fill {
   background: #252525;
   transform: scaleY(1.05);
 }

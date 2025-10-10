@@ -293,7 +293,7 @@ export function initUIHandlers(socket) {
     // Settings menu
     $("#optionsO-btn").on("click", () => {
         $(".toastify").remove();
-        $(".transition-div").addClass("fill");
+        $(".partyC .transition-div").addClass("fill");
         $("#startGame-btn, #optionsO-btn, #leaveParty-btn").addClass("hidden");
 
         setTimeout(() => {
@@ -301,13 +301,13 @@ export function initUIHandlers(socket) {
             $("#plr-list.party, #chat-box.party").hide();
             $(".optionsC, #optionsX-btn").show();
             $("#optionsX-btn").removeClass("hidden");
-            $(".transition-div").removeClass("fill");
+            $(".partyC .transition-div").removeClass("fill");
         }, 300);
     });
 
     $("#optionsX-btn").on("click", () => {
         $(".toastify").remove();
-        $(".transition-div").addClass("fill");
+        $(".partyC .transition-div").addClass("fill");
         $("#optionsX-btn").addClass("hidden");
 
         setTimeout(() => {
@@ -316,7 +316,7 @@ export function initUIHandlers(socket) {
             $("#startGame-btn, #optionsO-btn, #leaveParty-btn")
                 .show()
                 .removeClass("hidden");
-            $(".transition-div").removeClass("fill");
+            $(".partyC .transition-div").removeClass("fill");
         }, 300);
     });
 
@@ -359,5 +359,48 @@ export function initUIHandlers(socket) {
         $("#topics-list").removeClass("show");
         triggerAnim($("#hint"), "update");
         $("#hint").text(topic);
+    });
+
+    $("#returnMain-btn").on("click", async () => {
+        const status = await optionToast("ต้องการกลับไปหน้าหลักไม่?", -1);
+        if (!status) return;
+
+        const partyCode = $("#codeLabel")
+            .text()
+            .replace("รหัสเชิญ : ", "")
+            .trim()
+            .toUpperCase();
+
+        $("#transition-page").addClass("fill");
+        $("#customizer").removeClass("active");
+        $("#end-page").addClass("disabled");
+        $("#startGame-btn, #optionsO-btn, #optionsX-btn, .optionsC").hide();
+        resetOptions();
+
+        setTimeout(async () => {
+            try {
+                const res = await new Promise((resolve) => {
+                    socket.emit("leave_party_room", (response) => {
+                        resolve(response);
+                    });
+                });
+
+                if (!res.success) throw new Error(res.error || "Failed to leave party");
+
+                $("#main-page").removeClass("disabled");
+                $("#codeLabel").text("รหัสเชิญ : ----");
+                $("#plr-list.party .box").empty();
+                CLIENT_DATA.loadedPlayers = [];
+                CLIENT_DATA.currentParty = null;
+                CLIENT_DATA.playerId = null;
+            } catch (err) {
+                errorToast("เกิดปัญหาในการกลับไปหน้าหลัก!",2500)
+                $("#main-page").addClass("disabled");
+                $("#end-page").removeClass("disabled");
+                $("#codeLabel").text("รหัสเชิญ : " + partyCode);
+            } finally {
+                $("#transition-page").removeClass("fill");
+            }
+        }, 500);
     });
 }

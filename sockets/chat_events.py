@@ -1,7 +1,7 @@
 """Chat and guess socket events"""
 from flask import request
 from utils.text import remove_diacritic
-from sockets.party import update_inGamePlayers
+from sockets.party_events import update_inGamePlayers
 
 def register_chat_events(socketio, parties, socket_map):
     """Register chat and guess socket events."""

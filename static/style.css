@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Mitr:wght@200;300;400;500;600;700&display=swap');
 /* Main-Menu */
 @import url("StyleSheets/mainMenu/Avatar.css");
 @import url("StyleSheets/mainMenu/Inputs.css");
@@ -12,6 +12,8 @@
 @import url("StyleSheets/gameMenu/Picker.css");
 @import url("StyleSheets/gameMenu/Left.css");
 @import url("StyleSheets/gameMenu/Right.css");
+/* End-Menu */
+@import url("StyleSheets/endMenu/Rank.css");
 /* Others */
 @import url("StyleSheets/others/Cordinates.css");
 @import url("StyleSheets/others/Countdown.css");
@@ -63,6 +65,22 @@ button {
 input::placeholder {
   color: #b1b1b1;
   letter-spacing: 1px;
+}
+
+#transition-page {
+  position: absolute;
+  width: 100dvw;
+  height: 100dvh;
+  background: white;
+  z-index: 99999999999999;
+  transform-origin: top center;
+  transform: scaleY(0);
+  transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#transition-page.fill {
+  background: #101010;
+  transform: scaleY(1.05);
 }
 
 /* ==============================
@@ -123,7 +141,8 @@ body,
   transform: translate(-3.25rem, -15.75rem) scale(0.45);
 }
 
-#countdown.active~#pydraw-icon {
+#countdown.active~#pydraw-icon,
+#end-page:not(.disabled)~#pydraw-icon {
   opacity: 0%;
 }
 

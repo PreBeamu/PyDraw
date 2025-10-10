@@ -94,7 +94,7 @@ export function initSocketHandlers(socket) {
                 if (CLIENT_DATA.playerId === uuid) {
                     $userName.append($('<span class="meTag">(คุณ)</span>'));
                 }
-                const $scoreText = $('<p class="score"></p>').text(`${plr.Scores} คะแนน`);
+                const $scoreText = $('<p class="score"></p>').text(`${plr.Scores.toLocaleString()} คะแนน`);
 
                 $info.append($userName, $scoreText);
                 $plrBox.append($avDisplay, $info);
@@ -222,5 +222,17 @@ export function initSocketHandlers(socket) {
             $msgBox.addClass("show");
         });
         $(".game .holder .box").scrollTop($(".game .holder .box").prop("scrollHeight"));
+    });
+
+    socket.on("game_ended", (data) => {
+        $("#transition-page").addClass("fill");
+        setStatus();
+        setTimeout(async () => {
+            $("#game-page").addClass("disabled");
+        }, 100);
+        setTimeout(async () => {
+            $("#transition-page").removeClass("fill");
+            $("#end-page").removeClass("disabled");
+        }, 500);
     });
 }
