@@ -113,6 +113,7 @@ export function setStatus($icon, status) {
             $statusText.text(status);
         }
     }
+    clearCanvas()
 }
 
 export function errorToast(text, dur) {

@@ -153,16 +153,10 @@ export function initSocketHandlers(socket) {
         $("#guessMsg").prop("disabled", true).addClass("disabled").attr("placeholder", "ไม่สามารถส่งคำตอบได้ในขณะนี้");
         triggerAnim($("#hint"), "update");
         setStatus($(".banner"), "ผู้เล่นกำลังเลือกหัวข้อ");
-        CLIENT_DATA.canvasData = {
-            isDrawer: false,
-            mode: "Draw",
-            lastPos: null,
-            color: "#000000",
-            thickness: 5,
-            histories: {
-                undo: [],
-                redo: [],
-            },
+        CLIENT_DATA.canvasData.isDrawer = false
+        CLIENT_DATA.canvasData.histories = {
+            undo: [],
+            redo: [],
         }
     });
 
@@ -237,12 +231,12 @@ export function initSocketHandlers(socket) {
     socket.on("game_ended", (data) => {
         $("#transition-page").addClass("fill");
         setStatus();
-        playSound("#end-sound",1)
+        playSound("#end-sound", 1)
         setTimeout(async () => {
             $("#game-page").addClass("disabled");
         }, 100);
         setTimeout(async () => {
-            playSound("#coin-sound",1)
+            playSound("#coin-sound", 1)
             $("#transition-page").removeClass("fill");
             $("#end-page").removeClass("disabled");
         }, 1000);
