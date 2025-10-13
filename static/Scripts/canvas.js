@@ -1,6 +1,7 @@
 import {
     optionToast,
     clearCanvas,
+    playSound,
 } from "/static/Scripts/utils.js";
 import { CLIENT_DATA } from '/static/Scripts/clientData.js';
 
@@ -15,12 +16,13 @@ export function initCanvas(socket) {
     const $cursorCircle = $('<div id="cursor-circle"></div>');
     $cursorCircle.css({
         position: 'fixed',
-        border: '2px solid rgba(0, 0, 0, 0.5)',
+        border: '2px solid rgba(0, 0, 0, 0.8)',
         borderRadius: '50%',
         pointerEvents: 'none',
         display: 'none',
         transform: 'translate(-50%, -50%)',
-        zIndex: 10000
+        zIndex: 10000,
+        boxShadow: 'inset 0 0 0 2px rgba(255, 255, 255, 0.8)'
     });
     $('body').append($cursorCircle);
 
@@ -301,16 +303,19 @@ export function initCanvas(socket) {
     $("#pencil-btn").on("click", function (e) {
         changeSelected($(this));
         canvasData.mode = "Draw";
+        playSound("#click-sound_6", 0.25);
     });
 
     $("#eraser-btn").on("click", function (e) {
         changeSelected($(this));
         canvasData.mode = "Erase";
+        playSound("#click-sound_6", 0.25);
     });
 
     $("#bucket-btn").on("click", function (e) {
         changeSelected($(this));
         canvasData.mode = "Bucket";
+        playSound("#click-sound_6", 0.25);
     });
 
     $("#thickness").on("change", function (e) {
@@ -335,6 +340,7 @@ export function initCanvas(socket) {
             };
             img.src = lastImage;
         }
+        playSound("#click-sound_6", 0.25);
     });
 
     $("#redo-btn").on("click", () => {
@@ -350,9 +356,11 @@ export function initCanvas(socket) {
             };
             img.src = redoImage;
         }
+        playSound("#click-sound_6", 0.25);
     });
 
     $("#clear-btn").on("click", async function () {
+        playSound("#click-sound_2", 0.15);
         const status = await optionToast("ต้องการลบรูปวาดทั้งหมดไหม?", -1);
         if (!canvasData.isDrawer) return;
         if (status) {

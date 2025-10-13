@@ -4,7 +4,7 @@
 
 import { CLIENT_DATA } from '/static/Scripts/clientData.js';
 import { buildAvatarDOM } from '/static/Scripts/avatar.js';
-import { triggerAnim, startCountdown, setStatus } from '/static/Scripts/utils.js';
+import { triggerAnim, startCountdown, setStatus, playSound } from '/static/Scripts/utils.js';
 
 export function initSocketHandlers(socket) {
     // Chat messages
@@ -153,7 +153,17 @@ export function initSocketHandlers(socket) {
         $("#guessMsg").prop("disabled", true).addClass("disabled").attr("placeholder", "ไม่สามารถส่งคำตอบได้ในขณะนี้");
         triggerAnim($("#hint"), "update");
         setStatus($(".banner"), "ผู้เล่นกำลังเลือกหัวข้อ");
-        CLIENT_DATA.canvasData.isDrawer = false
+        CLIENT_DATA.canvasData = {
+            isDrawer: false,
+            mode: "Draw",
+            lastPos: null,
+            color: "#000000",
+            thickness: 5,
+            histories: {
+                undo: [],
+                redo: [],
+            },
+        }
     });
 
     socket.on("pick_done", (data) => {
@@ -227,10 +237,12 @@ export function initSocketHandlers(socket) {
     socket.on("game_ended", (data) => {
         $("#transition-page").addClass("fill");
         setStatus();
+        playSound("#end-sound",1)
         setTimeout(async () => {
             $("#game-page").addClass("disabled");
         }, 100);
         setTimeout(async () => {
+            playSound("#coin-sound",1)
             $("#transition-page").removeClass("fill");
             $("#end-page").removeClass("disabled");
         }, 1000);

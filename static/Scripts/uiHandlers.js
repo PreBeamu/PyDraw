@@ -18,6 +18,7 @@ import {
     triggerAnim,
     errorToast,
     optionToast,
+    playSound,
 } from "/static/Scripts/utils.js";
 import {
     setPlayerName,
@@ -33,6 +34,7 @@ import {
 export function initUIHandlers(socket) {
     // Avatar customization
     $("#customizer").on("click", () => {
+        playSound("#click-sound_1",0.5)
         $("#customizer").toggleClass("active");
     });
 
@@ -42,6 +44,7 @@ export function initUIHandlers(socket) {
         const $container = $display.find(".idisplay");
 
         const cycleAvatar = () => {
+            playSound("#click-sound_2",0.5)
             switch (id) {
                 case "color":
                     CLIENT_DATA.avatar[0] = nextIndex(
@@ -98,6 +101,7 @@ export function initUIHandlers(socket) {
     });
 
     $("#randomizer").on("click", () => {
+        playSound("#click-sound_3",0.5)
         randomizeAvatar();
     });
 
@@ -108,6 +112,7 @@ export function initUIHandlers(socket) {
         $("#customizer").removeClass("active");
         $(".holder .box").empty();
         setPlayerName();
+        playSound("#click-sound_4", 1);
 
         setTimeout(async () => {
             try {
@@ -131,7 +136,7 @@ export function initUIHandlers(socket) {
                     create: true,
                 });
             } catch (err) {
-                errorToast("เกิดปัญหาในการสร้างปาร์ตี้!",2500)
+                errorToast("เกิดปัญหาในการสร้างปาร์ตี้!", 2500)
                 $("#main-page").removeClass("disabled");
             } finally {
                 $("#loader").removeClass("active");
@@ -142,8 +147,9 @@ export function initUIHandlers(socket) {
     $("#joinParty-btn").on("click", () => {
         const partyCode = $("#inviteCode").val().toUpperCase();
         const codeRegex = /^[A-Z0-9]{5}$/;
+        playSound("#click-sound_4", 1);
         if (!codeRegex.test(partyCode)) {
-            errorToast("รหัสเชิญผิดกรุณาใส่รหัสห้อง 5 หลักที่ประกอบด้วย (A–Z, 0–9)",2500)
+            errorToast("รหัสเชิญผิดกรุณาใส่รหัสห้อง 5 หลักที่ประกอบด้วย (A–Z, 0–9)", 2500)
             return;
         }
 
@@ -176,7 +182,7 @@ export function initUIHandlers(socket) {
                     join: true,
                 });
             } catch (err) {
-                errorToast("เกิดปัญหาในการเข้าร่วมปาร์ตี้!",2500)
+                errorToast("เกิดปัญหาในการเข้าร่วมปาร์ตี้!", 2500)
                 $("#main-page").removeClass("disabled");
             } finally {
                 $("#loader").removeClass("active");
@@ -193,10 +199,12 @@ export function initUIHandlers(socket) {
 
         await navigator.clipboard.writeText(party_code).catch(() => { });
         $(".copied").addClass("show");
+        playSound("#click-sound_7", 1);
         setTimeout(() => $(".copied").removeClass("show"), 1000);
     });
 
     $("#leaveParty-btn").on("click", async () => {
+        playSound("#click-sound_4", 1);
         const status = await optionToast("ต้องการออกจากปาร์ตี้ปัจจุบันหรือไม่?", -1);
         if (!status) return;
 
@@ -229,7 +237,7 @@ export function initUIHandlers(socket) {
                 CLIENT_DATA.currentParty = null;
                 CLIENT_DATA.playerId = null;
             } catch (err) {
-                errorToast("เกิดปัญหาในการออกจากปาร์ตี้!",2500)
+                errorToast("เกิดปัญหาในการออกจากปาร์ตี้!", 2500)
                 $("#main-page").addClass("disabled");
                 $("#party-page").removeClass("disabled");
                 $("#codeLabel").text("รหัสเชิญ : " + partyCode);
@@ -241,6 +249,7 @@ export function initUIHandlers(socket) {
 
     $("#startGame-btn").on("click", async () => {
         $(".toastify").remove();
+        playSound("#click-sound_4", 1);
         socket.emit(
             "start_game",
             {
@@ -253,7 +262,7 @@ export function initUIHandlers(socket) {
             },
             (res) => {
                 if (!res.success) {
-                    errorToast("เกิดปัญหาในการเริ่มเกม!",2500)
+                    errorToast("เกิดปัญหาในการเริ่มเกม!", 2500)
                 }
             }
         );
@@ -295,6 +304,7 @@ export function initUIHandlers(socket) {
         $(".toastify").remove();
         $(".partyC .transition-div").addClass("fill");
         $("#startGame-btn, #optionsO-btn, #leaveParty-btn").addClass("hidden");
+        playSound("#click-sound_4", 1);
 
         setTimeout(() => {
             $("#startGame-btn, #optionsO-btn, #leaveParty-btn").hide();
@@ -309,6 +319,7 @@ export function initUIHandlers(socket) {
         $(".toastify").remove();
         $(".partyC .transition-div").addClass("fill");
         $("#optionsX-btn").addClass("hidden");
+        playSound("#click-sound_4", 1);
 
         setTimeout(() => {
             $(".optionsC, #optionsX-btn").hide();
@@ -324,6 +335,7 @@ export function initUIHandlers(socket) {
         const $num = $(e.currentTarget).siblings(".option-value");
         let value = parseGuess($num.text());
         const max = parseInt($num.data("max"), 10);
+        playSound("#click-sound_6", 0.65);
 
         if (value < max) $num.text(formatGuess(value + 1));
         updateButtons($num);
@@ -333,6 +345,7 @@ export function initUIHandlers(socket) {
         const $num = $(e.currentTarget).siblings(".option-value");
         let value = parseGuess($num.text());
         const min = parseInt($num.data("min"), 10);
+        playSound("#click-sound_6", 0.65);
 
         if (value > min) $num.text(formatGuess(value - 1));
         updateButtons($num);
@@ -341,11 +354,13 @@ export function initUIHandlers(socket) {
     $("#topic-override").on("click", () => {
         $("#topic-override").removeClass("disabled");
         $("#topic-merge").addClass("disabled");
+        playSound("#click-sound_6", 0.65);
     });
 
     $("#topic-merge").on("click", () => {
         $("#topic-merge").removeClass("disabled");
         $("#topic-override").addClass("disabled");
+        playSound("#click-sound_6", 0.65);
     });
 
     $(".option-value").each((_, el) => updateButtons($(el)));
@@ -359,9 +374,11 @@ export function initUIHandlers(socket) {
         $("#topics-list").removeClass("show");
         triggerAnim($("#hint"), "update");
         $("#hint").text(topic);
+        playSound("#click-sound_8", 1);
     });
 
     $("#returnMain-btn").on("click", async () => {
+        playSound("#click-sound_4", 1);
         const status = await optionToast("ต้องการกลับไปหน้าหลักไม่?", -1);
         if (!status) return;
 
@@ -394,7 +411,7 @@ export function initUIHandlers(socket) {
                 CLIENT_DATA.currentParty = null;
                 CLIENT_DATA.playerId = null;
             } catch (err) {
-                errorToast("เกิดปัญหาในการกลับไปหน้าหลัก!",2500)
+                errorToast("เกิดปัญหาในการกลับไปหน้าหลัก!", 2500)
                 $("#main-page").addClass("disabled");
                 $("#end-page").removeClass("disabled");
                 $("#codeLabel").text("รหัสเชิญ : " + partyCode);
@@ -402,5 +419,9 @@ export function initUIHandlers(socket) {
                 $("#transition-page").removeClass("fill");
             }
         }, 500);
+    });
+
+    $(document).on("click", "#o-btn, #x-btn", () => {
+        playSound("#click-sound_5", 0.5);
     });
 }
