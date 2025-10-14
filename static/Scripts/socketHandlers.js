@@ -231,12 +231,12 @@ export function initSocketHandlers(socket) {
     socket.on("game_ended", (data) => {
         $("#transition-page").addClass("fill");
         setStatus();
-        playSound("#end-sound", 1)
+        playSound("end", 1)
         setTimeout(async () => {
             $("#game-page").addClass("disabled");
         }, 100);
         setTimeout(async () => {
-            playSound("#coin-sound", 1)
+            playSound("coin", 1)
             $("#transition-page").removeClass("fill");
             $("#end-page").removeClass("disabled");
         }, 1000);

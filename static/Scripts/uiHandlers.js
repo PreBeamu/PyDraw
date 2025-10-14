@@ -34,7 +34,7 @@ import {
 export function initUIHandlers(socket) {
     // Avatar customization
     $("#customizer").on("click", () => {
-        playSound("#click-sound_1",0.5)
+        playSound("click_1",0.5)
         $("#customizer").toggleClass("active");
     });
 
@@ -44,7 +44,7 @@ export function initUIHandlers(socket) {
         const $container = $display.find(".idisplay");
 
         const cycleAvatar = () => {
-            playSound("#click-sound_2",0.5)
+            playSound("click_2",0.5)
             switch (id) {
                 case "color":
                     CLIENT_DATA.avatar[0] = nextIndex(
@@ -101,7 +101,7 @@ export function initUIHandlers(socket) {
     });
 
     $("#randomizer").on("click", () => {
-        playSound("#click-sound_3",0.5)
+        playSound("click_3",0.5)
         randomizeAvatar();
     });
 
@@ -112,7 +112,7 @@ export function initUIHandlers(socket) {
         $("#customizer").removeClass("active");
         $(".holder .box").empty();
         setPlayerName();
-        playSound("#click-sound_4", 1);
+        playSound("click_4", 1);
 
         setTimeout(async () => {
             try {
@@ -147,7 +147,7 @@ export function initUIHandlers(socket) {
     $("#joinParty-btn").on("click", () => {
         const partyCode = $("#inviteCode").val().toUpperCase();
         const codeRegex = /^[A-Z0-9]{5}$/;
-        playSound("#click-sound_4", 1);
+        playSound("click_4", 1);
         if (!codeRegex.test(partyCode)) {
             errorToast("รหัสเชิญผิดกรุณาใส่รหัสห้อง 5 หลักที่ประกอบด้วย (A–Z, 0–9)", 2500)
             return;
@@ -199,12 +199,12 @@ export function initUIHandlers(socket) {
 
         await navigator.clipboard.writeText(party_code).catch(() => { });
         $(".copied").addClass("show");
-        playSound("#click-sound_7", 1);
+        playSound("click_7", 1);
         setTimeout(() => $(".copied").removeClass("show"), 1000);
     });
 
     $("#leaveParty-btn").on("click", async () => {
-        playSound("#click-sound_4", 1);
+        playSound("click_4", 1);
         const status = await optionToast("ต้องการออกจากปาร์ตี้ปัจจุบันหรือไม่?", -1);
         if (!status) return;
 
@@ -249,7 +249,7 @@ export function initUIHandlers(socket) {
 
     $("#startGame-btn").on("click", async () => {
         $(".toastify").remove();
-        playSound("#click-sound_4", 1);
+        playSound("click_4", 1);
         socket.emit(
             "start_game",
             {
@@ -304,7 +304,7 @@ export function initUIHandlers(socket) {
         $(".toastify").remove();
         $(".partyC .transition-div").addClass("fill");
         $("#startGame-btn, #optionsO-btn, #leaveParty-btn").addClass("hidden");
-        playSound("#click-sound_4", 1);
+        playSound("click_4", 1);
 
         setTimeout(() => {
             $("#startGame-btn, #optionsO-btn, #leaveParty-btn").hide();
@@ -319,7 +319,7 @@ export function initUIHandlers(socket) {
         $(".toastify").remove();
         $(".partyC .transition-div").addClass("fill");
         $("#optionsX-btn").addClass("hidden");
-        playSound("#click-sound_4", 1);
+        playSound("click_4", 1);
 
         setTimeout(() => {
             $(".optionsC, #optionsX-btn").hide();
@@ -335,7 +335,7 @@ export function initUIHandlers(socket) {
         const $num = $(e.currentTarget).siblings(".option-value");
         let value = parseGuess($num.text());
         const max = parseInt($num.data("max"), 10);
-        playSound("#click-sound_6", 0.65);
+        playSound("click_6", 0.65);
 
         if (value < max) $num.text(formatGuess(value + 1));
         updateButtons($num);
@@ -345,7 +345,7 @@ export function initUIHandlers(socket) {
         const $num = $(e.currentTarget).siblings(".option-value");
         let value = parseGuess($num.text());
         const min = parseInt($num.data("min"), 10);
-        playSound("#click-sound_6", 0.65);
+        playSound("click_6", 0.65);
 
         if (value > min) $num.text(formatGuess(value - 1));
         updateButtons($num);
@@ -354,13 +354,13 @@ export function initUIHandlers(socket) {
     $("#topic-override").on("click", () => {
         $("#topic-override").removeClass("disabled");
         $("#topic-merge").addClass("disabled");
-        playSound("#click-sound_6", 0.65);
+        playSound("click_6", 0.65);
     });
 
     $("#topic-merge").on("click", () => {
         $("#topic-merge").removeClass("disabled");
         $("#topic-override").addClass("disabled");
-        playSound("#click-sound_6", 0.65);
+        playSound("click_6", 0.65);
     });
 
     $(".option-value").each((_, el) => updateButtons($(el)));
@@ -374,11 +374,11 @@ export function initUIHandlers(socket) {
         $("#topics-list").removeClass("show");
         triggerAnim($("#hint"), "update");
         $("#hint").text(topic);
-        playSound("#click-sound_8", 1);
+        playSound("click_8", 1);
     });
 
     $("#returnMain-btn").on("click", async () => {
-        playSound("#click-sound_4", 1);
+        playSound("click_4", 1);
         const status = await optionToast("ต้องการกลับไปหน้าหลักไม่?", -1);
         if (!status) return;
 
@@ -422,6 +422,6 @@ export function initUIHandlers(socket) {
     });
 
     $(document).on("click", "#o-btn, #x-btn", () => {
-        playSound("#click-sound_5", 0.5);
+        playSound("click_5", 0.5);
     });
 }

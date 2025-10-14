@@ -16,10 +16,10 @@ const SOCKET = io();
 $(document).ready(function () {
     preloadAvatarImages();
     loadAvatar();
-    $("#startGame-btn, #optionsO-btn, #optionsX-btn, .optionsC").hide();
     initSocketHandlers(SOCKET);
     initUIHandlers(SOCKET);
     initCanvas(SOCKET);
+    $("#startGame-btn, #optionsO-btn, #optionsX-btn, .optionsC").hide();
 });
 
 $(window).bind("pageshow", function(event) {

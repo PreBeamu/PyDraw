@@ -303,19 +303,19 @@ export function initCanvas(socket) {
     $("#pencil-btn").on("click", function (e) {
         changeSelected($(this));
         canvasData.mode = "Draw";
-        playSound("#click-sound_6", 0.25);
+        playSound("click_6", 0.25);
     });
 
     $("#eraser-btn").on("click", function (e) {
         changeSelected($(this));
         canvasData.mode = "Erase";
-        playSound("#click-sound_6", 0.25);
+        playSound("click_6", 0.25);
     });
 
     $("#bucket-btn").on("click", function (e) {
         changeSelected($(this));
         canvasData.mode = "Bucket";
-        playSound("#click-sound_6", 0.25);
+        playSound("click_6", 0.25);
     });
 
     $("#thickness").on("change", function (e) {
@@ -340,7 +340,7 @@ export function initCanvas(socket) {
             };
             img.src = lastImage;
         }
-        playSound("#click-sound_6", 0.25);
+        playSound("click_6", 0.25);
     });
 
     $("#redo-btn").on("click", () => {
@@ -356,11 +356,11 @@ export function initCanvas(socket) {
             };
             img.src = redoImage;
         }
-        playSound("#click-sound_6", 0.25);
+        playSound("click_6", 0.25);
     });
 
     $("#clear-btn").on("click", async function () {
-        playSound("#click-sound_2", 0.15);
+        playSound("click_2", 0.15);
         const status = await optionToast("ต้องการลบรูปวาดทั้งหมดไหม?", -1);
         if (!canvasData.isDrawer) return;
         if (status) {
