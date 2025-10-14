@@ -1,13 +1,104 @@
+/* ==============================
+    COUNTDOWN STYLES
+============================== */
+#countdown {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    font-size: 0px;
+    -webkit-transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -o-transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+}
+
+#countdown.active {
+    width: 70px;
+    height: 70px;
+    padding: 1rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 5rem;
+    font-weight: 600;
+    color: black;
+    border-radius: 1rem;
+    border: 5px solid rgb(0, 0, 0);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+    background: white;
+}
+
+#countdown.spin {
+    -webkit-animation: count-spin 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -o-animation: count-spin 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: count-spin 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@-webkit-keyframes count-spin {
+    from {
+        -webkit-transform: rotate(0deg) scale(0.5);
+        transform: rotate(0deg) scale(0.5);
+    }
+
+    to {
+        -webkit-transform: rotate(360deg) scale(1);
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+@-o-keyframes count-spin {
+    from {
+        -o-transform: rotate(0deg) scale(0.5);
+        transform: rotate(0deg) scale(0.5);
+    }
+
+    to {
+        -o-transform: rotate(360deg) scale(1);
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+@keyframes count-spin {
+    from {
+        -webkit-transform: rotate(0deg) scale(0.5);
+        -ms-transform: rotate(0deg) scale(0.5);
+        transform: rotate(0deg) scale(0.5);
+    }
+
+    to {
+        -webkit-transform: rotate(360deg) scale(1);
+        -ms-transform: rotate(360deg) scale(1);
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+/* ==============================
+    LANDSCAPE WARNING
+============================== */
 .landscape {
     position: absolute;
     display: none;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     height: 100%;
     width: 100%;
     pointer-events: all;
     background: #000000de;
+    -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
     z-index: 2147483647;
 }
@@ -15,13 +106,21 @@
 .landscape .phone {
     pointer-events: none;
     position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     height: 12.5%;
     width: 12.5%;
     border: 10px solid rgb(255, 255, 255);
     border-radius: 1rem;
+    -webkit-animation: phone-rotate 1.25s ease-in-out infinite alternate;
+    -o-animation: phone-rotate 1.25s ease-in-out infinite alternate;
     animation: phone-rotate 1.25s ease-in-out infinite alternate;
 }
 
@@ -29,6 +128,8 @@
     height: 50%;
     width: 50%;
     opacity: 60%;
+    -webkit-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
     transform: rotate(-90deg);
 }
 
@@ -41,22 +142,64 @@
     color: rgb(255, 255, 255);
 }
 
-@keyframes phone-rotate {
+@-webkit-keyframes phone-rotate {
     0% {
-        transform: rotate(0deg)
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
     }
 
     50% {
-        transform: rotate(-90deg)
+        -webkit-transform: rotate(-90deg);
+        transform: rotate(-90deg);
     }
 
     100% {
-        transform: rotate(-90deg)
+        -webkit-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+    }
+}
+
+@-o-keyframes phone-rotate {
+    0% {
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    50% {
+        -o-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+    }
+
+    100% {
+        -o-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+    }
+}
+
+@keyframes phone-rotate {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    50% {
+        -webkit-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        transform: rotate(-90deg);
     }
 }
 
 @media only screen and (max-device-height: 992px) and (orientation: portrait) {
     .landscape {
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
     }
 }

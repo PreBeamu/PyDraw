@@ -1,11 +1,17 @@
 /* ==============================
-   CANVAS CONTAINER
+    CANVAS CONTAINER
 ============================== */
 .canvasC {
   width: 100%;
   height: 70%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -21,17 +27,32 @@
 .status {
   position: absolute;
   height: 25%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   gap: 8px;
   opacity: 0%;
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
   transform: scale(0);
+  -webkit-transition: all 0.2s cubic-bezier(0.47, 1.64, 0.41, 0.8);
+  -o-transition: all 0.2s cubic-bezier(0.47, 1.64, 0.41, 0.8);
   transition: all 0.2s cubic-bezier(0.47, 1.64, 0.41, 0.8);
 }
 
 .status.show {
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
   transform: scale(1);
   opacity: 100%;
 }
@@ -46,6 +67,7 @@
 .status img {
   display: none;
 }
+
 .status img.show {
   display: block;
   height: 110%;
@@ -62,15 +84,24 @@
 }
 
 /* ==============================
-   GUESSBOX
+    GUESSBOX
 ============================== */
 #chat-box.game {
   width: 100%;
   height: 30%;
   padding: 0.25rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   background-color: #ebebeb;
   border-radius: 0.5rem;
@@ -81,8 +112,14 @@
 #chat-box.game .holder {
   width: 100%;
   height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   overflow: hidden;
 }
@@ -91,12 +128,22 @@
   width: 99%;
   height: 99%;
   padding: 0.25rem 0.75rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
   justify-content: flex-start;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   gap: 5px;
   border-radius: 0.5rem;
+  /* Standard for Firefox, -webkit- prefix for others is not standard but custom scrollbar styles are possible */
   scrollbar-width: thin;
   scrollbar-color: grey #ebebeb;
   box-sizing: border-box;
@@ -106,6 +153,8 @@
 
 #chat-box.game .bottom {
   width: 99%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
@@ -123,12 +172,21 @@
   white-space: nowrap;
   color: #ffffff;
   border: 2.5px solid #ebebeb;
+  -webkit-transition: all 0.15s cubic-bezier(0.075, 0.82, 0.165, 1);
+  -o-transition: all 0.15s cubic-bezier(0.075, 0.82, 0.165, 1);
   transition: all 0.15s cubic-bezier(0.075, 0.82, 0.165, 1);
   z-index: 5;
+  -webkit-transform-origin: left center;
+  -ms-transform-origin: left center;
   transform-origin: left center;
+  -webkit-transform: translate(0rem, -1.75rem) scale(0);
+  -ms-transform: translate(0rem, -1.75rem) scale(0);
   transform: translate(0rem, -1.75rem) scale(0);
 }
-input:focus ~ #guessesLeft {
+
+input:focus~#guessesLeft {
+  -webkit-transform: translate(0rem, -1.75rem) scale(1);
+  -ms-transform: translate(0rem, -1.75rem) scale(1);
   transform: translate(0rem, -1.75rem) scale(1);
 }
 
@@ -143,6 +201,8 @@ input:focus ~ #guessesLeft {
   margin-top: 0.25rem;
   margin-bottom: 0.2rem;
   opacity: 100%;
+  -webkit-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+  -o-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
   transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
@@ -164,20 +224,33 @@ input:focus ~ #guessesLeft {
 }
 
 /* ==============================
-   MESSAGES HOLDER
+    MESSAGES HOLDER
 ============================== */
 .game .msg-box {
   width: 200%;
   height: fit-content;
   padding: 0.35rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
   flex-direction: row;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
   justify-content: flex-start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
   align-items: flex-start;
   gap: 8px;
   border-radius: 5px;
   background-color: #d5d5d5;
+  -webkit-transform-origin: center center;
+  -ms-transform-origin: center center;
   transform-origin: center center;
+  -webkit-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+  -o-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
   transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
@@ -188,7 +261,11 @@ input:focus ~ #guessesLeft {
 /* System messages */
 .game .msg-box.system {
   padding: 0.25rem;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   color: white;
 }
@@ -196,6 +273,8 @@ input:focus ~ #guessesLeft {
 .game .msg-box.system .text-container {
   font-size: 0.75rem;
   margin-top: 0.1rem;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
 }
 
@@ -207,9 +286,11 @@ input:focus ~ #guessesLeft {
 .game .msg-box.almost {
   background: #002c35;
 }
+
 .game .msg-box.correct {
   background: #1c3f00;
 }
+
 .game .msg-box.left {
   background: #350000;
 }
@@ -234,9 +315,18 @@ input:focus ~ #guessesLeft {
   width: 100%;
   height: fit-content;
   margin-top: -1.5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
   flex-direction: row;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
   justify-content: flex-start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
   align-items: flex-start;
   font-size: 0.85rem;
   letter-spacing: 0.025rem;

@@ -11,7 +11,8 @@
   pointer-events: none;
   gap: 8px;
   z-index: 10;
-  transform: translate(14.75rem, -15rem);
+  transform: translate(14.75rem, -15rem) translateZ(0);
+  -webkit-transform: translate(14.75rem, -15rem) translateZ(0);
 }
 
 #hint {
@@ -30,8 +31,13 @@
   font-size: 1rem;
   font-weight: 500;
   color: #4b4b4b;
-  transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: transform 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
+
 #hint.update {
   animation: label-update 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -48,8 +54,13 @@
   text-align: center;
   white-space: nowrap;
   color: white;
-  transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: transform 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
+
 #timer.update {
   animation: timer-update 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -59,11 +70,25 @@
 ============================== */
 
 @keyframes label-update {
-  from { transform: scale(0.25); }
-  to { transform: scale(1); }
+  from {
+    transform: scale(0.25) translateZ(0);
+    -webkit-transform: scale(0.25) translateZ(0);
+  }
+
+  to {
+    transform: scale(1) translateZ(0);
+    -webkit-transform: scale(1) translateZ(0);
+  }
 }
 
 @keyframes timer-update {
-  from { transform: scale(0.9); }
-  to { transform: scale(1); }
+  from {
+    transform: scale(0.9) translateZ(0);
+    -webkit-transform: scale(0.9) translateZ(0);
+  }
+
+  to {
+    transform: scale(1) translateZ(0);
+    -webkit-transform: scale(1) translateZ(0);
+  }
 }

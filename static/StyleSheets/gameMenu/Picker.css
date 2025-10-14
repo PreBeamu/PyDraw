@@ -1,21 +1,33 @@
 /* ==============================
-   TOPICS PICKER
+    TOPICS PICKER
 ============================== */
 #topics-list {
   position: absolute;
   width: 200vw;
   height: 200vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   gap: 10px;
   background-color: rgba(0, 0, 0, 0.9);
   z-index: 110;
   opacity: 0%;
   pointer-events: none;
+  -webkit-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  -o-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
   transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
 }
+
 #topics-list.show {
   opacity: 100%;
   pointer-events: all;
@@ -28,15 +40,27 @@
 }
 
 #topics-list .list {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   gap: 8px;
 }
 
 #topics-list button {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   padding: 0.25rem 1rem;
   font-size: 1.25rem;
@@ -44,6 +68,8 @@
   border: 3px solid rgb(73, 73, 73);
   background: #191421;
   color: white;
+  -webkit-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  -o-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
   transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
@@ -51,7 +77,12 @@
   filter: brightness(60%);
   padding: 0.25rem 1.5rem;
 }
+
 #topics-list button:active {
+  -webkit-transform: scale(0.925);
+  -ms-transform: scale(0.925);
   transform: scale(0.925);
+  -webkit-transition: none;
+  -o-transition: none;
   transition: none;
 }

@@ -1,302 +1,350 @@
 /* ==============================
-   PARTY MENU
+    PARTY MENU
 ============================== */
 .partyC {
-  position: absolute;
-  width: 675px;
-  height: 425px;
-  padding: 0.25rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 1rem;
-  border: 3.5px solid rgb(0, 0, 0);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
-  background: white;
-  overflow: hidden;
-  transition: all 0.2s;
+    position: absolute;
+    width: 675px;
+    height: 425px;
+    padding: 0.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    border: 3.5px solid rgb(0, 0, 0);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+    background: white;
+    overflow: hidden;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
 }
 
 /* Transition effect for overlay divs */
 .partyC .transition-div {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: white;
-  z-index: 5;
-  transform-origin: top center;
-  transform: scaleY(0);
-  transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 5;
+    transform-origin: top center;
+    -webkit-transform: scaleY(0);
+    -moz-transform: scaleY(0);
+    -ms-transform: scaleY(0);
+    -o-transform: scaleY(0);
+    transform: scaleY(0);
+    -webkit-transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    -moz-transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    -ms-transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    -o-transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .partyC .transition-div.fill {
-  background: #252525;
-  transform: scaleY(1.05);
+    background: #252525;
+    -webkit-transform: scaleY(1.05);
+    -moz-transform: scaleY(1.05);
+    -ms-transform: scaleY(1.05);
+    -o-transform: scaleY(1.05);
+    transform: scaleY(1.05);
 }
 
 /* ==============================
-   PLAYERS LIST
+    PLAYERS LIST
 ============================== */
 #plr-list.party {
-  position: absolute;
-  width: 360px;
-  height: 385px;
-  padding: 0.25rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 0.5rem;
-  box-sizing: border-box;
-  border: 2.5px solid #5e5e5e;
-  transform: translate(-9rem, 0.4rem);
+    position: absolute;
+    width: 360px;
+    height: 385px;
+    padding: 0.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    border: 2.5px solid #5e5e5e;
+    -webkit-transform: translate(-9rem, 0.4rem);
+    -moz-transform: translate(-9rem, 0.4rem);
+    -ms-transform: translate(-9rem, 0.4rem);
+    -o-transform: translate(-9rem, 0.4rem);
+    transform: translate(-9rem, 0.4rem);
 }
 
 #plr-list.party .box {
-  width: 100%;
-  height: 100%;
-  padding: 0.1rem 0.3rem 0.1rem 0.1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 5px;
-  border-radius: 0.5rem;
-  scrollbar-width: thin;
-  box-sizing: border-box;
-  overflow-x: hidden;
-  overflow-y: auto;
+    width: 100%;
+    height: 100%;
+    padding: 0.1rem 0.3rem 0.1rem 0.1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 5px;
+    border-radius: 0.5rem;
+    scrollbar-width: thin;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #plr-list.party .plr-box {
-  width: 95%;
-  height: fit-content;
-  padding: 0.35rem 0.75rem 0.35rem 0.35rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 8px;
-  border-radius: 5px;
-  border: 2px solid #d5d5d5;
-  background-color: #eeeeee;
-  transform: scaleX(0);
-  transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    width: 95%;
+    height: fit-content;
+    padding: 0.35rem 0.75rem 0.35rem 0.35rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    border-radius: 5px;
+    border: 2px solid #d5d5d5;
+    background-color: #eeeeee;
+    -webkit-transform: scaleX(0);
+    -moz-transform: scaleX(0);
+    -ms-transform: scaleX(0);
+    -o-transform: scaleX(0);
+    transform: scaleX(0);
+    -webkit-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -moz-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -ms-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -o-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 #plr-list.party .plr-box.show {
-  transform: scaleX(1);
+    -webkit-transform: scaleX(1);
+    -moz-transform: scaleX(1);
+    -ms-transform: scaleX(1);
+    -o-transform: scaleX(1);
+    transform: scaleX(1);
 }
 
 /* Player crown icon */
 #plr-list.party .plr-box .crown {
-  position: absolute;
-  width: 32.5px;
-  height: 32.5px;
-  z-index: 5;
-  transform: translate(-0.55rem, -1.25rem);
+    position: absolute;
+    width: 32.5px;
+    height: 32.5px;
+    z-index: 5;
+    -webkit-transform: translate(-0.55rem, -1.25rem);
+    -moz-transform: translate(-0.55rem, -1.25rem);
+    -ms-transform: translate(-0.55rem, -1.25rem);
+    -o-transform: translate(-0.55rem, -1.25rem);
+    transform: translate(-0.55rem, -1.25rem);
 }
 
 /* Player avatar container */
 #plr-list.party .plr-box .av-display {
-  all: unset;
-  position: relative;
-  width: 45px;
-  height: 45px;
-  min-width: 45px;
-  min-height: 45px;
-  border-radius: 0.25rem;
-  border: 2px solid black;
-  display: flex;
-  overflow: hidden;
-  justify-content: center;
-  align-items: end;
-  background: #ebebeb;
+    all: unset;
+    position: relative;
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    min-height: 45px;
+    border-radius: 0.25rem;
+    border: 2px solid black;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    align-items: end;
+    background: #ebebeb;
 }
 
 /* Player info container */
 #plr-list.party .plr-info {
-  min-width: 0;
-  flex: 1;
-  overflow: hidden;
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
 }
 
 /* Player info */
 #plr-list.party .plr-info .username {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  font-size: 1.15rem;
-  opacity: 0.75;
-  overflow: hidden;
-  width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 1.15rem;
+    opacity: 0.75;
+    overflow: hidden;
+    width: 100%;
 }
 
 /* Username text */
 #plr-list.party .plr-info .username .name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 0;
-  flex-shrink: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    flex-shrink: 1;
 }
 
 #plr-list.party .meTag {
-  font-size: 0.9rem;
-  opacity: 0.8;
-  flex-shrink: 0;
-  white-space: nowrap;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 #plr-list.party .plr-info .uuid {
-  font-size: 0.75rem;
-  opacity: 0.35;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    font-size: 0.75rem;
+    opacity: 0.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* ==============================
-   CHATBOX
+    CHATBOX
 ============================== */
 #chat-box.party {
-  position: absolute;
-  width: 280px;
-  height: 400px;
-  padding: 0.25rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transform: translateX(11.75rem);
-  transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    position: absolute;
+    width: 280px;
+    height: 400px;
+    padding: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    -webkit-transform: translateX(11.75rem);
+    -moz-transform: translateX(11.75rem);
+    -ms-transform: translateX(11.75rem);
+    -o-transform: translateX(11.75rem);
+    transform: translateX(11.75rem);
+    -webkit-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -moz-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -ms-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -o-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 #chat-box.party .holder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #ebebeb;
-  border-radius: 0.5rem;
-  box-sizing: border-box;
-  border: 2.5px solid rgb(131, 131, 131);
-  overflow: hidden;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ebebeb;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    border: 2.5px solid rgb(131, 131, 131);
+    overflow: hidden;
 }
 
 #chat-box.party .holder .box {
-  width: 98%;
-  height: 98%;
-  padding: 0.25rem 0.75rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 5px;
-  border-radius: 0.5rem;
-  scrollbar-width: thin;
-  scrollbar-color: grey #ebebeb;
-  box-sizing: border-box;
-  overflow-x: hidden;
-  overflow-y: auto;
+    width: 98%;
+    height: 98%;
+    padding: 0.25rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+    border-radius: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: grey #ebebeb;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #chat-box.party input[type="text"] {
-  width: 100%;
-  padding: 2.5px 3%;
-  font-size: 0.85rem;
-  text-align: left;
-  border: 2.5px solid #b1b1b1;
-  border-radius: 8px;
-  box-sizing: border-box;
-  margin-top: 0.25rem;
+    width: 100%;
+    padding: 2.5px 3%;
+    font-size: 0.85rem;
+    text-align: left;
+    border: 2.5px solid #b1b1b1;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-top: 0.25rem;
 }
 
 /* ==============================
-   MESSAGES HOLDER
+    MESSAGES HOLDER
 ============================== */
 .party .msg-box {
-  width: 200%;
-  height: fit-content;
-  padding: 0.35rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 8px;
-  border-radius: 5px;
-  background-color: #d5d5d5;
-  transform-origin: center center;
-  transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    width: 200%;
+    height: fit-content;
+    padding: 0.35rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+    border-radius: 5px;
+    background-color: #d5d5d5;
+    transform-origin: center center;
+    -webkit-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -moz-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -ms-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -o-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 .party .msg-box.show {
-  width: 100%;
+    width: 100%;
 }
 
 /* Message avatar container */
 .party .msg-box .av-display {
-  all: unset;
-  position: relative;
-  width: 30px;
-  height: 30px;
-  min-width: 30px;
-  min-height: 30px;
-  border-radius: 0.25rem;
-  border: 2px solid black;
-  display: flex;
-  overflow: hidden;
-  justify-content: center;
-  align-items: end;
-  background: #ebebeb;
+    all: unset;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    border-radius: 0.25rem;
+    border: 2px solid black;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    align-items: end;
+    background: #ebebeb;
 }
 
 /* System messages */
 .party .msg-box.system {
-  padding: 0.25rem;
-  justify-content: center;
-  align-items: center;
-  color: white;
+    padding: 0.25rem;
+    justify-content: center;
+    align-items: center;
+    color: white;
 }
 
 .party .msg-box.system .text-container {
-  font-size: 0.75rem;
-  margin-top: 0.1rem;
+    font-size: 0.75rem;
+    margin-top: 0.1rem;
 }
 
 .party .msg-box.system .av-display,
 .party .msg-box.system .sender-name {
-  display: none;
+    display: none;
 }
 
 /* Message background types */
 .party .msg-box.create {
-  background: #000435;
+    background: #000435;
 }
 .party .msg-box.join {
-  background: #0e3500;
+    background: #0e3500;
 }
 .party .msg-box.left {
-  background: #350000;
+    background: #350000;
 }
 
 /* Message text */
 .party .sender-name {
-  margin-top: -1.5px;
-  font-size: 0.8rem;
-  opacity: 0.65;
+    margin-top: -1.5px;
+    font-size: 0.8rem;
+    opacity: 0.65;
 }
 
 .party .text-container {
-  width: 100%;
-  height: fit-content;
-  margin-top: -3px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  font-size: 0.85rem;
-  letter-spacing: 0.025rem;
-  word-break: break-word;
-  overflow-wrap: anywhere;
+    width: 100%;
+    height: fit-content;
+    margin-top: -3px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-size: 0.85rem;
+    letter-spacing: 0.025rem;
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }

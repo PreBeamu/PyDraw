@@ -107,6 +107,7 @@ export function setStatus($icon, status) {
     const $icons = $(".status img");
     const $statusText = $(".canvasC .status h2");
 
+    $("#cursor-circle").hide();
     $(".toastify").remove();
     $(".status h1").text("");
     clearCanvas()

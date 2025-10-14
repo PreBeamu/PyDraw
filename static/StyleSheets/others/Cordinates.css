@@ -1,122 +1,895 @@
 /* ==============================
-   DEFAULTS CORDINATES
+    CANVAS CONTAINER
+============================== */
+.canvasC {
+  width: 100%;
+  height: 70%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+#game-canvas {
+  width: 100%;
+  height: auto;
+  border: 3px solid rgb(0, 0, 0);
+  border-radius: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+  background: white;
+}
+
+.status {
+  position: absolute;
+  height: 25%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 8px;
+  opacity: 0%;
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+  -webkit-transition: all 0.2s cubic-bezier(0.47, 1.64, 0.41, 0.8);
+  -o-transition: all 0.2s cubic-bezier(0.47, 1.64, 0.41, 0.8);
+  transition: all 0.2s cubic-bezier(0.47, 1.64, 0.41, 0.8);
+}
+
+.status.show {
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  opacity: 100%;
+}
+
+.status h2 {
+  all: unset;
+  font-size: 1.5rem;
+  font-weight: 500;
+  opacity: 50%;
+}
+
+.status img {
+  display: none;
+}
+
+.status img.show {
+  display: block;
+  height: 110%;
+  opacity: 50%;
+  margin-bottom: -0.5rem;
+}
+
+.status h1 {
+  all: unset;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-top: -1rem;
+  opacity: 70%;
+}
+
+/* ==============================
+    GUESSBOX
+============================== */
+#chat-box.game {
+  width: 100%;
+  height: 30%;
+  padding: 0.25rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #ebebeb;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  border: 2.5px solid rgb(131, 131, 131);
+}
+
+#chat-box.game .holder {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#chat-box.game .holder .box {
+  width: 99%;
+  height: 99%;
+  padding: 0.25rem 0.75rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 5px;
+  border-radius: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: grey #ebebeb;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#chat-box.game .bottom {
+  width: 99%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#guessesLeft {
+  all: unset;
+  position: absolute;
+  display: inline-block;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 0.1rem 0.75rem;
+  border-radius: 10px;
+  background: #472c69;
+  font-size: 0.75rem;
+  text-align: center;
+  white-space: nowrap;
+  color: #ffffff;
+  border: 2.5px solid #ebebeb;
+  -webkit-transition: all 0.15s cubic-bezier(0.075, 0.82, 0.165, 1);
+  -o-transition: all 0.15s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: all 0.15s cubic-bezier(0.075, 0.82, 0.165, 1);
+  z-index: 5;
+  -webkit-transform-origin: left center;
+  -ms-transform-origin: left center;
+  transform-origin: left center;
+  -webkit-transform: translate(0rem, -1.75rem) scale(0);
+  -ms-transform: translate(0rem, -1.75rem) scale(0);
+  transform: translate(0rem, -1.75rem) scale(0);
+}
+
+input:focus~#guessesLeft {
+  -webkit-transform: translate(0rem, -1.75rem) scale(1);
+  -ms-transform: translate(0rem, -1.75rem) scale(1);
+  transform: translate(0rem, -1.75rem) scale(1);
+}
+
+#chat-box.game input[type="text"] {
+  width: 100%;
+  padding: 2.5px 1.5%;
+  font-size: 0.85rem;
+  text-align: left;
+  border: 2.5px solid #b1b1b1;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-top: 0.25rem;
+  margin-bottom: 0.2rem;
+  opacity: 100%;
+  -webkit-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+  -o-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+  transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+#chat-box.game input[type="text"].disabled {
+  width: 99%;
+  padding: 2.5px 1.5%;
+  font-size: 0.85rem;
+  text-align: left;
+  border: 2.5px solid #b1b1b1;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-top: 0.25rem;
+  margin-bottom: 0.2rem;
+  opacity: 50%;
+}
+
+#chat-box.game input[type="text"].disabled::placeholder {
+  color: #1f1f1f;
+}
+
+/* ==============================
+    MESSAGES HOLDER
+============================== */
+.game .msg-box {
+  width: 200%;
+  height: fit-content;
+  padding: 0.35rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  gap: 8px;
+  border-radius: 5px;
+  background-color: #d5d5d5;
+  -webkit-transform-origin: center center;
+  -ms-transform-origin: center center;
+  transform-origin: center center;
+  -webkit-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+  -o-transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+  transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.game .msg-box.show {
+  width: 100%;
+}
+
+/* System messages */
+.game .msg-box.system {
+  padding: 0.25rem;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: white;
+}
+
+.game .msg-box.system .text-container {
+  font-size: 0.75rem;
+  margin-top: 0.1rem;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.game .msg-box.system .sender-name {
+  display: none;
+}
+
+/* Message background types */
+.game .msg-box.almost {
+  background: #002c35;
+}
+
+.game .msg-box.correct {
+  background: #1c3f00;
+}
+
+.game .msg-box.left {
+  background: #350000;
+}
+
+/* Message text */
+.game .sender-name {
+  overflow: visible;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 85%;
+}
+
+.game .msg-box span {
+  font-size: 0.8rem;
+  font-weight: 800;
+  margin-inline: -3px;
+  margin-bottom: 1px;
+  opacity: 40%;
+}
+
+.game .text-container {
+  width: 100%;
+  height: fit-content;
+  margin-top: -1.5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  font-size: 0.85rem;
+  letter-spacing: 0.025rem;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  opacity: 70%;
+}
+
+/* ==============================
+    AVATAR CONTAINER
+============================== */
+.av-display {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 1rem;
+  border: 5px solid black;
+  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: end;
+  background: #ebebeb;
+  -webkit-transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  -o-transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+/* ==============================
+    CUSTOMIZE AVATAR BUTTON
+============================== */
+#customizer {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 1rem;
+  pointer-events: all;
+  overflow: hidden;
+  z-index: 100;
+  -webkit-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  -o-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+#customizer .icon {
+  position: absolute;
+  width: 75%;
+  height: 75%;
+  -webkit-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  -o-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Hover & Active states */
+#customizer:hover {
+  opacity: 100%;
+}
+
+#customizer:hover~.av-display {
+  -webkit-transform: scale(0.85);
+  -ms-transform: scale(0.85);
+  transform: scale(0.85);
+}
+
+#customizer:active {
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+  transition: none;
+}
+
+#customizer:active~.av-display {
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+
+/* ==============================
+    CUSTOMIZE MENU
+============================== */
+#customizer.active+#closet {
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+
+#closet {
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+  -webkit-transition: transform 0.25s cubic-bezier(0.075, 0.82, 0.165, 1);
+  -o-transition: transform 0.25s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: transform 0.25s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+/* Item display containers */
+.islot {
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-transition: transform 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  -o-transition: transform 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: transform 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Labels above items */
+.islot p {
+  position: absolute;
+  width: 150px;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  opacity: 75%;
+  -webkit-transform: translateY(-3rem);
+  -ms-transform: translateY(-3rem);
+  transform: translateY(-3rem);
+}
+
+/* Item containers */
+.islot .idisplay {
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  border-radius: 0.75rem;
+  border: 3.5px solid black;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: end;
+  background: #ebebeb;
+  -webkit-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  -o-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Hover & active states for items */
+.islot .idisplay:hover {
+  -webkit-transform: scale(0.95);
+  -ms-transform: scale(0.95);
+  transform: scale(0.95);
+}
+
+.islot .idisplay:active {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+  transition: none;
+}
+
+.islot .idisplay .icon {
+  position: absolute;
+  width: 105%;
+  height: 105%;
+  background-color: #000000aa;
+  opacity: 0%;
+  -ms-flex-item-align: center;
+  align-self: center;
+  -webkit-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  -o-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.islot .idisplay:hover .icon {
+  opacity: 80%;
+}
+
+/* ==============================
+    RANDOM AVATAR BUTTON
+============================== */
+#randomizer {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  -webkit-transform: translate(3rem, 3rem);
+  -ms-transform: translate(3rem, 3rem);
+  transform: translate(3rem, 3rem);
+  border-radius: 50%;
+  border: 3.5px solid black;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: white;
+  overflow: hidden;
+  z-index: 100;
+  -webkit-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  -o-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+#randomizer .icon {
+  width: 50%;
+  height: 50%;
+  opacity: 75%;
+}
+
+/* Hover & Active states */
+#randomizer:hover {
+  background: #a4a4a4;
+}
+
+#randomizer:active {
+  -webkit-transform: translate(3rem, 3rem) scale(0.9) rotate(360deg);
+  -ms-transform: translate(3rem, 3rem) scale(0.9) rotate(360deg);
+  transform: translate(3rem, 3rem) scale(0.9) rotate(360deg);
+  transition: none;
+}
+
+#randomizer:active~.av-display {
+  -webkit-transform: scale(0.85);
+  -ms-transform: scale(0.85);
+  transform: scale(0.85);
+}
+
+/* ==============================
+    INPUTS & BUTTONS
+============================== */
+.main-actions {
+  position: absolute;
+  width: 250px;
+  -webkit-transform: translateY(9.5rem);
+  -ms-transform: translateY(9.5rem);
+  transform: translateY(9.5rem);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+/* Text inputs */
+.main-actions input[type="text"] {
+  width: 200px;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.15rem;
+  text-align: center;
+  border: 3px solid #b1b1b1;
+  border-radius: 15px;
+  box-sizing: border-box;
+  margin-bottom: 1.2rem;
+  -webkit-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  -o-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Buttons inside input container */
+.main-actions button {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.25rem;
+  border-radius: 6px;
+  border: 3px solid black;
+  background: var(--btn-color);
+  color: white;
+  -webkit-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  -o-transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.main-actions button:hover {
+  -webkit-filter: brightness(75%);
+  filter: brightness(75%);
+}
+
+.main-actions button:active {
+  -webkit-transform: scale(0.925);
+  -ms-transform: scale(0.925);
+  transform: scale(0.925);
+  transition: none;
+}
+
+/* ==============================
+    JOIN CONTAINER
+============================== */
+.main-actions .bottom {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-top: 0.25rem;
+}
+
+#inviteCode {
+  width: 58.5%;
+  margin-bottom: 0;
+  border-radius: 6px;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+}
+
+.main-actions .bottom button {
+  width: 40%;
+}
+
+/* ==============================
+    DEFAULTS CORDINATES
 ============================== */
 .player {
   height: 90%;
 }
+
 .face {
   position: absolute;
   width: 45%;
+  -webkit-transform: translateY(-85%);
+  -ms-transform: translateY(-85%);
   transform: translateY(-85%);
+  -webkit-transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+  -o-transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
   transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
   opacity: 75%;
 }
+
 .shirt {
   position: absolute;
   width: 90%;
+  -webkit-transform: translateY(57.5%);
+  -ms-transform: translateY(57.5%);
   transform: translateY(57.5%);
+  -webkit-transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+  -o-transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
   transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
 }
-.acc, .hair {
+
+.acc,
+.hair {
   position: absolute;
+  -webkit-transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+  -o-transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
   transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 /* ==============================
-   ACCESSORIES CORDINATES
+    ACCESSORIES CORDINATES
 ============================== */
 .acc[src="/static/Images/Avatar/Accessories/1.svg"] {
   display: none;
 }
+
 .acc[src="/static/Images/Avatar/Accessories/2.svg"] {
   width: 35%;
+  -webkit-transform: translate(25%, -180%);
+  -ms-transform: translate(25%, -180%);
   transform: translate(25%, -180%);
 }
+
 .acc[src="/static/Images/Avatar/Accessories/3.svg"] {
   width: 45%;
+  -webkit-transform: translate(20%, -170%);
+  -ms-transform: translate(20%, -170%);
   transform: translate(20%, -170%);
 }
+
 .acc[src="/static/Images/Avatar/Accessories/4.svg"] {
   width: 35%;
+  -webkit-transform: translate(0%, -195%);
+  -ms-transform: translate(0%, -195%);
   transform: translate(0%, -195%);
 }
+
 .acc[src="/static/Images/Avatar/Accessories/5.svg"] {
   width: 30%;
+  -webkit-transform: translate(15%, -270%);
+  -ms-transform: translate(15%, -270%);
   transform: translate(15%, -270%);
 }
+
 .acc[src="/static/Images/Avatar/Accessories/6.svg"] {
   width: 50%;
+  -webkit-transform: translate(0%, -200%);
+  -ms-transform: translate(0%, -200%);
   transform: translate(0%, -200%);
 }
+
 .acc[src="/static/Images/Avatar/Accessories/7.svg"] {
   width: 50%;
+  -webkit-transform: translate(0%, -255%);
+  -ms-transform: translate(0%, -255%);
   transform: translate(0%, -255%);
 }
+
 .acc[src="/static/Images/Avatar/Accessories/8.svg"] {
   width: 40%;
+  -webkit-transform: translate(0%, -350%);
+  -ms-transform: translate(0%, -350%);
   transform: translate(0%, -350%);
 }
 
 /* ==============================
-   HAIRS CORDINATES
+    HAIRS CORDINATES
 ============================== */
 .hair[src="/static/Images/Avatar/Hairs/1.svg"] {
   width: 75%;
+  -webkit-transform: translate(0%, -30%);
+  -ms-transform: translate(0%, -30%);
   transform: translate(0%, -30%);
 }
+
 .hair[src="/static/Images/Avatar/Hairs/2.svg"] {
   width: 70%;
+  -webkit-transform: translate(0%, -70%);
+  -ms-transform: translate(0%, -70%);
   transform: translate(0%, -70%);
 }
+
 .hair[src="/static/Images/Avatar/Hairs/3.svg"] {
   width: 55%;
+  -webkit-transform: translate(0%, -5%);
+  -ms-transform: translate(0%, -5%);
   transform: translate(0%, -5%);
 }
+
 .hair[src="/static/Images/Avatar/Hairs/4.svg"] {
   width: 55%;
+  -webkit-transform: translate(0%, -70%);
+  -ms-transform: translate(0%, -70%);
   transform: translate(0%, -70%);
 }
+
 .hair[src="/static/Images/Avatar/Hairs/5.svg"] {
   width: 85%;
+  -webkit-transform: translate(0%, 1%);
+  -ms-transform: translate(0%, 1%);
   transform: translate(0%, 1%);
 }
+
 .hair[src="/static/Images/Avatar/Hairs/6.svg"] {
   width: 60%;
+  -webkit-transform: translate(0%, -125%);
+  -ms-transform: translate(0%, -125%);
   transform: translate(0%, -125%);
 }
+
 .hair[src="/static/Images/Avatar/Hairs/7.svg"] {
   width: 60%;
+  -webkit-transform: translate(0%, -110%);
+  -ms-transform: translate(0%, -110%);
   transform: translate(0%, -110%);
 }
+
 .hair[src="/static/Images/Avatar/Hairs/8.svg"] {
   width: 60%;
+  -webkit-transform: translate(0%, -45%);
+  -ms-transform: translate(0%, -45%);
   transform: translate(0%, -45%);
 }
+
 .hair[src="/static/Images/Avatar/Hairs/9.svg"] {
   width: 57.5%;
+  -webkit-transform: translate(0%, -120%);
+  -ms-transform: translate(0%, -120%);
   transform: translate(0%, -120%);
 }
+
 .hair[src="/static/Images/Avatar/Hairs/10.svg"] {
   width: 55%;
+  -webkit-transform: translate(0%, -145%);
+  -ms-transform: translate(0%, -145%);
   transform: translate(0%, -145%);
 }
+
 .hair[src="/static/Images/Avatar/Hairs/11.svg"] {
   width: 70%;
+  -webkit-transform: translate(0%, -10%);
+  -ms-transform: translate(0%, -10%);
   transform: translate(0%, -10%);
 }
 
 /* ==============================
-   DISPLAYS CORDINATES
+    DISPLAYS CORDINATES
 ============================== */
 .islot#color {
+  -webkit-transform: translate(-12rem, 0rem);
+  -ms-transform: translate(-12rem, 0rem);
   transform: translate(-12rem, 0rem);
 }
+
 .islot#face {
+  -webkit-transform: translate(12rem, 0rem);
+  -ms-transform: translate(12rem, 0rem);
   transform: translate(12rem, 0rem);
 }
+
 .islot#hair {
+  -webkit-transform: translate(-7rem, 0rem);
+  -ms-transform: translate(-7rem, 0rem);
   transform: translate(-7rem, 0rem);
 }
+
 .islot#acc {
+  -webkit-transform: translate(7rem, 0rem);
+  -ms-transform: translate(7rem, 0rem);
   transform: translate(7rem, 0rem);
 }
