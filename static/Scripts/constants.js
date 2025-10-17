@@ -3,7 +3,7 @@
 // ============================
 
 export const COLORS_AMOUNT = 7;
-export const HAIRS_AMOUNT = 11;
+export const HAIRS_AMOUNT = 12;
 export const ACCESSORIES_AMOUNT = 8;
 export const FACES_AMOUNT = 10;
 
