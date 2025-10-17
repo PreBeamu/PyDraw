@@ -28,7 +28,8 @@ PARTY_TEMPLATE = {
         "RoundsLeft": 0,
         "TimesLeft": 0,
         "Drawing": None,
-        "Guessed": 0
+        "Guessed": 0,
+        "RanOut": 0
     },
 }
 

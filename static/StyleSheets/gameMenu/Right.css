@@ -287,6 +287,10 @@ input:focus~#guessesLeft {
   background: #a15300;
 }
 
+.game .msg-box.ranOut {
+  background: #5c0039;
+}
+
 .game .msg-box.correct {
   background: #1c3f00;
 }

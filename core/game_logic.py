@@ -69,6 +69,7 @@ def run_game(socketio, parties, socket_map, party_code):
             party["Values"]["CurrentDrawer"] = drawer_id
             party["Values"]["PickedTopic"] = None
             party["Values"]["Guessed"] = 0
+            party["Values"]["RanOut"] = 0
             update_plrList(socketio, parties, {"party_code": party_code})
 
             topics_list = party["Values"].get("Topics", [])
@@ -129,9 +130,12 @@ def run_game(socketio, parties, socket_map, party_code):
             draw_finished = countdown(
                 socketio, parties, party_code,
                 party["Gamerules"]["DrawTime"] * 60,
-                break_check=lambda: (
-                    parties.get(party_code, {}).get("Values", {}).get("Guessed", 0)
-                    >= (len(parties.get(party_code, {}).get("Players", [])) - 1)
+                break_check = lambda: (
+                    (
+                        (parties.get(party_code, {}).get("Values", {}).get("Guessed", 0)
+                            + parties.get(party_code, {}).get("Values", {}).get("RanOut", 0))
+                        >= (len(parties.get(party_code, {}).get("Players", [])) - 1)
+                    )
                     and len(parties.get(party_code, {}).get("Players", [])) > 1
                 ),
                 drawer_id=drawer_id,
@@ -142,9 +146,21 @@ def run_game(socketio, parties, socket_map, party_code):
             if draw_finished == "stopped":
                 return
 
+            p_values = parties[party_code]["Values"]
+            players = parties[party_code]["Players"]
+            num_guessers = len(players) - 1
+            show_type = "normal"
+
+            if p_values["Guessed"] >= num_guessers:
+                show_type = "master"
+            elif p_values["Guessed"] > 0:
+                show_type = "normal"
+            else:
+                show_type = "none"
+            
             value = {
+                "type": show_type,
                 "answer": topic,
-                "allguess": party["Values"]["Guessed"] >= (len(party["Players"])-1)
             }
             socketio.emit("show_answer", value, room=party_code)
             countdown(socketio, parties, party_code, 5)

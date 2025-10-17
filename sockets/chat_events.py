@@ -38,11 +38,15 @@ def register_chat_events(socketio, parties, socket_map):
         _, player_id = socket_map[sid]
         player_data = parties[party_code]["Players"][player_id]
 
+        outOfGuess = False
         isInt = isinstance(player_data["GuessesLeft"], int)
         if parties[party_code]["Gamerules"]["GuessLimit"] > 0 and isInt:
             if player_data["GuessesLeft"] <= 0:
                 return
             player_data["GuessesLeft"] -= 1
+            if player_data["GuessesLeft"] <= 0:
+                parties[party_code]["Values"]["RanOut"] += 1
+                outOfGuess = True
 
         picked_word = parties[party_code]["Values"]["PickedTopic"]
         guess_clean = remove_diacritic(message).strip()
@@ -80,6 +84,10 @@ def register_chat_events(socketio, parties, socket_map):
         # guess_clean กับ word_clean ถูกลบสระออกแล้วทั้งคู่ เช่น โทรศัพท์ -> โทรศพท
         # [REMOVE COMMENT AFTER] >> custom_class = "almost"
         # [REMOVE COMMENT AFTER] >> message = f'"{message}" เกือบจะถูกแล้ว!' # will show something like "โทรศัพ" เกือบจะถูกแล้ว!
+
+        if outOfGuess and custom_class != "correct":
+            custom_class = "ranOut"
+            message = f"{name} ทายจนหมดแล้ว! แต่ก็ตอบไม่ถูก~"
 
         value = {
             "guesses_left": player_data["GuessesLeft"],

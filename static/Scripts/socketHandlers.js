@@ -181,12 +181,15 @@ export function initSocketHandlers(socket) {
     });
 
     socket.on("show_answer", (data) => {
-        if (!data.allguess) {
+        if (data.type == "normal") {
             setStatus($(".reveal"), "คำตอบคือ");
             $(".status h1").text(data.answer);
-        } else {
+        } else if (data.type == "master") {
             setStatus($(".star"), "ผลงานชิ้นเอก");
             $(".status h1").text("ตอบถูกทุกคนเลย!");
+        } else if (data.type == "none") {
+            setStatus($(".angry"), "ว้า~ แย่จัง");
+            $(".status h1").text("ตอบไม่ได้สักคน!");
         }
         CLIENT_DATA.canvasData.isDrawer = false
     });
