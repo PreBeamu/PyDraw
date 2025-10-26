@@ -1,5 +1,5 @@
 /* ==============================
-    DEFAULTS CORDINATES
+    DEFAULTS COORDINATES
 ============================== */
 .player {
   height: 90%;
@@ -37,7 +37,7 @@
 }
 
 /* ==============================
-    ACCESSORIES CORDINATES
+    ACCESSORIES COORDINATES
 ============================== */
 .acc[src="/static/Images/Avatar/Accessories/1.svg"] {
   display: none;
@@ -93,7 +93,7 @@
 }
 
 /* ==============================
-    HAIRS CORDINATES
+    HAIRS COORDINATES
 ============================== */
 .hair[src="/static/Images/Avatar/Hairs/1.svg"] {
   width: 75%;
@@ -173,7 +173,7 @@
 }
 
 /* ==============================
-    DISPLAYS CORDINATES
+    DISPLAYS COORDINATES
 ============================== */
 .islot#color {
   -webkit-transform: translate(-12rem, 0rem);
