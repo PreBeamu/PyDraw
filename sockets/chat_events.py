@@ -76,7 +76,16 @@ def register_chat_events(socketio, parties, socket_map):
                 socketio, parties, {"party_code": party_code}, True,
                 parties[party_code]["Values"]["CurrentDrawer"]
             )
-
+        closetocorrect, night = 0, 0
+        wordlength = len(word_clean)
+        requiredclose = int(0.75 * wordlength)
+        for wordtest in guess_clean:
+            if wordtest == word_clean[night]:
+                closetocorrect += 1
+            night += 1
+        if closetocorrect >= requiredclose:
+            custom_class = "almost"
+            message = f'"{message}" เกือบจะถูกแล้ว!'
         # --- ปื้ด Zone ---
         # If close (check if the word is about 85% of the answer) จับ guess_clean มาเทียบ word_clean
         # guess_clean : คำที่ผู้เล่นทายมา
@@ -96,7 +105,6 @@ def register_chat_events(socketio, parties, socket_map):
             "name": name,
             "message": message,
         }
-        
         if custom_class == "almost":
             socketio.emit("guess", value, to=sid)
         else:
