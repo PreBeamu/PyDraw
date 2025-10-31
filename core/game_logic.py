@@ -165,7 +165,9 @@ def run_game(socketio, parties, socket_map, party_code):
             socketio.emit("show_answer", value, room=party_code)
             countdown(socketio, parties, party_code, 5)
             socketio.emit("update_timer", {"time": "99:99"}, room=party_code)
-
+    # game ended yay!!!
     parties[party_code]["Values"]["State"] = "Ended"
-    value = {}
+    players_list = list(parties[party_code]["Players"].values())
+    sorted_players = sorted(players_list,key=lambda plr: plr.get("Scores", 0),reverse=True)
+    value = {"players": sorted_players}
     socketio.emit("game_ended", value, room=party_code)
