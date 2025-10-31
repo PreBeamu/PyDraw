@@ -231,17 +231,84 @@ export function initSocketHandlers(socket) {
         $(".game .holder .box").scrollTop($(".game .holder .box").prop("scrollHeight"));
     });
 
+    // Scoreboard
     socket.on("game_ended", (data) => {
         $("#transition-page").addClass("fill");
         setStatus();
-        playSound("end", 1)
-        setTimeout(async () => {
+        playSound("end", 1);
+
+        setTimeout(() => {
             $("#game-page").addClass("disabled");
         }, 100);
-        setTimeout(async () => {
-            playSound("coin", 1)
+
+        setTimeout(() => {
+            playSound("coin", 1);
             $("#transition-page").removeClass("fill");
             $("#end-page").removeClass("disabled");
+            $("#plr-list .box").empty();
+            $("#top-three .box").removeClass("show");
+
+            // TOP 3 PLAYER
+            const topColors = ["#f6c14d", "#bababa", "#ff9162"];
+            const topIds = ["#1st-place", "#2nd-place", "#3rd-place"];
+
+            topIds.forEach((id, i) => {
+                const player = data.players[i];
+                const $box = $(id);
+
+                if (player) {
+                    const $avDisplay = buildAvatarDOM(player.Avatar);
+                    $box.find(".av-display").replaceWith($avDisplay);
+                    $avDisplay.addClass("av-display");
+
+                    $box.find(".username").text(player.Name);
+                    $box.find(".score").text(`${player.Scores.toLocaleString()} คะแนน`);
+                    $box.css("--score-color", topColors[i]);
+
+                    $box.addClass("show");
+                } else {
+                    $box.find(".player")
+                        .attr("src", `/static/Images/Avatar/Colors/1.svg`)
+                        .css("filter", "brightness(50%)");
+                    $box.find(".shirt, .face, .hair, .acc").hide();
+                    $box.css("--score-color", "#858585");
+                    $box.find(".username").text("-");
+                    $box.find(".score").text("ไม่มีผู้เล่น");
+                }
+            });
+
+            // PLAYERLIST
+            data.players.forEach((player, index) => {
+                const rank = index + 1;
+                const $plrBox = $('<div class="plr-box"></div>');
+                const $avDisplay = buildAvatarDOM(player.Avatar);
+                const $info = $('<div class="plr-info"></div>');
+                const $userName = $('<p class="username"></p>');
+                const $name = $('<span class="name"></span>').text(player.Name);
+                $userName.append($name);
+
+                if (CLIENT_DATA.playerName && player.Name === CLIENT_DATA.playerName) {
+                    $userName.append($('<span class="meTag">(คุณ)</span>'));
+                }
+
+                const $scoreText = $('<p class="score"></p>').text(`${player.Scores.toLocaleString()} คะแนน`);
+
+                $info.append($userName, $scoreText);
+
+                const $left = $('<div class="plr-boxL"></div>');
+                $left.append($avDisplay, $info);
+
+                const $rank = $(`<h1>#${rank}</h1>`);
+
+                $plrBox.append($left, $rank);
+                $("#plr-list .box").append($plrBox);
+
+                // Delay animation for each player
+                setTimeout(() => {
+                    requestAnimationFrame(() => $plrBox.addClass("show"));
+                }, 100 * index);
+            });
         }, 1000);
     });
+
 }
