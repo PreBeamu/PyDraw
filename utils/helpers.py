@@ -28,10 +28,3 @@ def score_update(score, time_max, time_remain, answered):
     """Update score based on time and people who have answered."""
     score = score + ((time_remain // time_max) * 1000) + (1 // (answered + 1)) * 450
     return int(score)
-
-
-def get_top_three(players_dict):
-    """Get top 3 players by score."""
-    players_list = list(players_dict.values())
-    sorted_players = sorted(players_list, key=lambda p: p.get("Scores", 0), reverse=True)
-    return sorted_players[:3]
